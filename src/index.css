@@ -1,0 +1,22 @@
+header{
+  display: flex;
+  justify-content: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+header>nav{
+  justify-self: flex-end;
+  flex: 0 50%;
+}
+header>nav>ul{
+background-color: red;
+
+display: flex;
+flex-direction: row;
+align-self: flex-end;
+}
+header>nav>ul>li{
+  list-style: none;
+  text-decoration: none;
+}
