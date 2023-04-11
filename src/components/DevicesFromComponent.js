@@ -1,7 +1,9 @@
 
-
+import { Input } from "reactstrap";
 export function DevicesFromComponent(props){
-  
-    return(<>"renuder"</>);
+    function showDevices(){
+        
+    }
+    return(<><Input placeholder="Introduce un criterio de busqueda" onChange={()=>showDevices()}></Input></>);
 }
 export default DevicesFromComponent;
