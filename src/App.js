@@ -9,12 +9,20 @@ import {EleccionConfiguracion} from './components/EleccionConfiguracion';
 import {EleccionVideojuegos} from './components/EleccionVideojuegos';
 import {Cabecera} from './components/Cabecera';
 import {FormularioRegistro} from './components/FormularioRegistro';
+import {FormularioRegistroEmpresa} from './components/FormularioRegistroEmpresa';
+import { Route,BrowserRouter,Routes} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function App() {
   const [accion,setAccion]=useState(null);
   const [logued,setLogued]=useState(null);
-  function changeActualAction(newAction){
-    setAccion(newAction);
-    console.log(newAction);
+  const navigate = useNavigate();
+
+  function changeActualAction(direccion){
+    navigate(direccion);
+    
+  }
+  function prueba(direccion){
+console.log()    
   }
   let actualVisualitation=[];
   switch(accion){
@@ -37,7 +45,15 @@ function App() {
   return (
     <div>
       <Cabecera changeActualAction={changeActualAction}></Cabecera>
-      {actualVisualitation}
+      
+        <Routes>
+          <Route path='/' exact element={<EleccionConfiguracion changeActualAction={(a)=>prueba(a)}/>}/>
+          <Route path='/catalogo' exact element={<EleccionVideojuegos changeActualAction={(a)=>prueba(a)}/>}>
+            
+          </Route>
+        
+        </Routes>
+    
      
     </div>
   );

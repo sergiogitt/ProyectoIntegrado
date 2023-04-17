@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom';
 import { Card,CardSubtitle,CardGroup,CardImg,CardBody,CardText,Button,CardTitle } from 'reactstrap';
 export function EleccionConfiguracion(props){
     return(
+      
     <div>
+      
     <CardGroup>
       <Card>
         <CardImg
@@ -48,9 +51,12 @@ export function EleccionConfiguracion(props){
           <CardText>
             This card has supporting text below as a natural lead-in to additional content.
           </CardText>
-          <Button onClick={()=>props.changeActualAction("configurarPC")}>
-            Button
-          </Button>
+          <Link to='/catalogo'>
+            <Button >
+              Button
+            </Button>
+          </Link>
+          
         </CardBody>
       </Card>
       <Card>
@@ -73,7 +79,7 @@ export function EleccionConfiguracion(props){
           <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.
           </CardText>
-          <Button onClick={()=>props.changeActualAction("elegirJuegos")}>
+          <Button onClick={()=>props.changeActualAction("/catalogo")}>
             Button
           </Button>
         </CardBody>
