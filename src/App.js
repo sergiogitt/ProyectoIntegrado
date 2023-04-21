@@ -22,6 +22,7 @@ function App() {
     navigate(direccion);
     
   }
+  console.log(logued)
   function prueba(direccion){
 console.log()    
   }
@@ -45,12 +46,12 @@ console.log()
   }
   return (
     <div>
-      <Cabecera changeActualAction={changeActualAction}></Cabecera>
+        <Cabecera changeActualAction={changeActualAction} tipo_usuario={logued}></Cabecera>
       
         <Routes>
           <Route path='/' exact element={<EleccionConfiguracion changeActualAction={(a)=>prueba(a)}/>}/>
           <Route path='/catalogo' exact element={<EleccionVideojuegos changeActualAction={(a)=>prueba(a)}/>}/>
-          <Route path='/iniciar_sesion' exact element={<Login changeActualAction={(a)=>prueba(a)}/>}/>
+          <Route path='/login' exact element={<Login changeActualAction={(a)=>prueba(a)} log_user={setLogued}/>}/>
         
         </Routes>
     
