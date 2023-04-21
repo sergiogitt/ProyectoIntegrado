@@ -20,7 +20,6 @@ $app->get('/conexion',function($request){
   
 });
 $app->post('/logueado',function($request){
-
     session_id($request->getParam('api_session'));
     session_start();
     if(isset($_SESSION["tipo"]))

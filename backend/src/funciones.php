@@ -8,7 +8,7 @@ function login($datos,$in_login=true)
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.":3307;dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
-            $consulta="select * from usuario where usuario=? and clave=?";
+            $consulta="select * from usuario where nombre_usuario=? and clave=?";
             $sentencia=$conexion->prepare($consulta);
             $sentencia->execute($datos);
             if($sentencia->rowCount()>0)
@@ -16,7 +16,7 @@ function login($datos,$in_login=true)
                 $respuesta["usuario"]=$sentencia->fetch(PDO::FETCH_ASSOC);
                 if($in_login)
                 {
-                    session_name("api_tienda_22_23");
+                    session_name("api_configurador_pc");
                     session_start();
                     $_SESSION["usuario"]=$datos[0];
                     $_SESSION["clave"]=$datos[1];

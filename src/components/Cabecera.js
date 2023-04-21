@@ -9,7 +9,7 @@ export function Cabecera(props){
       <nav>
         <ul>
           <li onClick={()=>props.changeActualAction("registrarse")}><a >Registrate</a></li>
-          <li><a >Login</a></li>
+          <li onClick={()=>props.changeActualAction("iniciar_sesion")}><a >Iniciar sesión</a></li>
           <li onClick={()=>props.changeActualAction("registrarempresa")}><a >Promociona tu empresa</a></li>
         </ul>
       </nav>

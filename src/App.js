@@ -8,6 +8,7 @@ import {Configurador} from './components/Configurador.js';
 import {EleccionConfiguracion} from './components/EleccionConfiguracion';
 import {EleccionVideojuegos} from './components/EleccionVideojuegos';
 import {Cabecera} from './components/Cabecera';
+import {Login} from './components/Login';
 import {FormularioRegistro} from './components/FormularioRegistro';
 import {FormularioRegistroEmpresa} from './components/FormularioRegistroEmpresa';
 import { Route,BrowserRouter,Routes} from "react-router-dom";
@@ -48,9 +49,8 @@ console.log()
       
         <Routes>
           <Route path='/' exact element={<EleccionConfiguracion changeActualAction={(a)=>prueba(a)}/>}/>
-          <Route path='/catalogo' exact element={<EleccionVideojuegos changeActualAction={(a)=>prueba(a)}/>}>
-            
-          </Route>
+          <Route path='/catalogo' exact element={<EleccionVideojuegos changeActualAction={(a)=>prueba(a)}/>}/>
+          <Route path='/iniciar_sesion' exact element={<Login changeActualAction={(a)=>prueba(a)}/>}/>
         
         </Routes>
     
