@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card,CardSubtitle,CardGroup,CardImg,CardBody,CardText,Button,CardTitle } from 'reactstrap';
 export function EleccionConfiguracion(props){
+  const navigate = useNavigate();
     return(
       
     <div>
@@ -26,7 +27,7 @@ export function EleccionConfiguracion(props){
           <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
           </CardText>
-          <Button onClick={()=>props.changeActualAction("configurarPC")}>
+          <Button onClick={()=>props.seguridad(navigate,"/catalogo")}>
             Button
           </Button>
         </CardBody>

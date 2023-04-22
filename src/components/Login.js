@@ -19,9 +19,14 @@ export function Login(props){
                 if(response.data.usuario){
                     console.log(response.data.usuario.tipo)
                     props.log_user(response.data.usuario.tipo);
+                    localStorage.setItem("usuario",usuario);
+                    localStorage.setItem("clave",md5(clave));
+                    localStorage.setItem("api_session",response.data.api_session);
+                    localStorage.setItem("ultima_accion",new Date()/1000);
+                    console.log(localStorage.ultima_accion)
                     navigate("/");
                 }else{
-                    setMensaje("Credenciales incorrectas");
+                    props.setError("Credenciales incorrectas");
                 }
             })
             .catch(error => {
@@ -46,7 +51,7 @@ export function Login(props){
        
         <div>
             <Button onClick={()=>log_user()}>Iniciar sesion</Button>
-        </div>{mensaje}
+        </div>{props.mensaje_error}
 
     </div>)
 }
