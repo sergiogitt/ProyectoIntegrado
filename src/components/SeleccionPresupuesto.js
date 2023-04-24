@@ -14,6 +14,7 @@ export function SeleccionPresupuesto(props){
       }else if(presupuestoAux>0||presupuestoAux<=0){
         if(presupuestoAux>400&&presupuestoAux<4000){
           props.setVisualizacion("configurador")
+          console.log("tol")
           localStorage.setItem("presupuesto",presupuestoAux);
           setMensajeError(null)
         }else{
@@ -28,7 +29,7 @@ export function SeleccionPresupuesto(props){
     let render=[];
     render.push( <><p>Indica el presupuesto principal del que dispones y con el que se te hará una configuración inicial</p>
     <Input onChange={(event)=>changePresupuestoAux(event.target.value)}></Input>
-    <Button color="primary" onClick={()=>handleNewPresupuesto()}>Continuar</Button></>)
+    <Button color="primary" onClick={()=>props.seguridad(handleNewPresupuesto)}>Continuar</Button></>)
     if(mensajeError){
       render.push(<p class="presupuestoIncorrecto">{mensajeError}</p>);
     }

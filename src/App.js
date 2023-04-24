@@ -17,7 +17,7 @@ import axios from 'axios';
 import md5 from 'md5';
 function App() {
   console.log(localStorage)
-  const [visualizacion,setVisualizacion]=useState("inicial");
+  const [visualizacion,setVisualizacion]=useState(null);
   const [accion,setAccion]=useState(null);
   const [logued,setLogued]=useState(false);
   const [usuario,setUsuario]=useState(null);
@@ -43,9 +43,9 @@ function App() {
     setLogued(false);
     localStorage.clear();
     console.log(localStorage);
-    setVisualizacion('inicial');
+    setVisualizacion(null);
   }
-  function seguridad(funcion,params){
+  function seguridad(funcion,params=null){
     if(localStorage.usuario){
       if(((new Date()/1000)-localStorage.ultima_accion)<TIEMPO_SESION_MINUTOS*60){
         axios.post(DIR_SERV+"/logueado",{
@@ -94,13 +94,14 @@ function App() {
   
   return (
     <div>
-        <Cabecera changeActualAction={changeActualAction} tipo_usuario={usuario} salir={salir} setVisualizacion={setVisualizacion}></Cabecera>
+        <Cabecera changeActualAction={changeActualAction} tipo_usuario={usuario} seguridad={seguridad} salir={salir} setVisualizacion={setVisualizacion}></Cabecera>
       
         <Routes>
           <Route path='/' exact element={<EleccionConfiguracion seguridad={seguridad} visualizacion={visualizacion}  setVisualizacion={setVisualizacion}/>}/>
           
           <Route path='/login' exact element={<Login  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
-        
+          <Route path='/registro' exact element={<FormularioRegistro  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
+
         </Routes>
     
      

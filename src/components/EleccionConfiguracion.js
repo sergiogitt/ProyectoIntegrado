@@ -29,7 +29,7 @@ export function EleccionConfiguracion(props){
   }, []);
   
   switch(props.visualizacion){
-    case "inicial":
+    case null:
       render.push(<CardGroup>
         <Card>
           <CardImg
@@ -111,13 +111,13 @@ export function EleccionConfiguracion(props){
       </CardGroup>);
       break;
     case "presupuesto":
-      render.push(<SeleccionPresupuesto setVisualizacion={props.setVisualizacion}></SeleccionPresupuesto>);
+      render.push(<SeleccionPresupuesto setVisualizacion={props.setVisualizacion} seguridad={(a)=>props.seguridad(a)}></SeleccionPresupuesto>);
       break;
     case "configurador":
       render.push(<Configurador></Configurador>);
     break;
     case "catalogo_videojuegos":
-      render.push(<EleccionVideojuegos setVisualizacion={props.setVisualizacion}></EleccionVideojuegos>);
+      render.push(<EleccionVideojuegos setVisualizacion={props.setVisualizacion} seguridad={()=>props.seguridad()}></EleccionVideojuegos>);
     break;
   }
     return(

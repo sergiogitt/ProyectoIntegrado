@@ -7,26 +7,26 @@ export function Cabecera(props){
     navigate("/");
     localStorage.removeItem("presupuesto");
     localStorage.removeItem("tipo_configuracion");
-    props.setVisualizacion('inicial');
+    props.setVisualizacion(null);
   }
     if(localStorage.tipo=="empresa"){
       render.push(<ul>
-         <li onClick={()=>props.changeActualAction("login")}><a >Perfil</a></li>
-        <li onClick={()=>props.changeActualAction("registrarse")}><a >Subir nuevo componente</a></li>
+         <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
+        <li onClick={()=>props.seguridad(navigate,"/nuevo_componente")}><a >Subir nuevo componente</a></li>
         <li onClick={()=>props.salir()}><a >Salir</a></li>
         
         
       </ul>);
     }else if(localStorage.tipo=="normal"){
       render.push(<ul>
-        <li onClick={()=>props.changeActualAction("registrarse")}><a >Perfil</a></li>
-        <li onClick={()=>props.changeActualAction("login")}><a >Mis configuraciones</a></li>
+        <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
+        <li onClick={()=>props.seguridad(navigate,"/configuraciones_guardadas")}><a >Mis configuraciones</a></li>
         <li onClick={()=>props.salir()}><a >Salir</a></li>
       </ul>);
     }else{
       render.push(<ul>
-       <li onClick={()=>props.changeActualAction("registrarse")}><a >Registrate</a></li>
-        <li onClick={()=>props.changeActualAction("login")}><a >Iniciar sesión</a></li>
+       <li onClick={()=>navigate("/registro")}><a >Registrate</a></li>
+        <li onClick={()=>navigate("/login")}><a >Iniciar sesión</a></li>
         <li onClick={()=>props.changeActualAction("registrarempresa")}><a >Promociona tu empresa</a></li>
 
       </ul>);
