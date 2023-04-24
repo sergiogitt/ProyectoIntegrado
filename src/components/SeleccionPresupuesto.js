@@ -3,17 +3,18 @@ import { useState } from 'react';
 export function SeleccionPresupuesto(props){
     const [presupuestoAux,setPresupuestoAux]=useState(null);
     const [mensajeError,setMensajeError]=useState(null);
+    localStorage.setItem("presupuesto",0);
     function changePresupuestoAux(newPresupuesto){
       setPresupuestoAux(newPresupuesto)
      
     }
     function handleNewPresupuesto(){
-      console.log(Number.isInteger(presupuestoAux))
       if(!presupuestoAux||presupuestoAux==""){
         setMensajeError("Por favor, rellene el campo.");
       }else if(presupuestoAux>0||presupuestoAux<=0){
         if(presupuestoAux>400&&presupuestoAux<4000){
-          props.changePresupuesto(presupuestoAux)
+          props.setVisualizacion("configurador")
+          localStorage.setItem("presupuesto",presupuestoAux);
           setMensajeError(null)
         }else{
           setMensajeError("Por favor, introduzca un presupuesto coherente.");

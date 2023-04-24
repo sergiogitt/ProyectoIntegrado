@@ -9,11 +9,9 @@ export function Configurador(props){
       console.log(newPresupuesto)
     }
     let visualzacion=[];
-    if(presupuesto){
-      visualzacion.push(<ComponenteConfigurador nombre={"Procesador"} ></ComponenteConfigurador>)
-    }else{
-      visualzacion.push(<SeleccionPresupuesto changePresupuesto={(d)=>changePresupuesto(d)}></SeleccionPresupuesto>)
-    }
+    
+    visualzacion.push(<ComponenteConfigurador nombre={"Procesador"} ></ComponenteConfigurador>)
+    
     return(<div>
       {visualzacion}
     </div>
