@@ -49,17 +49,17 @@ function login($datos,$in_login=true)
 }
 
 
-function obtener_productos()
+function catalogo_videojuegos()
 {
     try
     {
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.":3307;dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
-            $consulta="select * from producto";
+            $consulta="select * from videojuego";
             $sentencia=$conexion->prepare($consulta);
             $sentencia->execute();
-            $respuesta["productos"]=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+            $respuesta["videojuegos"]=$sentencia->fetchAll(PDO::FETCH_ASSOC);
             
         }
         catch(PDOException $e)

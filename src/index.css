@@ -5,6 +5,11 @@ header{
   justify-content: space-between;
   align-items: center;
 }
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 header>nav{
   justify-self: flex-end;
   flex: 0 50%;
@@ -19,4 +24,35 @@ align-self: flex-end;
 header>nav>ul>li{
   list-style: none;
   text-decoration: none;
+}
+.videojuego{
+  border: 1px solid black;
+  flex: 0 0 23%;
+ padding: 1rem;
+
+}
+.videojuego label{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+.img_container{
+width: 100%;
+}
+.videojuego img{
+  height: auto;
+  width: 100%;
+
+  margin-bottom: 1rem;
+}
+.oculto{
+  display: none;
+}
+#catalogo_videojuegos{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }

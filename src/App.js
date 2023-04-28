@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import md5 from 'md5';
 function App() {
-  console.log(localStorage)
+  
   const [visualizacion,setVisualizacion]=useState(null);
   const [accion,setAccion]=useState(null);
   const [logued,setLogued]=useState(false);

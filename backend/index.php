@@ -21,6 +21,11 @@ $app->get('/conexion',function($request){
     echo json_encode(conexion());
   
 });
+$app->get('/catalogo_videojuegos',function($request){
+
+    echo json_encode(catalogo_videojuegos());
+  
+});
 $app->post('/logueado',function($request){
     session_id($request->getParam('api_session'));
     session_start();

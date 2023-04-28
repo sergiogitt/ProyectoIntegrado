@@ -32,7 +32,7 @@ export function Cabecera(props){
       </ul>);
     }
     return(<header>
-      <h1 onClick={()=>volver_a_inicio()}>My App</h1>
+      <h1 onClick={()=>props.seguridad(volver_a_inicio)}>My App</h1>
       <nav>
         {render}
       </nav>
