@@ -160,7 +160,12 @@ $app->get('/familia/{cod}',function($request){
         echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
     }
 });
+$app->post('/user_repetido',function($request){
 
+    
+    echo json_encode(repetido("usuario","nombre_usuario",$request->getParam('usuario')));
+   
+});
 $app->get('/repetido_insert/{tabla}/{columna}/{valor}',function($request){
 
     session_id($request->getParam('api_session'));
