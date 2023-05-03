@@ -82,6 +82,45 @@ function createUser($request)
     
     return $respuesta;
 }
+function createCompany($request)
+{
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.":3307;dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="insert into usuario(nombre_usuario,clave,correo_electronico,nombre_empresa,cif_empresa,tipo) values(?,?,?,?,?,?)";
+            $sentencia=$conexion->prepare($consulta);
+            $datos[]=$request[0];
+            $datos[]=$request[1];
+            $datos[]=$request[2];
+            $datos[]=$request[3];
+            $datos[]=$request[4];
+
+            $datos[]="empresa";
+            $sentencia->execute($datos);
+           
+            $respuesta=login([$request[0],$request[1]],true);
+            
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
+
+        $sentencia=null;
+        $conexion=null; 
+    }
+    catch(PDOException $e)
+    {
+        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
+    }
+
+    
+    return $respuesta;
+}
 
 function catalogo_videojuegos()
 {

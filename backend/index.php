@@ -57,6 +57,16 @@ $app->post('/create_user',function($request){
     echo json_encode(createUser($datos));
 
 });
+$app->post('/create_company',function($request){
+
+    $datos[]=$request->getParam('usuario');
+    $datos[]=$request->getParam('clave');
+    $datos[]=$request->getParam('email');
+    $datos[]=$request->getParam('cif');
+    $datos[]=$request->getParam('nombre_empresa');
+    echo json_encode(createCompany($datos));
+
+});
 
 $app->get('/productos',function($request){
 

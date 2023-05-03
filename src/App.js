@@ -101,7 +101,7 @@ function App() {
           
           <Route path='/login' exact element={<Login  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
           <Route path='/registro' exact element={<FormularioRegistro  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
-
+          <Route path='/registrarempresa' exact element={<FormularioRegistroEmpresa  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
         </Routes>
     
      
