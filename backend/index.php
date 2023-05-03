@@ -49,6 +49,14 @@ $app->post('/login',function($request){
     echo json_encode(login($datos));
 
 });
+$app->post('/create_user',function($request){
+
+    $datos[]=$request->getParam('usuario');
+    $datos[]=$request->getParam('clave');
+    $datos[]=$request->getParam('email');
+    echo json_encode(createUser($datos));
+
+});
 
 $app->get('/productos',function($request){
 

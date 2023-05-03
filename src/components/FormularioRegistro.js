@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
-import { Button, Input, Label, FormGroup, FormFeedback, FormText } from "reactstrap";
+import { Button, Input, Label, FormGroup, FormFeedback, FormText, Form } from "reactstrap";
 import { DIR_SERV } from "../variables";
+import md5 from "md5";
+import { useNavigate } from "react-router-dom";
 export function FormularioRegistro(props) {
+    const navigate = useNavigate();
     const [nombre, setNombre] = useState("");
     const [clave1, setClave1] = useState("");
     const [clave2, setClave2] = useState("");
@@ -10,6 +13,7 @@ export function FormularioRegistro(props) {
     const [usuario, setUsuario] = useState("");
     const [error, setError] = useState("");
     const [repetido, setRepetido] = useState(false);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [campos_vacios, setCampo_vacio] = useState([false, false, false, false]);
     function handle_change_input(event, setter) {
         setter(event.target.value);
@@ -21,10 +25,6 @@ export function FormularioRegistro(props) {
             aux[indice] = campo == "";
             if(campo==usuario){
                 setError("Campo obligatorio");
-                if(campo!=""){
-                    comprobar_usuario_repetido()
-                }
-                
             }
             return aux;
             
@@ -58,18 +58,54 @@ export function FormularioRegistro(props) {
        
     }
     function comprobar_datos() {
-        
-    
         comprobar_campo_vacio(usuario, 0);
-        
         comprobar_campo_vacio(nombre, 1);
         comprobar_campo_vacio(clave1, 2);
         comprobar_campo_vacio(clave2, 3);
+        if(!emailRegex.test(nombre)){
+            setCampo_vacio(prevState => {
+                let aux = [...prevState];
+                aux[1] = true;
+                return aux;
+                
+            });
+        }else{
+            setCampo_vacio(prevState => {
+                let aux = [...prevState];
+                aux[1] = false;
+                return aux;
+                
+            });
+        }
         if (clave1 == clave2) {
           
-            if (nombre != "" && usuario != "" && clave1 != "" && clave2 != ""&&repetido) {
+            if (nombre != "" && usuario != "" && clave1 != "" && clave2 != ""&&!repetido&&emailRegex.test(nombre)) {
                 //Registrar usuario en la BD
                 console.log("inserto")
+                axios.post(DIR_SERV+'/create_user', {
+                usuario: usuario,
+                clave: md5(clave1),
+                email:nombre
+                })
+                    .then(response => {
+                    console.log(response);
+                    if (response.data.usuario) {
+                        console.log(response.data.usuario.tipo)
+                        props.log_user(response.data.usuario.tipo);
+                        localStorage.setItem("usuario", usuario);
+                        localStorage.setItem("clave", md5(clave1));
+                        localStorage.setItem("tipo", "normal");
+                        localStorage.setItem("api_session", response.data.api_session);
+                        localStorage.setItem("ultima_accion", new Date() / 1000);
+                        console.log(localStorage.ultima_accion)
+                        navigate("/");
+                    } else {
+                        props.setError("Credenciales incorrectas");
+                    }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             }
 
         } else {
@@ -81,16 +117,16 @@ export function FormularioRegistro(props) {
         }
 
     }
-    return (<div>
+    return (<Form>
         <FormGroup>
             <Label for="examplePassword">Nombre de usuario</Label>
-            {(campos_vacios[0]) ? <Input invalid onChange={(event) => handle_change_input(event, setUsuario)} /> : <Input onChange={(event) => handle_change_input(event, setUsuario)} />}
+            {(campos_vacios[0]) ? <Input invalid onChange={(event) => {handle_change_input(event, setUsuario);comprobar_usuario_repetido()}} /> : <Input onChange={(event) => handle_change_input(event, setUsuario)} />}
             <FormFeedback>{error}</FormFeedback>        
             </FormGroup>
         <FormGroup>
-            <Label for="examplePassword">Nombre completo</Label>
-            {(campos_vacios[1]) ? <Input invalid onChange={(event) => handle_change_input(event, setNombre)} /> : <Input onChange={(event) => handle_change_input(event, setNombre)} />}
-            <FormFeedback>Campo obligatorio</FormFeedback>
+            <Label for="examplePassword">Email:</Label>
+            {(campos_vacios[1]) ? <Input  invalid onChange={(event) => handle_change_input(event, setNombre)} /> : <Input type="email" onChange={(event) => handle_change_input(event, setNombre)} />}
+            {(nombre == "") ? <FormFeedback>Campo obligatorio</FormFeedback> : <FormFeedback>Tiene que introducir una direccion de email válida</FormFeedback>}
         </FormGroup>
         <FormGroup>
             <Label for="examplePassword">Contraseña</Label>
@@ -108,5 +144,5 @@ export function FormularioRegistro(props) {
             <Button onClick={() => comprobar_datos()}>Registrarse</Button>
         </div>
 
-    </div>)
+    </Form>)
 }
