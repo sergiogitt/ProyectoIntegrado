@@ -10,11 +10,13 @@ export function EleccionConfiguracion(props){
   let render=[];
   const [tipo_configuracion,setTipo_configuracion]=useState(null);
   const [presupuesto,setPresupuesto]=useState(null);
+  const [puntuacion_grafica, setPuntuacion_grafica] = useState(0);
   function local_storage_tipo_configuracion(funcion,valor){
     localStorage.setItem("tipo_configuracion",valor);
     funcion(valor)
     console.log(localStorage)
   }
+  console.log(localStorage)
   useEffect(() => {
     // get the data from localStorage when the component mounts
     
@@ -25,6 +27,10 @@ export function EleccionConfiguracion(props){
     if(localStorage.presupuesto>0){
       setTipo_configuracion(localStorage.tipo_configuracion);
       props.setVisualizacion("configurador");
+    }
+    if(localStorage.puntuacion_grafica>=0){
+      setPuntuacion_grafica(localStorage.puntuacion_grafica);
+      props.setVisualizacion("catalogo_videojuegos");
     }
   }, []);
   
@@ -117,7 +123,7 @@ export function EleccionConfiguracion(props){
       render.push(<Configurador></Configurador>);
     break;
     case "catalogo_videojuegos":
-      render.push(<EleccionVideojuegos setVisualizacion={props.setVisualizacion} seguridad={()=>props.seguridad()}></EleccionVideojuegos>);
+      render.push(<EleccionVideojuegos setVisualizacion={props.setVisualizacion} seguridad={(a)=>props.seguridad(a)} setPuntuacion_grafica={setPuntuacion_grafica}></EleccionVideojuegos>);
     break;
   }
     return(

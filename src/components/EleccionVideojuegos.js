@@ -5,12 +5,16 @@ import { DIR_SERV } from "../variables";
 import { DIR_PUBLIC } from "../variables";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button } from "reactstrap";
 
 export function EleccionVideojuegos(props) {
   const [render, setRender] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  localStorage.setItem("puntuacion_grafica",0);
+  function volver(){
+    props.setVisualizacion(null);
+  }
   useEffect(() => {
     axios.get(DIR_SERV + '/catalogo_videojuegos')
       .then(response => {
@@ -33,6 +37,7 @@ export function EleccionVideojuegos(props) {
       });
   }, []);
 
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -41,7 +46,7 @@ export function EleccionVideojuegos(props) {
     return <p>{error}</p>;
   }
 
-  return render.length > 0 ? <div id="catalogo_videojuegos">{render}</div> : <p>No items found</p>;
+  return render.length > 0 ? <div><Button onClick={()=>props.seguridad(props.setVisualizacion,null) }>Volver</Button><div id="catalogo_videojuegos">{render}</div></div> : <p>No items found</p>;
 }
 
 export default EleccionVideojuegos;
