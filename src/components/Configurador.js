@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 export function Configurador(props){
     const [presupuesto,setPresupuesto]=useState(null);
+    localStorage.setItem("configurador",true);
+
     function changePresupuesto(newPresupuesto){
       setPresupuesto(newPresupuesto)
       console.log(newPresupuesto)

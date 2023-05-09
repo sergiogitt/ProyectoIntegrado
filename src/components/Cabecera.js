@@ -4,10 +4,15 @@ export function Cabecera(props){
   let render=[];
   const navigate = useNavigate();
   function volver_a_inicio(){
-    navigate("/");
+    localStorage.visualizacion="inicial";
     localStorage.removeItem("presupuesto");
     localStorage.removeItem("tipo_configuracion");
-    props.setVisualizacion(null);
+    localStorage.removeItem("configurador");
+    localStorage.removeItem("puntuacion_grafica");
+    console.log(localStorage)
+    navigate("/");
+    
+
   }
     if(localStorage.tipo=="empresa"){
       render.push(<ul>

@@ -10,32 +10,44 @@ export function EleccionConfiguracion(props){
   let render=[];
   const [tipo_configuracion,setTipo_configuracion]=useState(null);
   const [presupuesto,setPresupuesto]=useState(null);
+  const [visualizacion,setVisualizacion]=useState(null);
   const [puntuacion_grafica, setPuntuacion_grafica] = useState(0);
   function local_storage_tipo_configuracion(funcion,valor){
+    console.log(localStorage)
     localStorage.setItem("tipo_configuracion",valor);
     funcion(valor)
-    console.log(localStorage)
-  }
-  console.log(localStorage)
-  useEffect(() => {
-    // get the data from localStorage when the component mounts
     
-    if(localStorage.tipo_configuracion){
+  }
+
+  useEffect(() => {
+    console.log(localStorage)
+
+    // get the data from localStorage when the component mounts
+    if(!localStorage.visualizacion){
+      localStorage.setItem("visualizacion","inicial");
+    }
+   
+    /*if(localStorage.puntuacion_grafica){
       setTipo_configuracion(localStorage.tipo_configuracion);
-      props.setVisualizacion("presupuesto");
+      setVisualizacion("catalogo_videojuegos");
     }
-    if(localStorage.presupuesto>0){
+    if(localStorage.configurador){
       setTipo_configuracion(localStorage.tipo_configuracion);
-      props.setVisualizacion("configurador");
+      setVisualizacion(null);
     }
-    if(localStorage.puntuacion_grafica>=0){
-      setPuntuacion_grafica(localStorage.puntuacion_grafica);
-      props.setVisualizacion("catalogo_videojuegos");
-    }
+    if(!localStorage.configurador&&!localStorage.puntuacion_grafica&&!localStorage.tipo_configuracion){
+      setVisualizacion(null);
+      localStorage.setItem("tipo_configuracion",null);
+    }*/
+    setVisualizacion(localStorage.visualizacion);
   }, []);
-  
-  switch(props.visualizacion){
-    case null:
+  function change_local_storage(new_view){
+    localStorage.visualizacion=new_view;
+    setVisualizacion(new_view)
+  }
+  switch(localStorage.visualizacion){
+    case "inicial":
+      
       render.push(<CardGroup>
         <Card>
           <CardImg
@@ -57,7 +69,7 @@ export function EleccionConfiguracion(props){
             <CardText>
               This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
             </CardText>
-            <Button onClick={()=>{props.seguridad(props.setVisualizacion,"presupuesto");local_storage_tipo_configuracion(setTipo_configuracion,"multimedia")}}>
+            <Button onClick={()=>{props.seguridad(change_local_storage,"presupuesto");local_storage_tipo_configuracion(setTipo_configuracion,"multimedia")}}>
               Button
             </Button>
           </CardBody>
@@ -82,7 +94,7 @@ export function EleccionConfiguracion(props){
             <CardText>
               This card has supporting text below as a natural lead-in to additional content.
             </CardText>
-            <Button onClick={()=>{props.seguridad(props.setVisualizacion,"presupuesto");local_storage_tipo_configuracion(setTipo_configuracion,"disenyo")}}>
+            <Button onClick={()=>{props.seguridad(change_local_storage,"presupuesto");local_storage_tipo_configuracion(setTipo_configuracion,"disenyo")}}>
               Button
             </Button>
             
@@ -109,7 +121,7 @@ export function EleccionConfiguracion(props){
             <CardText>
               This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.
             </CardText>
-            <Button onClick={()=>props.seguridad(props.setVisualizacion,"catalogo_videojuegos")}>
+            <Button onClick={()=>props.seguridad(change_local_storage,"catalogo_videojuegos")}>
               Button
             </Button>
           </CardBody>
@@ -117,13 +129,14 @@ export function EleccionConfiguracion(props){
       </CardGroup>);
       break;
     case "presupuesto":
-      render.push(<SeleccionPresupuesto setVisualizacion={props.setVisualizacion} seguridad={(a)=>props.seguridad(a)}></SeleccionPresupuesto>);
+      render.push(<SeleccionPresupuesto setVisualizacion={(a)=>setVisualizacion(a)} seguridad={(a)=>props.seguridad(a)}></SeleccionPresupuesto>);
       break;
     case "configurador":
+      console.log("ento")
       render.push(<Configurador></Configurador>);
     break;
     case "catalogo_videojuegos":
-      render.push(<EleccionVideojuegos setVisualizacion={props.setVisualizacion} seguridad={(a)=>props.seguridad(a)} setPuntuacion_grafica={setPuntuacion_grafica}></EleccionVideojuegos>);
+      render.push(<EleccionVideojuegos setVisualizacion={(a)=>setVisualizacion(a)} seguridad={(a)=>props.seguridad(a)} setPuntuacion_grafica={setPuntuacion_grafica}></EleccionVideojuegos>);
     break;
   }
     return(

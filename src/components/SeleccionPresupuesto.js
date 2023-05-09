@@ -13,9 +13,9 @@ export function SeleccionPresupuesto(props){
         setMensajeError("Por favor, rellene el campo.");
       }else if(presupuestoAux>0||presupuestoAux<=0){
         if(presupuestoAux>400&&presupuestoAux<4000){
-          props.setVisualizacion("configurador")
-          console.log("tol")
+          localStorage.visualizacion="configurador";
           localStorage.setItem("presupuesto",presupuestoAux);
+          props.setVisualizacion("presupuesto");
           setMensajeError(null)
         }else{
           setMensajeError("Por favor, introduzca un presupuesto coherente.");
