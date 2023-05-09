@@ -11,6 +11,7 @@ export function EleccionVideojuegos(props) {
   const [render, setRender] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [mostrar_boton, setMostrar_boton] = useState(<Button disabled>Continuar</Button>);
   const [selected_games, setSelected_games] = useState([]);
   const [selected_games_colors, setSelected_games_colors] = useState([]);
   localStorage.setItem("puntuacion_grafica",null);
@@ -25,6 +26,17 @@ export function EleccionVideojuegos(props) {
     }
     let forceUpdate = useForceUpdate();
   function select_game(number,puntuacion_procesador,puntuacion_grafica){
+    let cambiar_boton=false;
+    selected_games.map((element)=>{
+      if(element!=[]){
+        cambiar_boton=true;
+      }
+    
+    })
+    if(cambiar_boton){
+      setMostrar_boton(<Button>Continuar</Button>)
+      console.log("cambiando")
+    }
     let games_aux=selected_games;
     let color_aux=selected_games_colors;
     if(games_aux[number].length==0){
@@ -58,12 +70,8 @@ export function EleccionVideojuegos(props) {
         }
 
         const items = response.data.videojuegos;
-
         setRender(items);
         setLoading(false);
-       
-        
-      
       })
       .catch(error => {
         setError(error.message);
@@ -71,15 +79,15 @@ export function EleccionVideojuegos(props) {
       });
   }, []);
 
-
   if (loading) {
     return <p>Loading...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error}</p>;<Button disabled={mostrar_boton ? true : false}>Continuar</Button>
+
   }
-  return render.length > 0 ? <div><Button onClick={()=>props.seguridad(volver) }>Volver</Button><div id="catalogo_videojuegos">{
+  return render.length > 0 ? <div><Button onClick={()=>props.seguridad(volver) }>Volver</Button>{mostrar_boton}<div id="catalogo_videojuegos">{
     render.map((element,index) => {
       return <div key={element.id_videojuego} className={"videojuego "+selected_games_colors[index]}  onClick={()=>select_game(index,element.requerimiento_grafico_procesador,element.requerimiento_grafico_tarjeta_grafica)}>
         <label htmlFor={element.id_videojuego}>
