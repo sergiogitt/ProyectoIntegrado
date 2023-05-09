@@ -5,10 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { useEffect, useState } from 'react';
 import {Configurador} from './components/Configurador.js';
-import {EleccionConfiguracion} from './components/EleccionConfiguracion';
 import {EleccionVideojuegos} from './components/EleccionVideojuegos';
 import {Cabecera} from './components/Cabecera';
 import {Login} from './components/Login';
+import {EleccionConfiguracion} from './components/EleccionConfiguracion';
 import {FormularioRegistro} from './components/FormularioRegistro';
 import {FormularioRegistroEmpresa} from './components/FormularioRegistroEmpresa';
 import { Route,BrowserRouter,Routes} from "react-router-dom";

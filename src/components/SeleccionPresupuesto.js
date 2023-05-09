@@ -15,8 +15,9 @@ export function SeleccionPresupuesto(props){
         if(presupuestoAux>400&&presupuestoAux<4000){
           localStorage.visualizacion="configurador";
           localStorage.setItem("presupuesto",presupuestoAux);
-          props.setVisualizacion("presupuesto");
+          props.setVisualizacion("configurador");
           setMensajeError(null)
+          console.log("presiono")
         }else{
           setMensajeError("Por favor, introduzca un presupuesto coherente.");
         }      

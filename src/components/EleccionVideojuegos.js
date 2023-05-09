@@ -19,6 +19,11 @@ export function EleccionVideojuegos(props) {
     props.setVisualizacion("inicial");
     localStorage.removeItem("tipo_configuracion");
   }
+  function useForceUpdate() {
+    let [value, setState] = useState(true);
+    return () => setState(!value);
+    }
+    let forceUpdate = useForceUpdate();
   function select_game(number,puntuacion_procesador,puntuacion_grafica){
     let games_aux=selected_games;
     let color_aux=selected_games_colors;
@@ -27,11 +32,13 @@ export function EleccionVideojuegos(props) {
       setSelected_games(games_aux);
       color_aux[number]="selected_game";
       setSelected_games_colors(color_aux);
+      forceUpdate()
     }else{
       games_aux[number]=[];
       setSelected_games(games_aux);
       color_aux[number]="not_selected_game";
       setSelected_games_colors(color_aux);
+      forceUpdate()
     }
     console.log(selected_games_colors)
   }
@@ -72,7 +79,6 @@ export function EleccionVideojuegos(props) {
   if (error) {
     return <p>{error}</p>;
   }
-
   return render.length > 0 ? <div><Button onClick={()=>props.seguridad(volver) }>Volver</Button><div id="catalogo_videojuegos">{
     render.map((element,index) => {
       return <div key={element.id_videojuego} className={"videojuego "+selected_games_colors[index]}  onClick={()=>select_game(index,element.requerimiento_grafico_procesador,element.requerimiento_grafico_tarjeta_grafica)}>
