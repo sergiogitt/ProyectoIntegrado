@@ -26,6 +26,11 @@ $app->get('/catalogo_videojuegos',function($request){
     echo json_encode(catalogo_videojuegos());
   
 });
+$app->post('/cooler_procesador',function($request){
+
+    echo json_encode(getCoolers($request->getParam('offset')));
+  
+});
 $app->post('/logueado',function($request){
     session_id($request->getParam('api_session'));
     session_start();

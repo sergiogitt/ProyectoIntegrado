@@ -25,18 +25,21 @@ export function EleccionVideojuegos(props) {
     return () => setState(!value);
     }
     let forceUpdate = useForceUpdate();
-  function select_game(number,puntuacion_procesador,puntuacion_grafica){
-    let cambiar_boton=false;
-    selected_games.map((element)=>{
-      if(element!=[]){
-        cambiar_boton=true;
+    function change_continue_button(){
+      let cambiar_boton=false;
+      selected_games.map((element)=>{
+        if(element!=[]){
+          cambiar_boton=true;
+        }
+      
+      })
+      if(cambiar_boton){
+        setMostrar_boton(<Button>Continuar</Button>)
+        console.log("cambiando")
       }
-    
-    })
-    if(cambiar_boton){
-      setMostrar_boton(<Button>Continuar</Button>)
-      console.log("cambiando")
     }
+  function select_game(number,puntuacion_procesador,puntuacion_grafica){
+   change_continue_button();
     let games_aux=selected_games;
     let color_aux=selected_games_colors;
     if(games_aux[number].length==0){

@@ -152,6 +152,36 @@ function catalogo_videojuegos()
     
     return $respuesta;
 }
+function getCoolers($offset)
+{
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="select * from cooler_procesador limit 3 offset ".$offset;
+            $sentencia=$conexion->prepare($consulta);
+            $sentencia->execute();
+            $respuesta["elements"]=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
+
+        $sentencia=null;
+        $conexion=null; 
+    }
+    catch(PDOException $e)
+    {
+        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
+    }
+
+    
+    return $respuesta;
+}
 
 function obtener_familias()
 {

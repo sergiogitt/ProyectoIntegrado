@@ -1,0 +1,31 @@
+#presupuesto{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#presupuesto *{
+    color: black;
+    text-align: center;
+}
+h1{
+    margin: 3rem;
+}
+button{
+    margin: 3rem;
+    
+    background-color:#EA5455 ;
+    color: white !important;
+    padding: 1rem 4rem;
+    border-radius: 2rem;
+    border: none;
+}
+#input{
+    padding: 0.5rem;
+    border-radius: 7px;
+    width: 15rem !important;
+}
+.error{
+    color:red !important;
+}

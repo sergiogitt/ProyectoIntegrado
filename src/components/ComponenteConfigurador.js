@@ -1,13 +1,24 @@
 import { useState } from "react";
 import {DevicesFromComponent} from './DevicesFromComponent';
+import '../style_components/ComponenteConfigurador.css';
+import { SeleccionadorComponente } from "./SeleccionadorComponente";
 function ComponenteConfigurador(props){
     const [open,setOpen]=useState(false);
-    const [criterioBusqueda,setCriterioBusqueda]=useState(false);
-    let renderObj=[];
-    renderObj.push(<div onClick={()=>setOpen(!open)}>{props.nombre}<span>+</span></div>)
-    if(open){
-        renderObj.push(<DevicesFromComponent criterioBusqueda={criterioBusqueda}></DevicesFromComponent>)
+    const [listaComponentes, setListaComponentes] = useState([]);
+    const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
+    const [firstOpen, setFirstOpen] = useState(true);
+    function handleOpen(){
+        if(firstOpen){
+            setFirstOpen(false);
+        }
     }
-    return(<div>{renderObj}</div>)
+    let renderObj=[];
+    renderObj.push(<div  onClick={()=>setOpen(!open)} class="interaccion_componente"><span>{props.nombre}</span><span class="icon">{(!open)?"+":"-"}</span></div>)
+    if(open){
+        renderObj.push(<SeleccionadorComponente listaComponentes={listaComponentes} firstOpen={firstOpen} handleOpen={handleOpen} setListaComponentes={setListaComponentes} tabla={props.tabla} setComponenteSeleccionado={()=>setComponenteSeleccionado()}></SeleccionadorComponente>)
+
+    }
+
+    return(<div class="component_wrapper">{renderObj}</div>)
 }
 export default ComponenteConfigurador;

@@ -1,5 +1,6 @@
 import { Button,Input} from "reactstrap";
 import { useState } from 'react';
+import '../style_components/SeleccionPresupuesto.css';
 export function SeleccionPresupuesto(props){
     const [presupuestoAux,setPresupuestoAux]=useState(null);
     const [mensajeError,setMensajeError]=useState(null);
@@ -28,13 +29,15 @@ export function SeleccionPresupuesto(props){
      
     }
     let render=[];
-    render.push( <><p>Indica el presupuesto principal del que dispones y con el que se te hará una configuración inicial</p>
-    <Input onChange={(event)=>changePresupuestoAux(event.target.value)}></Input>
-    <Button color="primary" onClick={()=>props.seguridad(handleNewPresupuesto)}>Continuar</Button></>)
+    render.push( <>
+    <Input id="input" onChange={(event)=>changePresupuestoAux(event.target.value)}  invalid={mensajeError !== ""&&mensajeError!=null}></Input>
+    <button  onClick={()=>props.seguridad(handleNewPresupuesto)}>Continuar</button></>)
     if(mensajeError){
-      render.push(<p class="presupuestoIncorrecto">{mensajeError}</p>);
+      render.push(<p class="error">{mensajeError}</p>);
     }
-    return(<div class="presupuesto">
+    return(<div id="presupuesto">
+      <h1>Presupuesto</h1>
+      <p>A continuación debe indicar el presupuesto con el que desea que se realice una configuraciñon inicial.</p><p> Tenga en cuenta que cada tipo de configuracion tiene unos topes con los que hacer dicho proceso.</p>
      {render}
     </div>)
   }

@@ -1,0 +1,14 @@
+.seleccionador_compoentne{
+    padding: 1rem;
+}
+.seleccionador_compoentne input{
+    width: 80%;
+
+}
+
+@media (min-width: 800px) {
+    .seleccionador_compoentne input{
+        width: 30%;
+    
+    }
+  }

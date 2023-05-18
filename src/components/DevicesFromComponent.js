@@ -1,9 +1,7 @@
 
 import { Input } from "reactstrap";
 export function DevicesFromComponent(props){
-    function showDevices(){
-        
-    }
-    return(<><Input placeholder="Introduce un criterio de busqueda" onChange={()=>showDevices()}></Input></>);
+    
+    return(<div>{props.data.id_cooler_procesador}hola</div>);
 }
 export default DevicesFromComponent;

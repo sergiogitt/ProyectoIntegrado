@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-
+import '../style_components/Cabecera.css';
+import { DIR_PUBLIC } from "../variables";
 export function Cabecera(props){
   let render=[];
   const navigate = useNavigate();
@@ -9,27 +10,28 @@ export function Cabecera(props){
     localStorage.removeItem("tipo_configuracion");
     localStorage.removeItem("configurador");
     localStorage.removeItem("puntuacion_grafica");
-    console.log(localStorage)
+    
     navigate("/");
     
 
   }
+  
     if(localStorage.tipo=="empresa"){
-      render.push(<ul>
-         <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
+      render.push(<ul id="menu">
+        <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
         <li onClick={()=>props.seguridad(navigate,"/nuevo_componente")}><a >Subir nuevo componente</a></li>
         <li onClick={()=>props.salir()}><a >Salir</a></li>
         
         
       </ul>);
     }else if(localStorage.tipo=="normal"){
-      render.push(<ul>
+      render.push(<ul id="menu">
         <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
         <li onClick={()=>props.seguridad(navigate,"/configuraciones_guardadas")}><a >Mis configuraciones</a></li>
         <li onClick={()=>props.salir()}><a >Salir</a></li>
       </ul>);
     }else{
-      render.push(<ul>
+      render.push(<ul id="menu">
        <li onClick={()=>navigate("/registro")}><a >Registrate</a></li>
         <li onClick={()=>navigate("/login")}><a >Iniciar sesión</a></li>
         <li onClick={()=>props.changeActualAction("registrarempresa")}><a >Promociona tu empresa</a></li>
@@ -37,7 +39,7 @@ export function Cabecera(props){
       </ul>);
     }
     return(<header>
-      <h1 onClick={()=>props.seguridad(volver_a_inicio)}>My App</h1>
+      <div id="logo" onClick={()=>props.seguridad(volver_a_inicio)}><img id="icono" src={DIR_PUBLIC+"/public/assets/drawing.svg"}/><img id="nombre_logo" src={DIR_PUBLIC+"/public/assets/letra-logo.svg"}/></div>
       <nav>
         {render}
       </nav>

@@ -1,0 +1,52 @@
+#logo{
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+#logo:hover{
+    cursor: pointer;
+}
+#icono{
+    max-width: 4vw;
+}
+#nombre_logo{
+    max-width: 30vw;
+}
+header{
+    background-color:#343434;
+    color:white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+nav{
+    color:white;
+    align-self: flex-end;
+    width: max-content;
+    padding: 0 1rem;
+
+}
+header>nav>ul>li{
+  list-style: none;
+  text-decoration: none;
+  padding: 0.3rem 1rem;
+  cursor: pointer;
+  border-right: 1px solid white;
+}
+header>nav>ul>li:hover{
+    color: #EA5455;
+  }
+#menu{
+    margin: 0.5rem !important;
+}
+header>nav>ul>li:last-child{
+    border-right: none;
+}
+
+
+header>nav>ul{
+padding: 0;
+display: flex;
+flex-direction: row;
+align-self: flex-end;
+}

@@ -1,0 +1,33 @@
+.configuracion{
+    flex: 0 28%;
+    background-color:#343434 ;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+.configuracion img{
+    max-width: 80%;
+}
+.configuracion button{
+    background-color: #EA5455;
+    padding: 0.8rem 4rem;
+    border-radius: 2rem;
+}
+#tipos_configuraciones{
+    color: white;
+    width: 80%;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+h2,.black{
+    color: black;
+    text-align: center;
+    margin: 3rem;
+}
