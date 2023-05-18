@@ -163,6 +163,17 @@ function getCoolers($offset)
             $sentencia=$conexion->prepare($consulta);
             $sentencia->execute();
             $respuesta["elements"]=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+            $nextRowOffset = $offset + 3;
+            $consultaCount = "select * from cooler_procesador limit 3 offset  " . $nextRowOffset;
+            $sentenciaCount = $conexion->prepare($consultaCount);
+            $sentenciaCount->execute();
+            $count = $sentenciaCount->rowCount();
+
+            if ($count > 0) {
+            $respuesta["hasMoreRows"] = true;
+            } else {
+            $respuesta["hasMoreRows"] = false;
+            }
             
         }
         catch(PDOException $e)
