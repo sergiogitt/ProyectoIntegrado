@@ -12,9 +12,8 @@
 h1{
     margin: 3rem;
 }
-button{
+#presupuesto button{
     margin: 3rem;
-    
     background-color:#EA5455 ;
     color: white !important;
     padding: 1rem 4rem;

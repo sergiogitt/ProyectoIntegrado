@@ -7,12 +7,14 @@ import { DIR_SERV } from "../variables";
 import axios from "axios";
 export function SeleccionadorComponente(props) {
     const [criterioBusqueda, setCriterioBusqueda] = useState("");
-
     const [offset, setOffset] = useState(0);
-
+    const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
+    function cambiarSeleccionado(id){
+        console.log(id)
+        setComponenteSeleccionado(id)
+        console.log(componenteSeleccionado)
+    }
     useEffect(() => {
-
-        // get the data from localStorage when the component mounts
         if (props.firstOpen) {
             axios.post(DIR_SERV + '/' + props.tabla, {
                 offset: offset
@@ -22,7 +24,7 @@ export function SeleccionadorComponente(props) {
                     let listaComponentesAux = [...props.listaComponentes];
 
                     response.data.elements.forEach(element => {
-                        listaComponentesAux.push(<DevicesFromComponent data={element}></DevicesFromComponent>);
+                        listaComponentesAux.push(<DevicesFromComponent componenteSeleccionado={componenteSeleccionado} cambiarSeleccionado={(a)=>cambiarSeleccionado(a)} data={element} tabla={props.tabla}></DevicesFromComponent>);
                     });
 
                     props.setListaComponentes(listaComponentesAux);

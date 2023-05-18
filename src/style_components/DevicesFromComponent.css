@@ -1,0 +1,40 @@
+.device{
+    display: flex;
+    justify-content: row;
+    width: 100% !important;
+    padding: 0.2rem 1rem;
+    border-bottom: 1px solid black;
+    align-items: center;
+
+}
+.device:last-child{
+    border: none;
+}
+.device .device_image{
+    flex: 0 15%;
+    
+}
+.device_info{
+    width: 100%;
+}
+.modelo_marca,.precio_boton{
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.precio_boton button{
+    background-color: #EA5455;
+    border: none;
+    padding: 1rem 3rem;
+    color: white;
+    border-radius: 1rem;
+}
+.precio_boton .seleccionado{
+    background-color: aliceblue;
+}
+.device .device_image img{
+    max-width: 50%;
+    min-width: 40%;
+    
+}
