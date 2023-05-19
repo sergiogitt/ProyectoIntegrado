@@ -20,7 +20,7 @@ export function ComponentesEmpresa(props){
                 numero_componentes++;
                 let componentes_aux=componentes;
                 response.data.elements.forEach(element => {
-                    componentes_aux.push(<ComponenteEmpresa data={element} tabla={componente}></ComponenteEmpresa>)
+                    componentes_aux.push(<ComponenteEmpresa seguridad={props.seguridad} data={element} tabla={componente}></ComponenteEmpresa>)
                 });
                 setComponentes(componentes_aux)
                

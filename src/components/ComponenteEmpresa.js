@@ -6,13 +6,18 @@ import axios from "axios";
 import { Spinner } from "reactstrap";
 import '../style_components/ComponenteEmpresa.css';
 export function ComponenteEmpresa(props){
+    const navigate = useNavigate();
     let marca = "marca_" + props.tabla;
     let modelo = "modelo_" + props.tabla;
     let precio = "precio_" + props.tabla;
     let imagen = "imagen_" + props.tabla;
     let url = "url_" + props.tabla;
     let id = "id_" + props.tabla;
-    console.log(props.data[marca])
+    function editar_componente(ar){
+        localStorage.setItem("editarComponenteTipo",ar[1]);
+        localStorage.setItem("editarComponenteId",ar[0]);
+        navigate("/editar_componente");
+    }
     return(<div class="componente_empresa">
         <div class="device_image"><img src={(!props.data[imagen]) ? (DIR_PUBLIC + "/public/assets/" + "no-disponible.png") : (DIR_PUBLIC + "/public/assets/" + props.data[imagen])} alt="" title="" /></div>
         <div class="device_info">
@@ -23,7 +28,7 @@ export function ComponenteEmpresa(props){
             <div class="precio_boton">
                 <span>{props.data[precio]}€</span>
                 <span>{(props.data[url])?(<a href={props.data[url]}>{props.data[url]}</a>):("URL sin asignar")}</span>
-                <button onClick={() => props.cambiarSeleccionado(props.data)} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Editar</button>
+                <button onClick={() => props.seguridad(editar_componente,[props.data[id],props.tabla])} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Editar</button>
             </div>
 
 
