@@ -15,6 +15,7 @@ import { Route,BrowserRouter,Routes} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import md5 from 'md5';
+import { ComponentesEmpresa } from './components/ComponentesEmpresa';
 function App() {
   
   const [accion,setAccion]=useState(null);
@@ -41,7 +42,7 @@ function App() {
   function salir(){
     setLogued(false);
     localStorage.clear();
-    console.log(localStorage);
+    navigate("/");
   }
   function seguridad(funcion,params=null){
     if(localStorage.usuario){
@@ -96,7 +97,7 @@ function App() {
       
         <Routes>
           <Route path='/' exact element={<EleccionConfiguracion seguridad={seguridad}  />}/>
-          
+          <Route path='/mis_componentes' exact element={<ComponentesEmpresa seguridad={seguridad}  />}/>
           <Route path='/login' exact element={<Login  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
           <Route path='/registro' exact element={<FormularioRegistro  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
           <Route path='/registrarempresa' exact element={<FormularioRegistroEmpresa  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>

@@ -21,6 +21,7 @@ function login($datos,$in_login=true)
                     $_SESSION["usuario"]=$datos[0];
                     $_SESSION["clave"]=$datos[1];
                     $_SESSION["tipo"]=$respuesta["usuario"]["tipo"];
+                    $_SESSION["id"]=$respuesta["usuario"]["id_usuario"];
                     $respuesta["api_session"]=session_id();
                 }
             }
@@ -159,21 +160,47 @@ function getCoolers($offset)
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
-            $consulta="select * from cooler_procesador limit 3 offset ".$offset;
+            $consulta="select * from cooler_procesador limit 4 offset ".$offset;
             $sentencia=$conexion->prepare($consulta);
             $sentencia->execute();
-            $respuesta["elements"]=$sentencia->fetchAll(PDO::FETCH_ASSOC);
-            $nextRowOffset = $offset + 3;
-            $consultaCount = "select * from cooler_procesador limit 3 offset  " . $nextRowOffset;
-            $sentenciaCount = $conexion->prepare($consultaCount);
-            $sentenciaCount->execute();
-            $count = $sentenciaCount->rowCount();
+            $tuplas=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+            $respuesta["elements"] = array_slice($tuplas, 0, 3);
+            $respuesta["hasMoreRows"] = $sentencia->rowCount()==4;
 
-            if ($count > 0) {
-            $respuesta["hasMoreRows"] = true;
-            } else {
-            $respuesta["hasMoreRows"] = false;
-            }
+            
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
+
+        $sentencia=null;
+        $conexion=null; 
+    }
+    catch(PDOException $e)
+    {
+        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
+    }
+
+    
+    return $respuesta;
+}
+function getComponentesEmpresa($id,$tipo)
+{
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="select * from ".$tipo." where id_anunciante_".$tipo."=?";
+            $sentencia=$conexion->prepare($consulta);
+            $sentencia->execute([$id]);
+            $respuesta["elements"]=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+           
+
+            
             
         }
         catch(PDOException $e)

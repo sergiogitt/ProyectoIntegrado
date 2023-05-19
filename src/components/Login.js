@@ -25,7 +25,13 @@ export function Login(props) {
                         localStorage.setItem("api_session", response.data.api_session);
                         localStorage.setItem("ultima_accion", new Date() / 1000);
                         console.log(localStorage.ultima_accion)
-                        navigate("/");
+                        props.setError(null);
+                        if(response.data.usuario.tipo=="normal"){
+                            navigate("/");
+                        }else{
+                            navigate("/mis_componentes");
+                        }
+                       
                     } else {
                         props.setError("Credenciales incorrectas");
                     }

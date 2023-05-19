@@ -10,8 +10,12 @@ export function Cabecera(props){
     localStorage.removeItem("tipo_configuracion");
     localStorage.removeItem("configurador");
     localStorage.removeItem("puntuacion_grafica");
+    if(localStorage.tipo=="normal"){
+      navigate("/");
+    }else{
+      navigate("/mis_componentes");
+    }
     
-    navigate("/");
     
 
   }

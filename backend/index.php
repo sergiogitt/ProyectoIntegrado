@@ -72,7 +72,19 @@ $app->post('/create_company',function($request){
     echo json_encode(createCompany($datos));
 
 });
+$app->post('/componentes_empresa',function($request){
 
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="empresa" )
+        echo json_encode(getComponentesEmpresa($_SESSION["id"],$request->getParam('tipo_componente')));
+    else
+    {
+        session_destroy();
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+
+});
 $app->get('/productos',function($request){
 
     session_id($request->getParam('api_session'));
