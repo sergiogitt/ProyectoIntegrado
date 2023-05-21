@@ -13,9 +13,10 @@ export function ComponenteEmpresa(props){
     let imagen = "imagen_" + props.tabla;
     let url = "url_" + props.tabla;
     let id = "id_" + props.tabla;
-    function editar_componente(ar){
-        localStorage.setItem("editarComponenteTipo",ar[1]);
-        localStorage.setItem("editarComponenteId",ar[0]);
+    function editar_componente(compoenente){
+       
+        localStorage.setItem("editarComponente",JSON.stringify(compoenente));
+        localStorage.setItem("editarTabla",props.tabla);
         navigate("/editar_componente");
     }
     return(<div class="componente_empresa">
@@ -28,7 +29,7 @@ export function ComponenteEmpresa(props){
             <div class="precio_boton">
                 <span>{props.data[precio]}€</span>
                 <span>{(props.data[url])?(<a href={props.data[url]}>{props.data[url]}</a>):("URL sin asignar")}</span>
-                <button onClick={() => props.seguridad(editar_componente,[props.data[id],props.tabla])} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Editar</button>
+                <button onClick={() => props.seguridad(editar_componente,props.data)} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Editar</button>
             </div>
 
 

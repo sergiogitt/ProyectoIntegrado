@@ -26,7 +26,7 @@ export function ComponentesEmpresa(props){
                
                 if(numero_componentes==10){
                     setCargando(false)
-                    console.log(componentes)
+                    
                 }
             })
             .catch(error => {

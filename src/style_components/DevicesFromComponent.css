@@ -7,6 +7,12 @@
     align-items: center;
 
 }
+#vistaPrevia{
+  border: 1px solid black;
+  margin: 2rem auto;
+    width: 70% !important;
+   
+}
 .device:last-child{
     border: none;
 }
@@ -33,7 +39,7 @@
 .precio_boton .seleccionado{
     background-color: aliceblue;
 }
-.device .device_image img{
+.device .device_image img,.imagen{
     max-width: 50%;
     min-width: 40%;
     
