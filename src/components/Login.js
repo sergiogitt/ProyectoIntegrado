@@ -19,12 +19,12 @@ export function Login(props) {
                     if (response.data.usuario) {
                         console.log(response.data.usuario.tipo)
                         props.log_user(response.data.usuario.tipo);
-                        localStorage.setItem("usuario", usuario);
-                        localStorage.setItem("clave", md5(clave));
-                        localStorage.setItem("tipo", response.data.usuario.tipo);
-                        localStorage.setItem("api_session", response.data.api_session);
-                        localStorage.setItem("ultima_accion", new Date() / 1000);
-                        console.log(localStorage.ultima_accion)
+                        sessionStorage.setItem("usuario", usuario);
+                        sessionStorage.setItem("clave", md5(clave));
+                        sessionStorage.setItem("tipo", response.data.usuario.tipo);
+                        sessionStorage.setItem("api_session", response.data.api_session);
+                        sessionStorage.setItem("ultima_accion", new Date() / 1000);
+                        console.log(sessionStorage.ultima_accion)
                         props.setError(null);
                         if(response.data.usuario.tipo=="normal"){
                             navigate("/");

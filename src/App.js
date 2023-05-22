@@ -30,9 +30,9 @@ function App() {
   const DIR_SERV="http://localhost/ProyectoIntegrado/backend/index.php";
   const TIEMPO_SESION_MINUTOS=10;
   useEffect(() => {
-    // get the data from localStorage when the component mounts
+    // get the data from sessionStorage when the component mounts
     
-    if (localStorage) {
+    if (sessionStorage) {
       setLogued(true);
     }
   }, []);
@@ -42,32 +42,32 @@ function App() {
   }
   function salir(){
     setLogued(false);
-    localStorage.clear();
+    sessionStorage.clear();
     navigate("/");
   }
   function seguridad(funcion,params=null){
-    if(localStorage.usuario){
-      if(((new Date()/1000)-localStorage.ultima_accion)<TIEMPO_SESION_MINUTOS*60){
+    if(sessionStorage.usuario){
+      if(((new Date()/1000)-sessionStorage.ultima_accion)<TIEMPO_SESION_MINUTOS*60){
         axios.post(DIR_SERV+"/logueado",{
-            "api_session":localStorage.api_session,
-            usuario:localStorage.usuario,
-            clave:localStorage.clave,
+            "api_session":sessionStorage.api_session,
+            usuario:sessionStorage.usuario,
+            clave:sessionStorage.clave,
         })
         .then(data=>{
           
             if(data.data.usuario){
-                localStorage.ultima_accion=new Date()/1000;
+                sessionStorage.ultima_accion=new Date()/1000;
                 funcion(params)
             }else if(data.data.no_login){
                 navigate("/login");
                 setMensaje_error("Usted ha sido expulsado de nuestro sistema.");
-                localStorage.clear();
+                sessionStorage.clear();
             }else if(data.data.mensaje_error){
-                localStorage.clear();
+                sessionStorage.clear();
                 setMensaje_error(data.data.mensaje_error);
             }else{
                 setMensaje_error("Usted ya no se encuentra registrado en las BD");
-                localStorage.clear();
+                sessionStorage.clear();
                 navigate("/login");
             }
         })
@@ -78,7 +78,7 @@ function App() {
       }
       else
       {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/login");
         setMensaje_error("Su tiempo de sesión ha expirado");
         

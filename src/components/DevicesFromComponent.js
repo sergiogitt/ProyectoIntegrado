@@ -10,6 +10,7 @@ export function DevicesFromComponent(props) {
     let precio = "precio_" + props.tabla;
     let imagen = "imagen_" + props.tabla;
     let id = "id_" + props.tabla;
+    console.log(props)
     return (<div class="device" id={(props.vistaPrevia!=null)? ("vistaPrevia"):"de"}> 
        {props.vistaPrevia ? (
         <img class="imagen" 
@@ -26,9 +27,9 @@ export function DevicesFromComponent(props) {
       ) : (
         <img class="imagen"
           src={
-            !props.data[imagen]
-              ? DIR_PUBLIC + "/public/assets/no-disponible.png"
-              : DIR_PUBLIC + "/public/assets/" + props.data[imagen]
+            !props.data[imagen]?
+              ( DIR_PUBLIC + "/public/assets/no-disponible.png")
+              : (DIR_PUBLIC + "/public/assets/" + props.data[imagen])
           }
           alt=""
           title=""
@@ -54,8 +55,7 @@ export function DevicesFromComponent(props) {
         </div>
         <div class="precio_boton">
             <span>{props.data[precio]}€</span>
-            {(props.vistaPrevia)?(<button  >Seleccionar</button>):(<button onClick={() => props.cambiarSeleccionado(props.data)} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Seleccionar</button>)}
-            
+            {(!props.cambiarSeleccionado)?((props.quitar)?(<button onClick={()=>props.quitar()}>Quitar</button>):(<button>Seleccionar</button>)):(<button onClick={() => props.cambiarSeleccionado(props.data)} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Seleccionar</button>)}
         </div>
 
 

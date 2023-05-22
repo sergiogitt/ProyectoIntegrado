@@ -16,18 +16,18 @@ export function FormularioComponente(props){
   const [error_imagen,setError_imagen]=useState("");
   const [extra1,setExtra1]=useState([]);
   const navigate = useNavigate();
-  if (localStorage.tipo!="empresa"||!localStorage.editarComponente) {
+  if (sessionStorage.tipo!="empresa"||!sessionStorage.editarComponente) {
     navigate("/");
   }
 
   useEffect(() => {
     setCargando(true);
-    let componente=JSON.parse(localStorage.editarComponente)
-    let marcaAux="marca_"+localStorage.editarTabla;
-    let modeloAux="modelo_"+localStorage.editarTabla;
-    let precioAux="precio_"+localStorage.editarTabla;
-    let urlAux="url_"+localStorage.editarTabla;
-    let imagenAux="imagen_"+localStorage.editarTabla;
+    let componente=JSON.parse(sessionStorage.editarComponente)
+    let marcaAux="marca_"+sessionStorage.editarTabla;
+    let modeloAux="modelo_"+sessionStorage.editarTabla;
+    let precioAux="precio_"+sessionStorage.editarTabla;
+    let urlAux="url_"+sessionStorage.editarTabla;
+    let imagenAux="imagen_"+sessionStorage.editarTabla;
     setMarca(componente[marcaAux])
     setModelo(componente[modeloAux])
     setPrecio(componente[precioAux])
@@ -105,7 +105,7 @@ function comprobar_datos() {
     <div class="informacion-extra">
     
     </div>
-    <DevicesFromComponent data={JSON.parse(localStorage.editarComponente)} modelo={modelo} marca={marca} precio={precio} url={url} vistaPrevia={previewImage} tabla={localStorage.editarTabla}></DevicesFromComponent>
+    <DevicesFromComponent data={JSON.parse(sessionStorage.editarComponente)} modelo={modelo} marca={marca} precio={precio} url={url} vistaPrevia={previewImage} tabla={sessionStorage.editarTabla}></DevicesFromComponent>
    
   <button onClick={comprobar_datos()}>Editar</button>
 

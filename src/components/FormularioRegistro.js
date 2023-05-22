@@ -92,12 +92,12 @@ export function FormularioRegistro(props) {
                     if (response.data.usuario) {
                         console.log(response.data.usuario.tipo)
                         props.log_user(response.data.usuario.tipo);
-                        localStorage.setItem("usuario", usuario);
-                        localStorage.setItem("clave", md5(clave1));
-                        localStorage.setItem("tipo", "normal");
-                        localStorage.setItem("api_session", response.data.api_session);
-                        localStorage.setItem("ultima_accion", new Date() / 1000);
-                        console.log(localStorage.ultima_accion)
+                        sessionStorage.setItem("usuario", usuario);
+                        sessionStorage.setItem("clave", md5(clave1));
+                        sessionStorage.setItem("tipo", "normal");
+                        sessionStorage.setItem("api_session", response.data.api_session);
+                        sessionStorage.setItem("ultima_accion", new Date() / 1000);
+                        console.log(sessionStorage.ultima_accion)
                         navigate("/");
                     } else {
                         props.setError("Credenciales incorrectas");

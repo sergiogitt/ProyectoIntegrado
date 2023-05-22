@@ -16,28 +16,28 @@ export function EleccionConfiguracion(props) {
   const [puntuacion_grafica, setPuntuacion_grafica] = useState(0);
   function local_storage_tipo_configuracion(funcion, valor) {
 
-    localStorage.setItem("tipo_configuracion", valor);
+    sessionStorage.setItem("tipo_configuracion", valor);
     console.log("cambiado a " + valor)
     funcion(valor)
 
   }
 
   useEffect(() => {
-    console.log(localStorage)
+    console.log(sessionStorage)
 
-    // get the data from localStorage when the component mounts
-    if (!localStorage.visualizacion) {
-      localStorage.setItem("visualizacion", "inicial");
+    // get the data from sessionStorage when the component mounts
+    if (!sessionStorage.visualizacion) {
+      sessionStorage.setItem("visualizacion", "inicial");
     }
 
-    setVisualizacion(localStorage.visualizacion);
+    setVisualizacion(sessionStorage.visualizacion);
   }, []);
   function change_local_storage(new_view) {
     console.log(new_view)
-    localStorage.visualizacion = new_view;
+    sessionStorage.visualizacion = new_view;
     setVisualizacion(new_view)
   }
-  switch (localStorage.visualizacion) {
+  switch (sessionStorage.visualizacion) {
     case "inicial":
       render.push(<div><h2>Tipo de configuración</h2><p class="black">Elige de entre las siguientes opciones el tipo de configuracion que mas se adapte a tus necesidades</p><div id="tipos_configuraciones">
         <div class="configuracion">

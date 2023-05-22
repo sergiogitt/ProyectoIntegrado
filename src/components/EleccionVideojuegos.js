@@ -14,11 +14,11 @@ export function EleccionVideojuegos(props) {
   const [mostrar_boton, setMostrar_boton] = useState(<Button disabled>Continuar</Button>);
   const [selected_games, setSelected_games] = useState([]);
   const [selected_games_colors, setSelected_games_colors] = useState([]);
-  localStorage.setItem("puntuacion_grafica",null);
+  sessionStorage.setItem("puntuacion_grafica",null);
   function volver(){
-    localStorage.visualizacion="inicial";
+    sessionStorage.visualizacion="inicial";
     props.setVisualizacion("inicial");
-    localStorage.removeItem("tipo_configuracion");
+    sessionStorage.removeItem("tipo_configuracion");
   }
   function useForceUpdate() {
     let [value, setState] = useState(true);

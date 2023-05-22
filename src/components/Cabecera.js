@@ -5,12 +5,12 @@ export function Cabecera(props){
   let render=[];
   const navigate = useNavigate();
   function volver_a_inicio(){
-    localStorage.visualizacion="inicial";
-    localStorage.removeItem("presupuesto");
-    localStorage.removeItem("tipo_configuracion");
-    localStorage.removeItem("configurador");
-    localStorage.removeItem("puntuacion_grafica");
-    if(localStorage.tipo=="normal"){
+    sessionStorage.visualizacion="inicial";
+    sessionStorage.removeItem("presupuesto");
+    sessionStorage.removeItem("tipo_configuracion");
+    sessionStorage.removeItem("configurador");
+    sessionStorage.removeItem("puntuacion_grafica");
+    if(sessionStorage.tipo=="normal"){
       navigate("/");
     }else{
       navigate("/mis_componentes");
@@ -20,7 +20,7 @@ export function Cabecera(props){
 
   }
   
-    if(localStorage.tipo=="empresa"){
+    if(sessionStorage.tipo=="empresa"){
       render.push(<ul id="menu">
         <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
         <li onClick={()=>props.seguridad(navigate,"/nuevo_componente")}><a >Subir nuevo componente</a></li>
@@ -28,7 +28,7 @@ export function Cabecera(props){
         
         
       </ul>);
-    }else if(localStorage.tipo=="normal"){
+    }else if(sessionStorage.tipo=="normal"){
       render.push(<ul id="menu">
         <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
         <li onClick={()=>props.seguridad(navigate,"/configuraciones_guardadas")}><a >Mis configuraciones</a></li>

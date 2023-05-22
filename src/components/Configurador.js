@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 export function Configurador(props){
     const [presupuesto,setPresupuesto]=useState(null);
     useEffect(() => {
-      console.log(localStorage)
+      console.log(sessionStorage)
   
-      // get the data from localStorage when the component mounts
-      if (!localStorage.visualizacion) {
-        localStorage.setItem("visualizacion", "configurador");
+      // get the data from sessionStorage when the component mounts
+      if (!sessionStorage.visualizacion) {
+        sessionStorage.setItem("visualizacion", "configurador");
       }
   
-      props.setVisualizacion(localStorage.visualizacion);
+      props.setVisualizacion(sessionStorage.visualizacion);
     }, []);
 
     function changePresupuesto(newPresupuesto){

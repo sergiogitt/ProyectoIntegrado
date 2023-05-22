@@ -15,8 +15,8 @@ export function ComponenteEmpresa(props){
     let id = "id_" + props.tabla;
     function editar_componente(compoenente){
        
-        localStorage.setItem("editarComponente",JSON.stringify(compoenente));
-        localStorage.setItem("editarTabla",props.tabla);
+        sessionStorage.setItem("editarComponente",JSON.stringify(compoenente));
+        sessionStorage.setItem("editarTabla",props.tabla);
         navigate("/editar_componente");
     }
     return(<div class="componente_empresa">

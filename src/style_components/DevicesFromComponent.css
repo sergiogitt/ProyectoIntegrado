@@ -2,6 +2,7 @@
     display: flex;
     justify-content: row;
     width: 100% !important;
+    height: 10rem;
     padding: 0.2rem 1rem;
     border-bottom: 1px solid black;
     align-items: center;
@@ -40,7 +41,7 @@
     background-color: aliceblue;
 }
 .device .device_image img,.imagen{
-    max-width: 50%;
-    min-width: 40%;
+    max-width: 8rem;
+    min-width: 5rem;
     
 }

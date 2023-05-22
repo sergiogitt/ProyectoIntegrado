@@ -12,7 +12,7 @@ export function ComponentesEmpresa(props){
     let numero_componentes=0;
     function getComponent(componente){
         axios.post(DIR_SERV+'/componentes_empresa', {
-            api_session:localStorage.api_session,
+            api_session:sessionStorage.api_session,
             tipo_componente:componente
         })
             .then(response => {
@@ -34,9 +34,9 @@ export function ComponentesEmpresa(props){
             });
     }
     useEffect(() => {
-        // get the data from localStorage when the component mounts
+        // get the data from sessionStorage when the component mounts
         
-        if (localStorage.tipo!="empresa") {
+        if (sessionStorage.tipo!="empresa") {
           navigate("/");
         }
         setCargando(true)

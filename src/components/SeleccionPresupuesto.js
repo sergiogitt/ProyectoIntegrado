@@ -4,7 +4,7 @@ import '../style_components/SeleccionPresupuesto.css';
 export function SeleccionPresupuesto(props){
     const [presupuestoAux,setPresupuestoAux]=useState(null);
     const [mensajeError,setMensajeError]=useState(null);
-    localStorage.setItem("presupuesto",0);
+    sessionStorage.setItem("presupuesto",0);
     function changePresupuestoAux(newPresupuesto){
       setPresupuestoAux(newPresupuesto)
      
@@ -14,8 +14,8 @@ export function SeleccionPresupuesto(props){
         setMensajeError("Por favor, rellene el campo.");
       }else if(presupuestoAux>0||presupuestoAux<=0){
         if(presupuestoAux>400&&presupuestoAux<4000){
-          localStorage.visualizacion="configurador";
-          localStorage.setItem("presupuesto",presupuestoAux);
+          sessionStorage.visualizacion="configurador";
+          sessionStorage.setItem("presupuesto",presupuestoAux);
           props.setVisualizacion("configurador");
           setMensajeError(null)
           console.log("presiono")
