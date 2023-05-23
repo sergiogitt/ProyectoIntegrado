@@ -10,7 +10,6 @@ export function DevicesFromComponent(props) {
     let precio = "precio_" + props.tabla;
     let imagen = "imagen_" + props.tabla;
     let id = "id_" + props.tabla;
-    console.log(props)
     return (<div class="device" id={(props.vistaPrevia!=null)? ("vistaPrevia"):"de"}> 
        {props.vistaPrevia ? (
         <img class="imagen" 

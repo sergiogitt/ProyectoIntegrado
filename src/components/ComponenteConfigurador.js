@@ -23,7 +23,6 @@ function ComponenteConfigurador(props){
     function quitar(){
         setComponenteSeleccionado(null)
     }
-   console.log(componenteSeleccionado)
     let renderObj=[];
     renderObj.push(<div  onClick={()=>setOpen(!open)} class="interaccion_componente"><span>{props.nombre}</span><span class="icon">{(!open)?"+":"-"}</span></div>)
     if(componenteSeleccionado!=null){
@@ -32,7 +31,7 @@ function ComponenteConfigurador(props){
     }
 
     if(open){
-        renderObj.push(<><SeleccionadorComponente componenteSeleccionado={componenteSeleccionado} cambiarSeleccionado={(a)=>cambiarSeleccionado(a)} offset={offset} setOffset={setOffset} showMoreDataButton={showMoreDataButton} setCriterioBusqueda={setCriterioBusqueda} setShowMoreDataButton={setShowMoreDataButton} listaComponentes={listaComponentes} firstOpen={firstOpen} handleOpen={handleOpen} setListaComponentes={setListaComponentes} tabla={props.tabla} ></SeleccionadorComponente>
+        renderObj.push(<><SeleccionadorComponente componenteSeleccionado={componenteSeleccionado} cambiarSeleccionado={(a)=>cambiarSeleccionado(a)} offset={offset} setOffset={setOffset} showMoreDataButton={showMoreDataButton} criterioBusqueda={criterioBusqueda} setCriterioBusqueda={setCriterioBusqueda} setShowMoreDataButton={setShowMoreDataButton} listaComponentes={listaComponentes} firstOpen={firstOpen} handleOpen={handleOpen} setListaComponentes={setListaComponentes} tabla={props.tabla} ></SeleccionadorComponente>
 
         </>)
 

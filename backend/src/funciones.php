@@ -153,18 +153,28 @@ function catalogo_videojuegos()
     
     return $respuesta;
 }
-function getCoolers($offset)
+function getComponents($tabla,$offset,$buscador)
 {
     try
     {
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
-            $consulta="select * from cooler_procesador limit 4 offset ".$offset;
+            $consulta;
+            $marca="marca_".$tabla;
+            $marca="modelo_".$tabla;
+            $datos=[];
+            if($buscador){
+                $consulta = "SELECT * FROM ".$tabla." WHERE LOWER(".$marca.") LIKE LOWER('%".$buscador."%') LIMIT 4 OFFSET ".$offset;
+                //$datos[]=$buscador;
+            }else{
+                $consulta="select * from ".$tabla." limit 4 offset ".$offset;
+            }
             $sentencia=$conexion->prepare($consulta);
-            $sentencia->execute();
+            $sentencia->execute($datos);
             $tuplas=$sentencia->fetchAll(PDO::FETCH_ASSOC);
             $respuesta["elements"] = array_slice($tuplas, 0, 3);
+            $respuesta["cons"] = $consulta;
             $respuesta["hasMoreRows"] = $sentencia->rowCount()==4;
 
             

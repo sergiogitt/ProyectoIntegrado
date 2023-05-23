@@ -26,7 +26,7 @@ export function Configurador(props){
     visualzacion.push(<ComponenteConfigurador nombre={"Tarjeta grafica"} ></ComponenteConfigurador>)
     visualzacion.push(<ComponenteConfigurador nombre={"Disco duro"} ></ComponenteConfigurador>)*/
     visualzacion.push(<ComponenteConfigurador nombre={"Cooler"} tabla={"cooler_procesador"}></ComponenteConfigurador>)
-
+    visualzacion.push(<ComponenteConfigurador nombre={"Disco duro"} tabla={"disco_duro"}></ComponenteConfigurador>)
     
     return(<div>
       {visualzacion}

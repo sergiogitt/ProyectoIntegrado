@@ -26,9 +26,14 @@ $app->get('/catalogo_videojuegos',function($request){
     echo json_encode(catalogo_videojuegos());
   
 });
-$app->post('/cooler_procesador',function($request){
-
-    echo json_encode(getCoolers($request->getParam('offset')));
+$app->post('/componente/{componente}',function($request){
+    $componente=strtolower($request->getAttribute('componente'));
+    if($componente!="usuario"&&$componente!="equipo_configurado"){
+        echo json_encode(getComponents($componente,$request->getParam('offset'),$request->getParam('buscador')));
+    }else{
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+   
   
 });
 $app->post('/logueado',function($request){
