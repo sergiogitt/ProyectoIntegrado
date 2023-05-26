@@ -17,6 +17,7 @@ import axios from 'axios';
 import md5 from 'md5';
 import { ComponentesEmpresa } from './components/ComponentesEmpresa';
 import FormularioComponente from './components/FormularioComponente';
+import { Footer } from './components/Footer';
 function App() {
   
   const [accion,setAccion]=useState(null);
@@ -95,8 +96,8 @@ function App() {
   return (
     <div>
         <Cabecera changeActualAction={changeActualAction} tipo_usuario={usuario} seguridad={seguridad} salir={salir} ></Cabecera>
-      
-        <Routes>
+        <div id="app_wrapper">
+        <Routes id="margin">
           <Route path='/' exact element={<EleccionConfiguracion seguridad={seguridad}  />}/>
           <Route path='/mis_componentes' exact element={<ComponentesEmpresa seguridad={seguridad}  />}/>
           <Route path='/editar_componente' exact element={<FormularioComponente seguridad={seguridad}  />}/>
@@ -104,6 +105,9 @@ function App() {
           <Route path='/registro' exact element={<FormularioRegistro  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
           <Route path='/registrarempresa' exact element={<FormularioRegistroEmpresa  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
         </Routes>
+        </div>
+        
+        <Footer></Footer>
     
      
     </div>

@@ -111,7 +111,6 @@ export function SeleccionadorComponente(props) {
               <div class="linea abajo"></div>
               <div class="linea rotar"></div>
             </div>
-            // <button onClick={() => getMoreComponents()}>Cargar más</button>
           ) : (
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>

@@ -27,6 +27,7 @@ export function Configurador(props){
     visualzacion.push(<ComponenteConfigurador nombre={"Disco duro"} ></ComponenteConfigurador>)*/
     visualzacion.push(<ComponenteConfigurador nombre={"Cooler"} tabla={"cooler_procesador"}></ComponenteConfigurador>)
     visualzacion.push(<ComponenteConfigurador nombre={"Disco duro"} tabla={"disco_duro"}></ComponenteConfigurador>)
+    visualzacion.push(<ComponenteConfigurador nombre={"Fuente alimentacion"} tabla={"fuente_alimentacion"}></ComponenteConfigurador>)
     
     return(<div>
       {visualzacion}

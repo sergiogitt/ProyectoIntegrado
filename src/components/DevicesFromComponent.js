@@ -41,7 +41,7 @@ export function DevicesFromComponent(props) {
             </div>
             <div class="precio_boton">
                 <span>{props.precio}€</span>
-                {(props.vistaPrevia)?(<button  >Seleccionar</button>):(<button onClick={() => props.cambiarSeleccionado(props.data)} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Seleccionar</button>)}
+                {(!props.cambiarSeleccionado)?(<button  >Seleccionar</button>):(<button onClick={() => props.cambiarSeleccionado(props.data)} class={(props.componenteSeleccionado == props.data[id]) ? "seleccionado" : " "}>Seleccionar</button>)}
                 
             </div>
 
