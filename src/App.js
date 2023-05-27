@@ -46,7 +46,7 @@ function App() {
     sessionStorage.clear();
     navigate("/");
   }
-  function seguridad(funcion,params=null){
+  function seguridad(funcion=null,params=null){
     if(sessionStorage.usuario){
       if(((new Date()/1000)-sessionStorage.ultima_accion)<TIEMPO_SESION_MINUTOS*60){
         axios.post(DIR_SERV+"/logueado",{
@@ -58,7 +58,10 @@ function App() {
           
             if(data.data.usuario){
                 sessionStorage.ultima_accion=new Date()/1000;
-                funcion(params)
+                if(funcion){
+                  funcion(params)
+                }
+                
             }else if(data.data.no_login){
                 navigate("/login");
                 setMensaje_error("Usted ha sido expulsado de nuestro sistema.");

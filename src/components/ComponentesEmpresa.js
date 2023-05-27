@@ -10,6 +10,8 @@ export function ComponentesEmpresa(props){
     const [componentes, setComponentes] = useState([]);
     const [cargando, setCargando] = useState(false);
     let numero_componentes=0;
+    let nombres_categorias = { "cooler_procesador": "Coolers para procesador", "disco_duro": "Discos duros", "fuente_alimentacion": "Fuentes de alimentacion", "placa_base": "Placas base", "procesador": "Procesadores", 
+    "ram": "Memorias ram", "refrigeracion_liquida": "Refrigeraciones liquida", "sistema_operativo": "Sistemas operativos",  "tarjeta_grafica": "Tarjetas graficas",  "ventilador": "Ventiladores", };
     function getComponent(componente){
         axios.post(DIR_SERV+'/componentes_empresa', {
             api_session:sessionStorage.api_session,
@@ -19,7 +21,12 @@ export function ComponentesEmpresa(props){
                 console.log(response);
                 numero_componentes++;
                 let componentes_aux=componentes;
+                let header=false;
+
                 response.data.elements.forEach(element => {
+                    if(!header){
+                        componentes_aux.push(<h2>{nombres_categorias[componente]}</h2>)
+                    }
                     componentes_aux.push(<ComponenteEmpresa seguridad={props.seguridad} data={element} tabla={componente}></ComponenteEmpresa>)
                 });
                 setComponentes(componentes_aux)
@@ -39,6 +46,7 @@ export function ComponentesEmpresa(props){
         if (sessionStorage.tipo!="empresa") {
           navigate("/");
         }
+       
         setCargando(true)
         getComponent("cooler_procesador");
         getComponent("disco_duro");
@@ -52,7 +60,7 @@ export function ComponentesEmpresa(props){
         getComponent("ventilador")
       }, []);
     return(<div id="componentes_empresa">
-      <h2>Mis componentes</h2>
+      <h1>Mis componentes</h1>
 {(cargando)?(<div class="spinner"><Spinner animation="border" role="status">
                <span className="visually-hidden">Loading...</span>
              </Spinner></div>):(componentes)}

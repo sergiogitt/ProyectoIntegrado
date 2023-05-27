@@ -36,6 +36,20 @@ $app->post('/componente/{componente}',function($request){
    
   
 });
+$app->post('/estructuras',function($request){
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="empresa")
+    {
+        
+        echo json_encode(estructuras());
+    }
+    else
+    {
+        session_destroy();
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+});
 $app->post('/logueado',function($request){
     session_id($request->getParam('api_session'));
     session_start();
