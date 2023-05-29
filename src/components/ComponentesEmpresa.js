@@ -10,7 +10,7 @@ export function ComponentesEmpresa(props){
     const [componentes, setComponentes] = useState([]);
     const [cargando, setCargando] = useState(false);
     let numero_componentes=0;
-    let nombres_categorias = { "cooler_procesador": "Coolers para procesador", "disco_duro": "Discos duros", "fuente_alimentacion": "Fuentes de alimentacion", "placa_base": "Placas base", "procesador": "Procesadores", 
+    let nombres_categorias = { "cooler_procesador": "Coolers para procesador", "disco_duro": "Discos duros", "fuente_alimentacion": "Fuentes de alimentacion", "placa_base": "Placas base", "procesador": "Procesadores",  "torre": "Torres",
     "ram": "Memorias ram", "refrigeracion_liquida": "Refrigeraciones liquida", "sistema_operativo": "Sistemas operativos",  "tarjeta_grafica": "Tarjetas graficas",  "ventilador": "Ventiladores", };
     function getComponent(componente){
         axios.post(DIR_SERV+'/componentes_empresa', {
@@ -54,6 +54,7 @@ export function ComponentesEmpresa(props){
         getComponent("placa_base");
         getComponent("procesador");
         getComponent("ram");
+        getComponent("torre");
         getComponent("refrigeracion_liquida");
         getComponent("sistema_operativo");
         getComponent("tarjeta_grafica")

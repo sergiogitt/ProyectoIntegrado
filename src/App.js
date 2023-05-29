@@ -29,7 +29,7 @@ function App() {
   const [mensaje_error,setMensaje_error]=useState(null);
   const navigate = useNavigate();
   const DIR_SERV="http://localhost/ProyectoIntegrado/backend/index.php";
-  const TIEMPO_SESION_MINUTOS=10;
+  const TIEMPO_SESION_MINUTOS=20;
   useEffect(() => {
     // get the data from sessionStorage when the component mounts
     
