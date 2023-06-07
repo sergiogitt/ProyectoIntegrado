@@ -26,6 +26,11 @@ $app->get('/catalogo_videojuegos',function($request){
     echo json_encode(catalogo_videojuegos());
   
 });
+$app->get('/equipo_configurado_ofimatica',function($request){
+
+    echo json_encode(equipoOfimatica(1000));
+  
+});
 $app->post('/componente/{componente}',function($request){
     $componente=strtolower($request->getAttribute('componente'));
     if($componente!="usuario"&&$componente!="equipo_configurado"){
