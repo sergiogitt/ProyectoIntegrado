@@ -97,7 +97,7 @@ function App() {
 
   
   return (
-    <div>
+    <>
         <Cabecera changeActualAction={changeActualAction} tipo_usuario={usuario} seguridad={seguridad} salir={salir} ></Cabecera>
         <div id="app_wrapper">
         <Routes id="margin">
@@ -113,7 +113,7 @@ function App() {
         <Footer></Footer>
     
      
-    </div>
+    </>
   );
 }
 

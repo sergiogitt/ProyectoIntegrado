@@ -26,9 +26,14 @@ $app->get('/catalogo_videojuegos',function($request){
     echo json_encode(catalogo_videojuegos());
   
 });
-$app->get('/equipo_configurado_ofimatica',function($request){
+$app->post('/equipo_configurado_ofimatica',function($request){
 
-    echo json_encode(equipoOfimatica(1000));
+    echo json_encode(equipoOfimatica($request->getParam('precio')));
+  
+});
+$app->post('/equipo_configurado_design',function($request){
+
+    echo json_encode(equipoDesign($request->getParam('precio')));
   
 });
 $app->post('/componente/{componente}',function($request){

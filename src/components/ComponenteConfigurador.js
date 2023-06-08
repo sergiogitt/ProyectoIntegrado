@@ -21,13 +21,13 @@ function ComponenteConfigurador(props){
         }
     }
     function quitar(){
-        setComponenteSeleccionado(null)
+        props.setSeleccionado(null)
     }
     let renderObj=[];
     renderObj.push(<div  onClick={()=>setOpen(!open)} class="interaccion_componente"><span>{props.nombre}</span><span class="icon">{(!open)?"+":"-"}</span></div>)
-    if(componenteSeleccionado!=null){
+    if(props.seleccionado!=null){
         console.log("seleccionado")
-        renderObj.push(<DevicesFromComponent quitar={quitar} data={componenteSeleccionado} tabla={props.tabla} componenteSeleccionado={componenteSeleccionado} ></DevicesFromComponent>)
+        renderObj.push(<DevicesFromComponent quitar={quitar} data={props.seleccionado} tabla={props.tabla} componenteSeleccionado={props.seleccionado} ></DevicesFromComponent>)
     }
 
     if(open){

@@ -160,6 +160,7 @@ function equipoOfimatica($precio)
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
+    
             $precioItem=$precio*0.25;
             $calor=0;
             $consulta="select * from procesador where precio_procesador<=".$precioItem." order by precio_procesador  desc limit 1";
