@@ -6,21 +6,23 @@ import { DIR_SERV } from '../variables';
 import axios from 'axios';
 
 export function Configurador(props) {
-  const [presupuesto, setPresupuesto] = useState(false);
-  const [cargando, setCargando] = useState(false);
-  const [idDiscoDuro, setidDiscoDuro] = useState(false);
-  const [idFuente_alimentacion, setidFuente_alimentacion] = useState(false);
-  const [idPlaca_base, setidPlaca_base] = useState(false);
-  const [idProcesador, setidProcesador] = useState(false);
-  const [idRam, setidRam] = useState(false);
-  const [idRefrigeracion_liquida, setidRefrigeracion_liquida] = useState(false);
-  const [idTarjeta_grafica, setidTarjeta_grafica] = useState(false);
-  const [idTorre, setidTorre] = useState(false);
-  const [socketProcesador, setsocketProcesador] = useState(false);
-  const [socketPlacaBase, setsocketPlacaBase] = useState(false);
-  const [estructuraPlacaBase, setEstructuraPlacaBase] = useState(false);
-  const [estructuraTorre, setestructuraTorre] = useState(false);
+  const [presupuesto, setPresupuesto] = useState(null);
+  const [cargando, setCargando] = useState(null);
+  const [componentes, setComponentes] = useState([]);
+  const [precios, setPrecios] = useState([]);
   const [precioTotal, setPrecioTotal] = useState(0);
+  const [idDiscoDuro, setidDiscoDuro] = useState(null);
+  const [idFuente_alimentacion, setidFuente_alimentacion] = useState(null);
+  const [idPlaca_base, setidPlaca_base] = useState(null);
+  const [idProcesador, setidProcesador] = useState(null);
+  const [idRam, setidRam] = useState(null);
+  const [idRefrigeracion_liquida, setidRefrigeracion_liquida] = useState(null);
+  const [idTarjeta_grafica, setidTarjeta_grafica] = useState(null);
+  const [idTorre, setidTorre] = useState(null);
+  const [socketProcesador, setsocketProcesador] = useState(null);
+  const [socketPlacaBase, setsocketPlacaBase] = useState(null);
+  const [estructuraPlacaBase, setEstructuraPlacaBase] = useState(null);
+  const [estructuraTorre, setestructuraTorre] = useState(false);
   const [capacidadVentilacion, setCapacidadVentilacion] = useState(0);
   const [calorGenerado, setCalorGenerado] = useState(0);
   const [vatiosNecesarios, setvatiosNecesarios] = useState(0);
@@ -40,45 +42,78 @@ export function Configurador(props) {
         break;
       case "multimedia":
         setCargando(true)
-        axios.post(DIR_SERV+"/equipo_configurado_ofimatica", {
-                precio: sessionStorage.presupuesto,
+        if(idRam==null){
+          axios.post(DIR_SERV+"/equipo_configurado_ofimatica", {
+            precio: sessionStorage.presupuesto,
+        })
+            .then(response => {
+               let calor=0;
+               let componentesAux=[];
+               let precioAux=[];
+               calor+=response.data.procesador.vatios_procesador;
+               calor+=response.data.refrigeracion_liquida.vatios_refrigeracion_liquida;
+               calor+=response.data.tarjeta_grafica.vatios_tarjeta_grafica;
+               setvatiosNecesarios(calor)
+               calor+=response.data.fuente_alimentacion.vatios_fuente_alimentacion;
+               setCalorGenerado(calor);
+               componentesAux.push(response.data.procesador);
+               componentesAux.push(response.data.disco_duro);
+               componentesAux.push(response.data.fuente_alimentacion);
+               componentesAux.push(response.data.placa_base);
+               componentesAux.push(response.data.ram);
+               componentesAux.push(response.data.refrigeracion_liquida);
+               componentesAux.push(response.data.tarjeta_grafica);
+               componentesAux.push(response.data.torre);
+
+               precioAux.push(response.data.procesador.precio_procesador);
+               precioAux.push(response.data.disco_duro.precio_disco_duro);
+               precioAux.push(response.data.fuente_alimentacion.precio_fuente_alimentacion);
+               precioAux.push(response.data.placa_base.precio_placa_base);
+               precioAux.push(response.data.ram.precio_ram);
+               precioAux.push(response.data.refrigeracion_liquida.precio_refrigeracion_liquida);
+               precioAux.push(response.data.tarjeta_grafica.precio_tarjeta_grafica);
+               precioAux.push(response.data.torre.precio_torre);
+               setPrecios(precioAux)
+               refrescarPrecio();
+               setCapacidadVentilacion(response.data.refrigeracion_liquida.maximo_calor_refrigerado_refrigeracion_liquida);
+               setPrecioTotal(response.data.coste)
+               setComponentes(componentesAux)
+               setCargando(false)
             })
-                .then(response => {
-                   setCargando(false)
-                   let calor=0;
-                   calor+=response.data.procesador.vatios_procesador;
-                   calor+=response.data.refrigeracion_liquida.vatios_refrigeracion_liquida;
-                   calor+=response.data.tarjeta_grafica.vatios_tarjeta_grafica;
-                   setvatiosNecesarios(calor)
-                   console.log(calor)
-                   calor+=response.data.fuente_alimentacion.vatios_fuente_alimentacion;
-                   setCalorGenerado(calor);
-                   console.log(calor)
-                   console.log(response)
-                   setidDiscoDuro(response.data.disco_duro);
-                   setidFuente_alimentacion(response.data.fuente_alimentacion);
-                   setidPlaca_base(response.data.placa_base);
-                   setidProcesador(response.data.procesador);
-                   setidRam(response.data.ram);
-                   setidRefrigeracion_liquida(response.data.refrigeracion_liquida);
-                   setCapacidadVentilacion(response.data.refrigeracion_liquida.maximo_calor_refrigerado_refrigeracion_liquida)
-                   setidTarjeta_grafica(response.data.tarjeta_grafica);
-                   setidTorre(response.data.torre);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            .catch(error => {
+                console.log(error);
+            });
+        }
+       
         break;
     }
   }, []);
-
-  function changePresupuesto(newPresupuesto) {
-    setPresupuesto(newPresupuesto)
-    console.log(newPresupuesto)
+  function refrescarPrecio() {
+    const total = precios.reduce((total, valor) => total + Number(valor), 0);
+    const truncado = Math.round(total * 100) / 100; // Truncar a dos decimales
+    setPrecioTotal(truncado);
   }
+  
+  function cambiarPrecioTotal(indice,precioNuevo) {
+    let precioAux=precios;
+    console.log(precioAux)
+    precioAux[indice]=precioNuevo;
+    setPrecios(precioAux);
+    refrescarPrecio()
+  }
+  function cambiarSeleccionado(indice,elemento) {
+    let componentesAux=componentes;
+    componentesAux[indice]=elemento;
+    setComponentes(componentesAux);
+  }
+  
+  
+  
+
+
   let visualzacion = [];
-  visualzacion.push(<ComponenteConfigurador nombre={"Procesador"} tabla={"procesador"} seleccionado={idProcesador} setSeleccionado={setidProcesador}></ComponenteConfigurador>)
-  visualzacion.push(<ComponenteConfigurador nombre={"Placa base"} tabla={"placa_base"} seleccionado={idPlaca_base} setSeleccionado={setidPlaca_base}></ComponenteConfigurador>)
+  visualzacion.push(<ComponenteConfigurador  indice={0} nombre={"Procesador"} tabla={"procesador"} seleccionado={componentes[0]} setSeleccionado={(a,b)=>cambiarSeleccionado(a,b)} cambiarPrecioTotal={(a,b,c,d)=>cambiarPrecioTotal(a,b,c,d)}></ComponenteConfigurador>)
+ /* visualzacion.push(<ComponenteConfigurador nombre={"Placa base"} tabla={"placa_base"} seleccionado={idPlaca_base} setSeleccionado={setidPlaca_base}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador nombre={"Fuente alimentacion"} tabla={"fuente_alimentacion"} seleccionado={idFuente_alimentacion} setSeleccionado={setidFuente_alimentacion}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador nombre={"RAM"} tabla={"ram"} seleccionado={idRam} setSeleccionado={setidRam}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador nombre={"Regrigeracion líquida"} tabla={"refrigeracion_liquida"} seleccionado={idRefrigeracion_liquida} setSeleccionado={setidRefrigeracion_liquida}></ComponenteConfigurador>)
@@ -86,8 +121,8 @@ export function Configurador(props) {
   visualzacion.push(<ComponenteConfigurador nombre={"Disco duro"} tabla={"disco_duro"} seleccionado={idDiscoDuro} setSeleccionado={setidDiscoDuro}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador nombre={"Tarjeta grafica"} tabla={"tarjeta_grafica"} seleccionado={idTarjeta_grafica} setSeleccionado={setidTarjeta_grafica}></ComponenteConfigurador>)
 
-  visualzacion.push(<ComponenteConfigurador nombre={"Cooler"} tabla={"cooler_procesador"}></ComponenteConfigurador>)
-
+  visualzacion.push(<ComponenteConfigurador nombre={"Cooler"} tabla={"cooler_procesador"}></ComponenteConfigurador>)*/
+visualzacion.push(<>{precioTotal}€</>)
 
   return (<div>
     {(!cargando) ? visualzacion : <div class="spinner"><Spinner animation="border" role="status">

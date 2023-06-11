@@ -12,7 +12,6 @@ export function SeleccionadorComponente(props) {
 
   useEffect(() => {
     if (props.firstOpen) {
-      console.log("first open")
       getMoreComponents();
       props.handleOpen();
     }
@@ -48,9 +47,8 @@ export function SeleccionadorComponente(props) {
 
         }
         response.data.elements.forEach(element => {
-          listaComponentesAux.push(<DevicesFromComponent componenteSeleccionado={props.componenteSeleccionado} cambiarSeleccionado={(a) => props.cambiarSeleccionado(a)} data={element} tabla={props.tabla}></DevicesFromComponent>);
+          listaComponentesAux.push(<DevicesFromComponent indice={props.indice} cambiarPrecioTotal={(a,b)=>props.cambiarPrecioTotal(a,b)}  seleccionado={props.seleccionado} cambiarSeleccionado={(a,b)=>props.cambiarSeleccionado(a,b)} data={element} tabla={props.tabla}></DevicesFromComponent>);
         });
-        console.log(props.offset)
         if (!response.data.hasMoreRows) {
           props.setShowMoreDataButton(false)
 
@@ -73,19 +71,8 @@ export function SeleccionadorComponente(props) {
         console.log(error);
       });
   }
-  
-  function componenteBusqueda() {
-    let off = props.offset;
-    if (document.getElementById("buscador").value != "") {
-      off = 0;
-      props.handleOpen();
-      props.setListaComponentes([])
-    }
-  }
-  function showDevices(event) {
-    props.setCriterioBusqueda(event.target.value);
 
-  }
+  
   function handleInput(event) {
     const newValue = event.target.value;
     props.setCriterioBusqueda(newValue);

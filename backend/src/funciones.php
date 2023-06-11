@@ -160,7 +160,7 @@ function equipoOfimatica($precio)
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
-    
+            $precioTotal=0;
             $precioItem=$precio*0.25;
             $calor=0;
             $consulta="select * from procesador where precio_procesador<=".$precioItem." order by precio_procesador  desc limit 1";
@@ -169,7 +169,9 @@ function equipoOfimatica($precio)
             $respuesta["procesador"]=$sentencia->fetch(PDO::FETCH_ASSOC);
             $socket=$respuesta["procesador"]["socket_procesador"];
             $calor+=$respuesta["procesador"]["vatios_procesador"];
+            $precioTotal+=$respuesta["procesador"]["precio_procesador"];
             $acarreo=$precioItem-$respuesta["procesador"]["precio_procesador"];
+
             
             $precioItem=$precio*0.15+$acarreo;
             $consulta = "SELECT * FROM placa_base WHERE precio_placa_base <= ? AND socket_placa_base = ? ORDER BY precio_placa_base desc LIMIT 1";
@@ -178,6 +180,7 @@ function equipoOfimatica($precio)
             $respuesta["placa_base"]=$sentencia->fetch(PDO::FETCH_ASSOC);
             $idTipoEstructura= $respuesta["placa_base"]["id_tipo_estructura"];
             $acarreo=$precioItem-$respuesta["placa_base"]["precio_placa_base"];
+            $precioTotal+=$respuesta["placa_base"]["precio_placa_base"];
 
             $precioItem=$precio*0.15+$acarreo;
             $consulta = "SELECT * FROM tarjeta_grafica WHERE precio_tarjeta_grafica <= ? ORDER BY precio_tarjeta_grafica desc LIMIT 1";
@@ -187,6 +190,7 @@ function equipoOfimatica($precio)
             $tamanyoTarjeta=$respuesta["tarjeta_grafica"]["altura_tarjeta_grafica"];
             $calor+=$respuesta["tarjeta_grafica"]["vatios_tarjeta_grafica"];
             $acarreo=$precioItem-$respuesta["tarjeta_grafica"]["precio_tarjeta_grafica"];
+            $precioTotal+=$respuesta["tarjeta_grafica"]["precio_tarjeta_grafica"];
 
             $precioItem=$precio*0.1+$acarreo;
             $consulta = "SELECT * FROM disco_duro WHERE precio_disco_duro <= ? ORDER BY precio_disco_duro desc LIMIT 1";
@@ -194,6 +198,7 @@ function equipoOfimatica($precio)
             $sentencia->execute([$precioItem]);
             $respuesta["disco_duro"] = $sentencia->fetch(PDO::FETCH_ASSOC);
             $acarreo=$precioItem-$respuesta["disco_duro"]["precio_disco_duro"];
+            $precioTotal+=$respuesta["disco_duro"]["precio_disco_duro"];
 
             $precioItem=$precio*0.05+$acarreo;
             $consulta = "SELECT * FROM torre WHERE precio_torre <= ? and profundidad_torre>= ? and id_tipo_estructura=? ORDER BY precio_torre desc LIMIT 1";
@@ -201,6 +206,7 @@ function equipoOfimatica($precio)
             $sentencia->execute([$precioItem,$tamanyoTarjeta,$idTipoEstructura]);
             $respuesta["torre"] = $sentencia->fetch(PDO::FETCH_ASSOC);
             $acarreo=$precioItem-$respuesta["torre"]["precio_torre"];
+            $precioTotal+=$respuesta["torre"]["precio_torre"];
 
             $precioItem=$precio*0.1+$acarreo;
             $consulta = "SELECT * FROM ram WHERE precio_ram <= ? ORDER BY precio_ram desc LIMIT 1";
@@ -208,6 +214,7 @@ function equipoOfimatica($precio)
             $sentencia->execute([$precioItem]);
             $respuesta["ram"] = $sentencia->fetch(PDO::FETCH_ASSOC);
             $acarreo=$precioItem-$respuesta["ram"]["precio_ram"];
+            $precioTotal+=$respuesta["ram"]["precio_ram"];
 
             $precioItem=$precio*0.1+$acarreo;
             $consulta = "SELECT * FROM refrigeracion_liquida WHERE precio_refrigeracion_liquida <= ? ORDER BY precio_refrigeracion_liquida desc LIMIT 1";
@@ -216,6 +223,7 @@ function equipoOfimatica($precio)
             $respuesta["refrigeracion_liquida"] = $sentencia->fetch(PDO::FETCH_ASSOC);
             $acarreo=$precioItem-$respuesta["refrigeracion_liquida"]["precio_refrigeracion_liquida"];
             $calor+=$respuesta["refrigeracion_liquida"]["vatios_refrigeracion_liquida"];
+            $precioTotal+=$respuesta["refrigeracion_liquida"]["precio_refrigeracion_liquida"];
 
             $precioItem=$precio*0.1+$acarreo;
             $consulta = "SELECT * FROM fuente_alimentacion WHERE precio_fuente_alimentacion <= ? and vatios_fuente_alimentacion>? ORDER BY precio_fuente_alimentacion desc LIMIT 1";
@@ -224,6 +232,8 @@ function equipoOfimatica($precio)
             $respuesta["fuente_alimentacion"] = $sentencia->fetch(PDO::FETCH_ASSOC);
             $acarreo=$precioItem-$respuesta["fuente_alimentacion"]["precio_fuente_alimentacion"];
             $calor+=$respuesta["fuente_alimentacion"]["vatios_fuente_alimentacion"];
+            $precioTotal+=$respuesta["fuente_alimentacion"]["precio_fuente_alimentacion"];
+            $respuesta["coste"]=$precioTotal;
         }
         catch(PDOException $e)
         {
