@@ -47,7 +47,7 @@ export function SeleccionadorComponente(props) {
 
         }
         response.data.elements.forEach(element => {
-          listaComponentesAux.push(<DevicesFromComponent setCapacidadVentilacion={props.setCapacidadVentilacion} setCapacidadVentilacion2={props.setCapacidadVentilacion2} setEstructura={props.setEstructura} setVatiosMaximo={props.setVatiosMaximo} setSocket={props.setSocket} indice={props.indice} cambiarPrecioTotal={(a,b)=>props.cambiarPrecioTotal(a,b)}  seleccionado={props.seleccionado} cambiarSeleccionado={(a,b)=>props.cambiarSeleccionado(a,b)} data={element} tabla={props.tabla}></DevicesFromComponent>);
+          listaComponentesAux.push(<DevicesFromComponent setProfundidadTorre={props.setProfundidadTorre} setAlturaCooler={props.setAlturaCooler} setCapacidadVentilacion={props.setCapacidadVentilacion} setCapacidadVentilacion2={props.setCapacidadVentilacion2} setEstructura={props.setEstructura} setVatiosMaximo={props.setVatiosMaximo} setSocket={props.setSocket} indice={props.indice} cambiarPrecioTotal={(a,b)=>props.cambiarPrecioTotal(a,b)}  seleccionado={props.seleccionado} cambiarSeleccionado={(a,b)=>props.cambiarSeleccionado(a,b)} data={element} tabla={props.tabla}></DevicesFromComponent>);
         });
         if (!response.data.hasMoreRows) {
           props.setShowMoreDataButton(false)

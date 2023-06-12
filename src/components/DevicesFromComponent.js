@@ -74,6 +74,12 @@ export function DevicesFromComponent(props) {
               if (props.setCapacidadVentilacion2) {
                 props.setCapacidadVentilacion2(0)
               }
+              if (props.setAlturaCooler) {
+                props.setAlturaCooler(null)
+              }
+              if (props.setProfundidadTorre) {
+                props.setProfundidadTorre(null)
+              }
               props.cambiarPrecioTotal(props.indice, 0);
               
               
@@ -98,6 +104,12 @@ export function DevicesFromComponent(props) {
                 }
                 if (props.setCapacidadVentilacion2) {
                   props.setCapacidadVentilacion2(props.data["maxima_cantidad_vn"])
+                }
+                if (props.setAlturaCooler) {
+                  props.setAlturaCooler(props.data["altura_cooler_procesador"])
+                }
+                if (props.setProfundidadTorre) {
+                  props.setProfundidadTorre(props.data["profundidad_torre"])
                 }
                 props.cambiarSeleccionado(props.indice, props.data);
 
