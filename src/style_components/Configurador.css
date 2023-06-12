@@ -1,0 +1,21 @@
+#configurador{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#configurador>#componentes{
+    flex: 0 70%;
+}
+#configurador>#errores{
+    flex: 0 25%;
+    margin-top: 2rem;
+}
+.error_compatibilidad{
+    padding: 1rem 0.7rem;
+    color: white;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    background-color: #EA5455;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}

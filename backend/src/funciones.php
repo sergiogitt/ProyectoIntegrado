@@ -370,6 +370,36 @@ function estructuras()
     
     return $respuesta;
 }
+function estructura($id)
+{
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="select * from tipo_estructura where id_tipo_estructura=?";
+            $sentencia=$conexion->prepare($consulta);
+            $sentencia->execute([$id]);
+            $respuesta["estructura"]=$sentencia->fetch(PDO::FETCH_ASSOC);
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
+
+        $sentencia=null;
+        $conexion=null; 
+    }
+    catch(PDOException $e)
+    {
+        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
+    }
+
+    
+    return $respuesta;
+}
 function getComponents($tabla,$offset,$buscador)
 {
     try

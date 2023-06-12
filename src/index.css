@@ -15,6 +15,10 @@ html{
   display: flex;
   flex-direction: column;
 }
+body {
+  overflow-x: hidden;
+}
+
 
 .videojuego{
   border: 1px solid black;

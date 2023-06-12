@@ -4,7 +4,6 @@ import { DIR_PUBLIC } from "../variables";
 import '../style_components/DevicesFromComponent.css';
 import { useState } from "react";
 export function DevicesFromComponent(props) {
-  console.log(props.seleccionado)
   let marca = "marca_" + props.tabla;
   let modelo = "modelo_" + props.tabla;
   let precio = "precio_" + props.tabla;
@@ -42,7 +41,7 @@ export function DevicesFromComponent(props) {
       </div>
       <div class="precio_boton">
         <span>{props.precio}€</span>
-        {(!props.cambiarSeleccionado) ? (<button  >Seleccionar</button>) : (<button onClick={(a) => props.cambiarSeleccionado(props.indice,props.data)} >Seleccionar </button>)}
+        {(!props.cambiarSeleccionado) ? (<button  >Seleccionar</button>) : (<button onClick={(a) => props.cambiarSeleccionado(props.indice, props.data)} >Seleccionar </button>)}
 
       </div>
 
@@ -56,16 +55,53 @@ export function DevicesFromComponent(props) {
         <div class="precio_boton">
           <span>{props.data[precio]}€</span>
           {(!props.cambiarSeleccionado) ?
-            ((props.quitar) ? (<button onClick={() => {  props.cambiarPrecioTotal(props.indice,0); props.quitar(props.indice,null) }}>Quitar</button>) : (<button>Seleccionar</button>))
+            ((props.quitar) ? (<button onClick={() => {
+              if (props.setSocket) {
+
+                console.log("quitando socket")
+                props.setSocket(null)
+              }
+              if (props.setVatiosMaximo) {
+
+                props.setVatiosMaximo(null)
+              }
+              if (props.setEstructura) {
+                props.setEstructura(null)
+              }
+              if (props.setCapacidadVentilacion) {
+                props.setCapacidadVentilacion(0)
+              }
+              if (props.setCapacidadVentilacion2) {
+                props.setCapacidadVentilacion2(0)
+              }
+              props.cambiarPrecioTotal(props.indice, 0);
+              
+              
+              props.quitar(props.indice, null)
+            }}>Quitar</button>) : (<button>Seleccionar</button>))
             : (<button
               onClick={() => {
-               console.log(props.data)
-                  props.cambiarPrecioTotal(props.indice,props.data[precio])
-                
-                  
-                  props.cambiarSeleccionado(props.indice,props.data);
-                
-                
+                console.log(props.data)
+                props.cambiarPrecioTotal(props.indice, props.data[precio])
+                if (props.setSocket) {
+                  let socket = "socket_" + props.tabla;
+                  props.setSocket(props.data[socket])
+                }
+                if (props.setVatiosMaximo) {
+                  props.setVatiosMaximo(props.data["vatios_fuente_alimentacion"])
+                }
+                if (props.setEstructura) {
+                  props.setEstructura(props.data["id_tipo_estructura"])
+                }
+                if (props.setCapacidadVentilacion) {
+                  props.setCapacidadVentilacion(props.data["maximo_calor_refrigerado_refrigeracion_liquida"])
+                }
+                if (props.setCapacidadVentilacion2) {
+                  props.setCapacidadVentilacion2(props.data["maxima_cantidad_vn"])
+                }
+                props.cambiarSeleccionado(props.indice, props.data);
+
+
 
               }
               }

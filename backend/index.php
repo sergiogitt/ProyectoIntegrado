@@ -60,6 +60,12 @@ $app->post('/estructuras',function($request){
         echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
     }
 });
+$app->post('/estructura/{id}',function($request){
+  
+        
+        echo json_encode(estructura($request->getAttribute('id')));
+   
+});
 $app->post('/logueado',function($request){
     session_id($request->getParam('api_session'));
     session_start();

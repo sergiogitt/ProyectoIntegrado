@@ -19,11 +19,11 @@ function ComponenteConfigurador(props) {
     let renderObj = [];
     renderObj.push(<div onClick={() => setOpen(!open)} class="interaccion_componente"><span>{props.nombre}</span><span class="icon">{(!open) ? "+" : "-"}</span></div>)
     if (props.seleccionado != null) {
-        renderObj.push(<DevicesFromComponent indice={props.indice} cambiarPrecioTotal={(a,b)=>props.cambiarPrecioTotal(a,b)}  quitar={(a,b)=>props.setSeleccionado(a,b)} data={props.seleccionado} tabla={props.tabla} seleccionado={props.seleccionado} ></DevicesFromComponent>)
+        renderObj.push(<DevicesFromComponent setCapacidadVentilacion2={props.setCapacidadVentilacion2} setCapacidadVentilacion={props.setCapacidadVentilacion} setEstructura={props.setEstructura} setVatiosMaximo={props.setVatiosMaximo} indice={props.indice} setSocket={props.setSocket} cambiarPrecioTotal={(a,b)=>props.cambiarPrecioTotal(a,b)}  quitar={(a,b)=>props.setSeleccionado(a,b)} data={props.seleccionado} tabla={props.tabla} seleccionado={props.seleccionado} ></DevicesFromComponent>)
     }
 
     if (open) {
-        renderObj.push(<SeleccionadorComponente indice={props.indice} cambiarPrecioTotal={(a,b)=>props.cambiarPrecioTotal(a,b)} seleccionado={props.seleccionado} cambiarSeleccionado={(a,b)=>props.setSeleccionado(a,b)} offset={offset} setOffset={setOffset} showMoreDataButton={showMoreDataButton} criterioBusqueda={criterioBusqueda} setCriterioBusqueda={setCriterioBusqueda} setShowMoreDataButton={setShowMoreDataButton} listaComponentes={listaComponentes} firstOpen={firstOpen} handleOpen={handleOpen} setListaComponentes={setListaComponentes} tabla={props.tabla} ></SeleccionadorComponente>
+        renderObj.push(<SeleccionadorComponente setCapacidadVentilacion2={props.setCapacidadVentilacion2} setCapacidadVentilacion={props.setCapacidadVentilacion} setEstructura={props.setEstructura} setVatiosMaximo={props.setVatiosMaximo} setSocket={props.setSocket} indice={props.indice} cambiarPrecioTotal={(a,b)=>props.cambiarPrecioTotal(a,b)} seleccionado={props.seleccionado} cambiarSeleccionado={(a,b)=>props.setSeleccionado(a,b)} offset={offset} setOffset={setOffset} showMoreDataButton={showMoreDataButton} criterioBusqueda={criterioBusqueda} setCriterioBusqueda={setCriterioBusqueda} setShowMoreDataButton={setShowMoreDataButton} listaComponentes={listaComponentes} firstOpen={firstOpen} handleOpen={handleOpen} setListaComponentes={setListaComponentes} tabla={props.tabla} ></SeleccionadorComponente>
 
         )
 
