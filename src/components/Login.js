@@ -21,6 +21,7 @@ export function Login(props) {
                         props.log_user(response.data.usuario.tipo);
                         sessionStorage.setItem("usuario", usuario);
                         sessionStorage.setItem("clave", md5(clave));
+                        sessionStorage.setItem("id_usuario",response.data.usuario.id_usuario) ;
                         sessionStorage.setItem("tipo", response.data.usuario.tipo);
                         sessionStorage.setItem("api_session", response.data.api_session);
                         sessionStorage.setItem("ultima_accion", new Date() / 1000);

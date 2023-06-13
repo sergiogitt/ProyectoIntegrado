@@ -44,7 +44,7 @@ function App() {
   function salir(){
     setLogued(false);
     sessionStorage.clear();
-    navigate("/");
+    navigate("/login");
   }
   function seguridad(funcion=null,params=null){
     if(sessionStorage.usuario){

@@ -360,6 +360,7 @@ function equipoDesign($precio)
     
     return $respuesta;
 }
+
 function equipoGaming($puntuacion_procesador,$puntuacion_tarjeta)
 {
     try
@@ -643,17 +644,26 @@ function obtener_producto($cod)
     return $respuesta;
 }
 
-function obtener_familia($cod)
+function equipos($cod)
 {
     try
     {
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
-            $consulta="select * from familia where cod=?";
-            $sentencia=$conexion->prepare($consulta);
+            $consulta = "SELECT equipo_configurado.*, procesador.modelo_procesador, tarjeta_grafica.modelo_tarjeta_grafica, placa_base.modelo_placa_base, disco_duro.modelo_disco_duro, refrigeracion_liquida.modelo_refrigeracion_liquida, ram.modelo_ram
+            FROM equipo_configurado
+            LEFT JOIN procesador ON equipo_configurado.id_procesador = procesador.id_procesador
+            LEFT JOIN tarjeta_grafica ON equipo_configurado.id_tarjeta_grafica = tarjeta_grafica.id_tarjeta_grafica
+            LEFT JOIN placa_base ON equipo_configurado.id_placa_base = placa_base.id_placa_base
+            LEFT JOIN disco_duro ON equipo_configurado.id_disco_duro = disco_duro.id_disco_duro
+            LEFT JOIN refrigeracion_liquida ON equipo_configurado.id_refrigeracion_liquida = refrigeracion_liquida.id_refrigeracion_liquida
+            LEFT JOIN ram ON equipo_configurado.id_ram = ram.id_ram
+            WHERE equipo_configurado.id_usuario = ?";
+
+           $sentencia=$conexion->prepare($consulta);
             $sentencia->execute([$cod]);
-            $respuesta["familia"]=$sentencia->fetch(PDO::FETCH_ASSOC);
+            $respuesta["equipos"]=$sentencia->fetchAll(PDO::FETCH_ASSOC);
             
         }
         catch(PDOException $e)
@@ -673,7 +683,37 @@ function obtener_familia($cod)
     
     return $respuesta;
 }
+function guardarConfiguracion($datos)
+{
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="insert into equipo_configurado (id_procesador,id_placa_base,id_fuente_alimentacion,id_ram,id_refrigeracion_liquida,id_torre,id_disco_duro,id_tarjeta_grafica,id_cooler_procesador,id_sistema_operativo,id_ventilador,id_usuario) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sentencia=$conexion->prepare($consulta);
+            $sentencia->execute($datos);
+            $respuesta["componente_insertado"]=$conexion->lastInsertId();
+            
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
 
+        $sentencia=null;
+        $conexion=null; 
+    }
+    catch(PDOException $e)
+    {
+        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
+    }
+
+    
+    return $respuesta;
+}
 function insertar_producto($datos)
 {
     try

@@ -1,0 +1,33 @@
+.editar_equipo{
+    background-color: #EA5455;
+    color: white;
+    border: none;
+    padding: 0.5rem 2rem;
+    margin-right: 3rem;
+}
+.editar_equipo:hover{
+    background-color: #EA5455;
+    color: black;
+}
+.info_equipo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    border-top: 1px solid black;
+    align-items: center;
+}
+.info_equipo>*{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.nombre_equipo_usuario{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-bottom: none;
+}
+#equipos_usuario .component_wrapper:last-child{
+    border-bottom: 1px solid black;
+    
+}

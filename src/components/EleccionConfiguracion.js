@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react';
 import { EleccionVideojuegos } from './EleccionVideojuegos';
 import '../style_components/EleccionConfiguracion.css';
 import { Configurador } from './Configurador';
-import { DIR_PUBLIC } from '../variables';
+import { DIR_PUBLIC, DIR_SERV } from '../variables';
+import axios from "axios";
+import EquipoUsuario from './EquipoUsuario';
 export function EleccionConfiguracion(props) {
 
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ export function EleccionConfiguracion(props) {
   const [presupuesto, setPresupuesto] = useState(null);
   const [visualizacion, setVisualizacion] = useState(null);
   const [puntuacion_grafica, setPuntuacion_grafica] = useState(0);
+  const [Equipos, setEquipos] = useState([]);
+  const [cargando, setCargando] = useState(false);
   function local_storage_tipo_configuracion(funcion, valor) {
 
     sessionStorage.setItem("tipo_configuracion", valor);
@@ -35,6 +39,36 @@ export function EleccionConfiguracion(props) {
   function change_local_storage(new_view) {
     sessionStorage.visualizacion = new_view;
     setVisualizacion(new_view)
+  }
+  function editarEquipo(id){
+    console.log(id)
+  }
+  function mostrarEquipos(){
+    axios.post(DIR_SERV + "/equipos", {
+      api_session:sessionStorage.api_session,     
+    })
+      .then(response => {
+        let equiposAux=[];
+        console.log(response.data)
+        if( response.data.equipos.length>0){
+          
+          response.data.equipos.forEach((element,index) => {
+            let id=element.id_equipo;
+            console.log(id)
+            equiposAux.push(
+            <EquipoUsuario nombre={"Equipo "+index} data={element}></EquipoUsuario>
+            );
+          });
+        }else{
+          equiposAux.push(<p>No hay ningún equipo guardado.</p>)
+        }
+       
+        setEquipos(equiposAux)
+        setCargando(false)
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
   switch (sessionStorage.visualizacion) {
     case "inicial":
@@ -88,12 +122,23 @@ export function EleccionConfiguracion(props) {
       render.push(<EleccionVideojuegos setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)} setPuntuacion_grafica={setPuntuacion_grafica}></EleccionVideojuegos>);
       break;
   }
+  if(sessionStorage.tipo=="normal"&&Equipos.length==0){
+    mostrarEquipos()
+  }
+  
+    
+  
   return (
 
     <div>
 
       {render}
-
+      {(sessionStorage.tipo === "normal") ? (
+  <>
+    <h2>Mis configuraciones guardadas</h2>
+    {(cargando) ? "" : <div id="equipos_usuario">{Equipos}</div>}
+  </>
+) : ""}
 
     </div>
 

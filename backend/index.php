@@ -51,6 +51,28 @@ $app->post('/componente/{componente}',function($request){
    
   
 });
+$app->post('/guardar_configuracion',function($request){
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="normal"){
+        echo json_encode(guardarConfiguracion($request->getParam('componentes')));
+    }else{
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+   
+  
+});
+$app->post('/equipos',function($request){
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="normal"){
+        echo json_encode(equipos($_SESSION["id"]));
+    }else{
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+   
+  
+});
 $app->post('/estructuras',function($request){
     session_id($request->getParam('api_session'));
     session_start();

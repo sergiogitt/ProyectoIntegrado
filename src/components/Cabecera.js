@@ -9,7 +9,10 @@ export function Cabecera(props){
     sessionStorage.removeItem("presupuesto");
     sessionStorage.removeItem("tipo_configuracion");
     sessionStorage.removeItem("configurador");
-    sessionStorage.removeItem("puntuacion_grafica");
+    sessionStorage.removeItem("puntuacion_grafica_tarjeta");
+    sessionStorage.removeItem("puntuacion_grafica_procesador");
+    sessionStorage.removeItem("editar_componente");
+
     if(sessionStorage.tipo=="normal"){
       navigate("/");
     }else{

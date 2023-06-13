@@ -9,6 +9,9 @@
 #configurador>#errores{
     flex: 0 25%;
     margin-top: 2rem;
+    }
+#guardarConfiguracion{
+    margin: auto;
 }
 .error_compatibilidad{
     padding: 1rem 0.7rem;
@@ -18,6 +21,18 @@
     text-align: center;
     background-color: #EA5455;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+#guardarConfiguracion,#editarConfiguracion{
+    margin: 0 auto;
+    background-color: #EA5455;
+    color: white;
+    border: none;
+    padding: 0.5rem 2rem;
+}
+#wrapper_save{
+    display: flex;
+    justify-content: center;
+    
 }
 #precio_total{
     border: 1px solid #888;
