@@ -32,8 +32,13 @@ $app->post('/equipo_configurado_ofimatica',function($request){
   
 });
 $app->post('/equipo_configurado_design',function($request){
-
+    
     echo json_encode(equipoDesign($request->getParam('precio')));
+  
+});
+$app->post('/equipo_configurado_gaming',function($request){
+
+    echo json_encode(equipoGaming($request->getParam('puntuacion_grafica_procesador'),$request->getParam('puntuacion_grafica_tarjeta')));
   
 });
 $app->post('/componente/{componente}',function($request){

@@ -33,7 +33,6 @@ export function EleccionConfiguracion(props) {
     setVisualizacion(sessionStorage.visualizacion);
   }, []);
   function change_local_storage(new_view) {
-    console.log(new_view)
     sessionStorage.visualizacion = new_view;
     setVisualizacion(new_view)
   }
@@ -83,7 +82,6 @@ export function EleccionConfiguracion(props) {
       render.push(<SeleccionPresupuesto setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)}></SeleccionPresupuesto>);
       break;
     case "configurador":
-      console.log("energto")
       render.push(<Configurador setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)}></Configurador>);
       break;
     case "catalogo_videojuegos":

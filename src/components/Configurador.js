@@ -10,6 +10,7 @@ import ErrorCompatibilidadVatios from './ErrorCompatibilidadVatios';
 import ErrorCompatibilidadEstructura from './ErrorCompatibilidadEstructura';
 import ErrorCompatibilidadVentilacion from './ErrorCompatibilidadVentilacion';
 import ErrorCompatibilidadCooler from './ErrorCompatibilidadCooler';
+import ErrorCompatibilidadGraficosTarjeta from './ErrorCompatibilidadGraficosTarjeta';
 
 export function Configurador(props) {
   const [cargando, setCargando] = useState(null);
@@ -26,25 +27,39 @@ export function Configurador(props) {
   const [capacidadVentilacion2, setCapacidadVentilacion2] = useState(0);
   const [vatiosNecesarios, setvatiosNecesarios] = useState([]);
   const [vatiosFuente, setvatiosFuente] = useState([]);
+  const [benchmarkProcesador, setBenchmarkProcesador] = useState(0);
+  const [benchmarkTarjeta, setBenchmarkTarjeta] = useState(0);
+  let endpoint="";
   useEffect(() => {
-    console.log(sessionStorage)
     // get the data from sessionStorage when the component mounts
     if (!sessionStorage.visualizacion) {
       sessionStorage.setItem("visualizacion", "configurador");
     }
     props.setVisualizacion(sessionStorage.visualizacion);
-
+   
     switch (sessionStorage.tipo_configuracion) {
       case "disenyo":
-
+        endpoint="/equipo_configurado_design";
         break;
       case "gaming":
+        endpoint="/equipo_configurado_gaming";
         break;
       case "multimedia":
-        setCargando(true)
+        endpoint="/equipo_configurado_ofimatica";
+        
+
+        break;
+    }
+    setinitialConfiguration()
+  }, []);
+  function setinitialConfiguration(){
+    setCargando(true)
+    
         if (componentes[1] == null) {
-          axios.post(DIR_SERV + "/equipo_configurado_ofimatica", {
+          axios.post(DIR_SERV + endpoint, {
             precio: sessionStorage.presupuesto,
+            puntuacion_grafica_tarjeta:sessionStorage.puntuacion_grafica_tarjeta,
+            puntuacion_grafica_procesador:sessionStorage.puntuacion_grafica_procesador,
           })
             .then(response => {
               let componentesAux = [];
@@ -62,6 +77,8 @@ export function Configurador(props) {
               setestructuraTorre(response.data.torre.id_tipo_estructura)
               setProfundidadTorre(response.data.torre.profundidad_torre)
               setCapacidadVentilacion(response.data.refrigeracion_liquida.maximo_calor_refrigerado_refrigeracion_liquida)
+              setBenchmarkProcesador(response.data.procesador.benchmark_procesador)
+              setBenchmarkTarjeta(response.data.tarjeta_grafica.benchmark_tarjeta_grafica)
               componentesAux.push(response.data.procesador);
               componentesAux.push(response.data.placa_base);
               componentesAux.push(response.data.fuente_alimentacion);
@@ -83,12 +100,12 @@ export function Configurador(props) {
               precioAux.push(response.data.torre.precio_torre);
               precioAux.push(response.data.disco_duro.precio_disco_duro);
               precioAux.push(response.data.tarjeta_grafica.precio_tarjeta_grafica);
-              precioAux.push(null)
-              precioAux.push(null)
-              precioAux.push(null)
+              precioAux.push(0)
+              precioAux.push(0)
+              precioAux.push(0)
 
 
-
+              console.log(precioAux)
               setPrecios(precioAux)
               refrescarPrecio();
               setCapacidadVentilacion(response.data.refrigeracion_liquida.maximo_calor_refrigerado_refrigeracion_liquida);
@@ -100,10 +117,7 @@ export function Configurador(props) {
               console.log(error);
             });
         }
-
-        break;
-    }
-  }, []);
+  }
   function refrescarPrecio() {
     const total = precios.reduce((total, valor) => total + Number(valor), 0);
     const truncado = Math.round(total * 100) / 100; // Truncar a dos decimales
@@ -147,24 +161,28 @@ export function Configurador(props) {
   if (alturaCooler!=null&&profundidadTorre!=null&&profundidadTorre<alturaCooler) {
     errores.push(<ErrorCompatibilidadCooler alturaCooler={alturaCooler} profundidadTorre={profundidadTorre}></ErrorCompatibilidadCooler>)
   }
+  if (sessionStorage.puntuacion_grafica_tarjeta&&benchmarkTarjeta<sessionStorage.puntuacion_grafica_tarjeta) {
+    errores.push(<ErrorCompatibilidadGraficosTarjeta puntuacion={benchmarkTarjeta}></ErrorCompatibilidadGraficosTarjeta>)
+  }
   
-console.log(capacidadVentilacion)
-console.log(capacidadVentilacion2)
+
   visualzacion.push(<ComponenteConfigurador indice={0} nombre={"Procesador"} setSocket={setsocketProcesador} tabla={"procesador"} seleccionado={componentes[0]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={1} nombre={"Placa base"} setEstructura={setEstructuraPlacaBase} setSocket={setsocketPlacaBase} tabla={"placa_base"} seleccionado={componentes[1]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
+  visualzacion.push(<ComponenteConfigurador indice={7} nombre={"Tarjeta grafica"} setBenchmarkTarjeta={setBenchmarkTarjeta} tabla={"tarjeta_grafica"} seleccionado={componentes[7]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
+
   visualzacion.push(<ComponenteConfigurador indice={2} setVatiosMaximo={setvatiosFuente} nombre={"Fuente alimentacion"} tabla={"fuente_alimentacion"} seleccionado={componentes[2]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={3} nombre={"RAM"} tabla={"ram"} seleccionado={componentes[3]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={4} nombre={"Regrigeracion líquida"} setCapacidadVentilacion={setCapacidadVentilacion} tabla={"refrigeracion_liquida"} seleccionado={componentes[4]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={5} nombre={"Torre"} setProfundidadTorre={setProfundidadTorre} setEstructura={setestructuraTorre} tabla={"torre"} seleccionado={componentes[5]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={6} nombre={"Disco duro"} tabla={"disco_duro"} seleccionado={componentes[6]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
-  visualzacion.push(<ComponenteConfigurador indice={7} nombre={"Tarjeta grafica"} tabla={"tarjeta_grafica"} seleccionado={componentes[7]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={8} setAlturaCooler={setAlturaCooler} nombre={"Cooler procesador"} tabla={"cooler_procesador"} seleccionado={componentes[8]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={9} nombre={"Sistema Operativo"} tabla={"sistema_operativo"} seleccionado={componentes[9]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<ComponenteConfigurador indice={10} nombre={"Ventilador"} setCapacidadVentilacion2={setCapacidadVentilacion2} tabla={"ventilador"} seleccionado={componentes[10]} setSeleccionado={(a, b) => cambiarSeleccionado(a, b)} cambiarPrecioTotal={(a, b, c, d) => cambiarPrecioTotal(a, b, c, d)}></ComponenteConfigurador>)
   visualzacion.push(<>{precioTotal}€</>)
 
   return (<div>
-    {(!cargando) ? <div id="configurador"><div id="componentes">{visualzacion}</div><div id="errores"><div id="precio_total"><h4>Precio total</h4><span>{precioTotal}€</span></div>{errores}</div></div> : <div class="spinner"><Spinner animation="border" role="status">
+    {(!cargando) ? <div id="configurador"><div id="componentes">{visualzacion}</div><div id="errores"><div id="precio_total"><h4>Precio total</h4><span>{precioTotal}€</span></div>{errores}</div></div> : 
+    <div class="spinner"><Spinner animation="border" role="status">
       <span className="visually-hidden">Loading...</span>
     </Spinner></div>}
   </div>

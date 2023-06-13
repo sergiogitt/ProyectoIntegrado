@@ -80,6 +80,9 @@ export function DevicesFromComponent(props) {
               if (props.setProfundidadTorre) {
                 props.setProfundidadTorre(null)
               }
+              if (props.setBenchmarkTarjeta&&sessionStorage.puntuacion_grafica_tarjeta) {
+                props.setBenchmarkTarjeta(0)
+              }
               props.cambiarPrecioTotal(props.indice, 0);
               
               
@@ -110,6 +113,9 @@ export function DevicesFromComponent(props) {
                 }
                 if (props.setProfundidadTorre) {
                   props.setProfundidadTorre(props.data["profundidad_torre"])
+                }
+                if (props.setBenchmarkTarjeta&&sessionStorage.puntuacion_grafica_tarjeta) {
+                  props.setBenchmarkTarjeta(props.data["benchmark_tarjeta_grafica"])
                 }
                 props.cambiarSeleccionado(props.indice, props.data);
 
