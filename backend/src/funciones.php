@@ -48,6 +48,102 @@ function login($datos,$in_login=true)
     
     return $respuesta;
 }
+function dataTabla($tabla,$id){
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="select * from ".$tabla." where id_".$tabla."=?";
+            $sentencia=$conexion->prepare($consulta);
+            $sentencia->execute([$id]);
+            if($sentencia->rowCount()>0)
+            {
+                $respuesta=$sentencia->fetch(PDO::FETCH_ASSOC);
+            }
+            else
+            {
+                $respuesta="Equipo no registrado en BD";
+            }
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
+
+        $sentencia=null;
+        $conexion=null; 
+    } catch(PDOException $e)
+    {
+        $respuesta="Imposible conectar. Error:".$e->getMessage();
+    }
+    return $respuesta;
+}
+function dataEquipo($id)
+{
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="select * from equipo_configurado where id_equipo=?";
+            $sentencia=$conexion->prepare($consulta);
+            $sentencia->execute([$id]);
+            if($sentencia->rowCount()>0)
+            {
+                $resultados=$sentencia->fetch(PDO::FETCH_ASSOC);
+                $respuesta["p"]=$resultados;
+                $coste = 0;
+
+                $atributos = array(
+                  "procesador" => "id_procesador",
+                  "placa_base" => "id_placa_base",
+                  "tarjeta_grafica" => "id_tarjeta_grafica",
+                  "fuente_alimentacion" => "id_fuente_alimentacion",
+                  "ram" => "id_ram",
+                  "refrigeracion_liquida" => "id_refrigeracion_liquida",
+                  "torre" => "id_torre",
+                  "disco_duro" => "id_disco_duro",
+                  "cooler_procesador" => "id_cooler_procesador",
+                  "sistema_operativo" => "id_sistema_operativo",
+                  "ventilador" => "id_ventilador"
+                );
+                
+                foreach ($atributos as $atributo => $clave) {
+                  $respuesta[$atributo] = dataTabla($atributo, $respuesta["p"][$clave]);
+                  if(isset($respuesta[$atributo]["precio_" . $atributo])){
+                    $coste += $respuesta[$atributo]["precio_" . $atributo];
+                  }
+                }
+                
+                $respuesta["coste"]=$coste;
+                
+            }
+            else
+            {
+                $respuesta["mensaje"]="Equipo no registrado en BD";
+            }
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
+
+        $sentencia=null;
+        $conexion=null; 
+    }
+    catch(PDOException $e)
+    {
+        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
+    }
+
+    
+    return $respuesta;
+}
 function createUser($request)
 {
     try
@@ -745,32 +841,24 @@ function insertar_producto($datos)
     return $respuesta;
 }
 
-function actualizar_producto($datos)
+function editarEquipo($datos)
 {
-    try
-    {
-        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-        try
-        {
-            $consulta="update producto set nombre=?,nombre_corto=?,descripcion=?,PVP=?,familia=?,cod=? where cod=?";
-            $sentencia=$conexion->prepare($consulta);
+    try {
+        $conexion = new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try {
+            $consulta = "UPDATE equipo_configurado SET id_procesador=?, id_placa_base=?, id_fuente_alimentacion=?, id_ram=?, id_refrigeracion_liquida=?, id_torre=?, id_disco_duro=?, id_tarjeta_grafica=?, id_cooler_procesador=?, id_sistema_operativo=?, id_ventilador=? WHERE id_equipo=?";
+            $sentencia = $conexion->prepare($consulta);
             $sentencia->execute($datos);
-            $respuesta["mensaje"]=$datos[5];
-            
+            $respuesta["equipo"] = "Equipo configurado correctamente";
+        } catch (PDOException $e) {
+            $respuesta["mensaje_error"] = "Imposible realizar la consulta. Error: ".$e->getMessage();
         }
-        catch(PDOException $e)
-        {
-        
-            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
-        }
-
-        $sentencia=null;
-        $conexion=null; 
+        $sentencia = null;
+        $conexion = null;
+    } catch (PDOException $e) {
+        $respuesta["mensaje_error"] = "Imposible conectar. Error: ".$e->getMessage();
     }
-    catch(PDOException $e)
-    {
-        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
-    }
+    
 
     
     return $respuesta;

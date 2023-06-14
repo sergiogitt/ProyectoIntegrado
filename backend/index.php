@@ -62,11 +62,33 @@ $app->post('/guardar_configuracion',function($request){
    
   
 });
+$app->post('/all_data_equipo',function($request){
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="normal"){
+        echo json_encode(dataEquipo($request->getParam('equipo_editar')));
+    }else{
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+   
+  
+});
 $app->post('/equipos',function($request){
     session_id($request->getParam('api_session'));
     session_start();
     if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="normal"){
         echo json_encode(equipos($_SESSION["id"]));
+    }else{
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+   
+  
+});
+$app->post('/editar_equipo',function($request){
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="normal"){
+        echo json_encode(editarEquipo($request->getParam('componentes')));
     }else{
         echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
     }

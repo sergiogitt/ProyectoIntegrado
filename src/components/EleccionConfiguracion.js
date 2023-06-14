@@ -25,7 +25,6 @@ export function EleccionConfiguracion(props) {
     funcion(valor)
 
   }
-
   useEffect(() => {
     console.log(sessionStorage)
 
@@ -40,23 +39,19 @@ export function EleccionConfiguracion(props) {
     sessionStorage.visualizacion = new_view;
     setVisualizacion(new_view)
   }
-  function editarEquipo(id){
-    console.log(id)
-  }
   function mostrarEquipos(){
+    console.log("cargando equipos")
     axios.post(DIR_SERV + "/equipos", {
       api_session:sessionStorage.api_session,     
     })
       .then(response => {
         let equiposAux=[];
-        console.log(response.data)
         if( response.data.equipos.length>0){
           
           response.data.equipos.forEach((element,index) => {
             let id=element.id_equipo;
-            console.log(id)
             equiposAux.push(
-            <EquipoUsuario nombre={"Equipo "+index} data={element}></EquipoUsuario>
+            <EquipoUsuario setEquipos={(a)=>setEquipos(a)} nombre={"Equipo "+(index+1)} data={element} setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)}></EquipoUsuario>
             );
           });
         }else{
@@ -116,13 +111,13 @@ export function EleccionConfiguracion(props) {
       render.push(<SeleccionPresupuesto setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)}></SeleccionPresupuesto>);
       break;
     case "configurador":
-      render.push(<Configurador setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)}></Configurador>);
+      render.push(<Configurador setEquipos={setEquipos} setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)}></Configurador>);
       break;
     case "catalogo_videojuegos":
       render.push(<EleccionVideojuegos setVisualizacion={(a) => setVisualizacion(a)} seguridad={(a) => props.seguridad(a)} setPuntuacion_grafica={setPuntuacion_grafica}></EleccionVideojuegos>);
       break;
   }
-  if(sessionStorage.tipo=="normal"&&Equipos.length==0){
+  if(sessionStorage.tipo=="normal"&&Equipos.length==0&&!sessionStorage.editar_equipo){
     mostrarEquipos()
   }
   
@@ -133,7 +128,7 @@ export function EleccionConfiguracion(props) {
     <div>
 
       {render}
-      {(sessionStorage.tipo === "normal") ? (
+      {(sessionStorage.tipo === "normal"&&sessionStorage.visualizacion=="inicial") ? (
   <>
     <h2>Mis configuraciones guardadas</h2>
     {(cargando) ? "" : <div id="equipos_usuario">{Equipos}</div>}

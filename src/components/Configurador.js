@@ -37,30 +37,37 @@ export function Configurador(props) {
       sessionStorage.setItem("visualizacion", "configurador");
     }
     props.setVisualizacion(sessionStorage.visualizacion);
-
-    switch (sessionStorage.tipo_configuracion) {
-      case "disenyo":
-        endpoint = "/equipo_configurado_design";
-        break;
-      case "gaming":
-        endpoint = "/equipo_configurado_gaming";
-        break;
-      case "multimedia":
-        endpoint = "/equipo_configurado_ofimatica";
-
-
-        break;
+    if(sessionStorage.equipo_editar){
+      endpoint="/all_data_equipo";
+      console.log("cambiando endpoint")
+    }else{
+      console.log("no cambiando endpoint")
+      switch (sessionStorage.tipo_configuracion) {
+        case "disenyo":
+          endpoint = "/equipo_configurado_design";
+          break;
+        case "gaming":
+          endpoint = "/equipo_configurado_gaming";
+          break;
+        case "multimedia":
+          endpoint = "/equipo_configurado_ofimatica";
+  
+  
+          break;
+      }
     }
+    
     setinitialConfiguration()
   }, []);
   function setinitialConfiguration() {
     setCargando(true)
-
     if (componentes[1] == null) {
       axios.post(DIR_SERV + endpoint, {
         precio: sessionStorage.presupuesto,
         puntuacion_grafica_tarjeta: sessionStorage.puntuacion_grafica_tarjeta,
         puntuacion_grafica_procesador: sessionStorage.puntuacion_grafica_procesador,
+        equipo_editar:sessionStorage.equipo_editar,
+        api_session:sessionStorage.api_session
       })
         .then(response => {
           let componentesAux = [];
@@ -80,37 +87,55 @@ export function Configurador(props) {
           setCapacidadVentilacion(response.data.refrigeracion_liquida.maximo_calor_refrigerado_refrigeracion_liquida)
           setBenchmarkProcesador(response.data.procesador.benchmark_procesador)
           setBenchmarkTarjeta(response.data.tarjeta_grafica.benchmark_tarjeta_grafica)
-          componentesAux.push(response.data.procesador);
-          componentesAux.push(response.data.placa_base);
-          componentesAux.push(response.data.fuente_alimentacion);
-          componentesAux.push(response.data.ram);
-          componentesAux.push(response.data.refrigeracion_liquida);
-          componentesAux.push(response.data.torre);
-          componentesAux.push(response.data.disco_duro);
-          componentesAux.push(response.data.tarjeta_grafica);
-          componentesAux.push(null);
-          componentesAux.push(null);
-          componentesAux.push(null);
-
-
-          precioAux.push(response.data.procesador.precio_procesador);
-          precioAux.push(response.data.placa_base.precio_placa_base);
-          precioAux.push(response.data.fuente_alimentacion.precio_fuente_alimentacion);
-          precioAux.push(response.data.ram.precio_ram);
-          precioAux.push(response.data.refrigeracion_liquida.precio_refrigeracion_liquida);
-          precioAux.push(response.data.torre.precio_torre);
-          precioAux.push(response.data.disco_duro.precio_disco_duro);
-          precioAux.push(response.data.tarjeta_grafica.precio_tarjeta_grafica);
-          precioAux.push(0)
-          precioAux.push(0)
-          precioAux.push(0)
+          const componentes = [
+            response.data.procesador,
+            response.data.placa_base,
+            response.data.fuente_alimentacion,
+            response.data.ram,
+            response.data.refrigeracion_liquida,
+            response.data.torre,
+            response.data.disco_duro,
+            response.data.tarjeta_grafica,
+            response.data.cooler_procesador,
+            response.data.sistema_operativo,
+            response.data.ventilador
+          ];
+          
+          for (const componente of componentes) {
+            if (componente !== "Equipo no registrado en BD") {
+              componentesAux.push(componente);
+            } else {
+              componentesAux.push(null);
+            }
+          }
+          const precios = [
+            response.data.procesador.precio_procesador,
+            response.data.placa_base.precio_placa_base,
+            response.data.fuente_alimentacion.precio_fuente_alimentacion,
+            response.data.ram.precio_ram,
+            response.data.refrigeracion_liquida.precio_refrigeracion_liquida,
+            response.data.torre.precio_torre,
+            response.data.disco_duro.precio_disco_duro,
+            response.data.tarjeta_grafica.precio_tarjeta_grafica,
+            response.data.cooler_procesador ? response.data.cooler_procesador.precio_cooler_procesador : 0,
+            response.data.sistema_operativo ? response.data.sistema_operativo.precio_sistema_operativo : 0,
+            response.data.ventilador ? response.data.ventilador.precio_ventilador : 0
+          ];
+          
+          for (const precio of precios) {
+            if (precio) {
+              precioAux.push(precio);
+            } else {
+              precioAux.push(0);
+            }
+          }
 
 
           console.log(precioAux)
           setPrecios(precioAux)
-          refrescarPrecio();
+          refrescarPrecio(response.data.coste);
           setCapacidadVentilacion(response.data.refrigeracion_liquida.maximo_calor_refrigerado_refrigeracion_liquida);
-          setPrecioTotal(response.data.coste)
+          setPrecioTotal(Math.round(response.data.coste * 100) / 100)
           setComponentes(componentesAux)
           setCargando(false)
         })
@@ -119,7 +144,6 @@ export function Configurador(props) {
         });
     }
   }
-  console.log(componentes)
   function refrescarPrecio() {
     const total = precios.reduce((total, valor) => total + Number(valor), 0);
     const truncado = Math.round(total * 100) / 100; // Truncar a dos decimales
@@ -128,13 +152,13 @@ export function Configurador(props) {
 
   function cambiarPrecioTotal(indice, precioNuevo) {
     let precioAux = precios;
-    console.log(precioAux)
     precioAux[indice] = precioNuevo;
     setPrecios(precioAux);
     refrescarPrecio()
   }
   function cambiarSeleccionado(indice, elemento) {
     let componentesAux = componentes;
+    console.log(elemento)
     componentesAux[indice] = elemento;
     setComponentes(componentesAux);
   }
@@ -167,7 +191,7 @@ export function Configurador(props) {
 
   }
   function editarConfiguracion() {
-    axios.post(DIR_SERV + "/guardar_configuracion", {
+    axios.post(DIR_SERV + "/editar_equipo", {
       api_session: sessionStorage.api_session,
       componentes: [componentes[0]?.id_procesador,
       componentes[1]?.id_placa_base,
@@ -180,12 +204,13 @@ export function Configurador(props) {
       componentes[8]?.id_cooler_procesador,
       componentes[9]?.id_sistema_operativo,
       componentes[10]?.id_ventilador,
-      sessionStorage.id_usuario,]
+      sessionStorage.equipo_editar,]
 
 
     })
       .then(response => {
-        sessionStorage.setItem("editar_componente", response.data.componente_insertado)
+        props.setEquipos([])
+        sessionStorage.setItem("equipo_editar", response.data.componente_insertado)
       })
       .catch(error => {
         console.log(error);
@@ -237,8 +262,8 @@ export function Configurador(props) {
 
   return (<div>
     {(!cargando) ? <div id="configurador"><div id="componentes">{visualzacion}</div><div id="errores"><div id="precio_total"><h4>Precio total</h4><span>{precioTotal}€</span></div>
-      {(sessionStorage.usuario && !sessionStorage.editar_componente) ? <div id="wrapper_save"><Button id="guardarConfiguracion" onClick={() => guardarConfiguracion()}>Guardar</Button></div> : ""}
-      {(sessionStorage.usuario && sessionStorage.editar_componente) ? <div id="wrapper_save"><Button id="editarConfiguracion" onClick={() => editarConfiguracion()}>Editar</Button></div> : ""}
+      {(sessionStorage.usuario && !sessionStorage.equipo_editar) ? <div id="wrapper_save"><Button id="guardarConfiguracion" onClick={() => guardarConfiguracion()}>Guardar</Button></div> : ""}
+      {(sessionStorage.usuario && sessionStorage.equipo_editar) ? <div id="wrapper_save"><Button id="editarConfiguracion" onClick={() => editarConfiguracion()}>Editaar</Button></div> : ""}
       {errores}</div></div> :
       <div class="spinner"><Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>

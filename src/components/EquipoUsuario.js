@@ -7,6 +7,7 @@ import { DIR_SERV } from "../variables";
 import axios from "axios";
 import { render } from "react-dom";
 import '../style_components/EquipoUsuario.css';
+import { useNavigate } from "react-router-dom";
 
 export function EquipoUsuario(props) {
     const [open, setOpen] = useState(false);
@@ -16,12 +17,17 @@ export function EquipoUsuario(props) {
     const [offset, setOffset] = useState(0);
     const [firstOpen, setFirstOpen] = useState(true);
 
+    const navigate = useNavigate();
 
     let renderObj = [];
     renderObj.push(<div onClick={() => setOpen(!open)} class="interaccion_componente nombre_equipo_usuario"><span>{props.nombre}</span><span class="icon">{(!open) ? "+" : "-"}</span></div>)
-    console.log(props.data)
     function editarEquipo(id){
-
+    
+        props.setEquipos([])
+        props.setVisualizacion("configurador");
+        sessionStorage.visualizacion="configurador"; 
+        sessionStorage.setItem("equipo_editar",id)
+        navigate("/");
     }
     if (open) {
 
@@ -49,7 +55,7 @@ export function EquipoUsuario(props) {
                 </div>
             </div>
             
-                <Button className="editar_equipo" onClick={()=>editarEquipo(props.data.id_equipo)}>Editar</Button>
+                <Button className="editar_equipo" onClick={()=>editarEquipo(props.data.id_equipo)}>Editar{props.data.id_equipo}</Button>
             
 
         </div>)

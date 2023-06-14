@@ -12,7 +12,7 @@ export function Cabecera(props){
     sessionStorage.removeItem("puntuacion_grafica_tarjeta");
     sessionStorage.removeItem("puntuacion_grafica_procesador");
     sessionStorage.removeItem("editar_componente");
-
+    sessionStorage.removeItem("equipo_editar");
     if(sessionStorage.tipo=="normal"){
       navigate("/");
     }else{
