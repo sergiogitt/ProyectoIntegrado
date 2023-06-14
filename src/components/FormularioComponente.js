@@ -99,8 +99,52 @@ export function FormularioComponente(props) {
       setFileError('');
     }
   };
+  function actualizarComponente(id){
+    let datos=[ marca,modelo,precio,url,extra[0],extra[1]];
+    if((tipo=="procesador"||tipo=="ram"||tipo=="refrigeracion_liquida"||tipo=="tarjeta_grafica"||tipo=="torre")){
+      datos.push(extra[2])
+    }
+    datos.push(id)
+    axios.post(DIR_SERV+'/actualizar_componente', {
+      api_session:sessionStorage.api_session,
+      info:datos,
+      tipo_componente:sessionStorage.editarTabla
+  })
+      .then(response => {
+          
+      })
+      .catch(error => {
+          console.log(error);
+      });
+  }
+  console.log(extra)
+  function comprobar_accion(){
+    let columna="id_"+sessionStorage.editarTabla;
+      let id=componente[columna]
+    if(sessionStorage.editarTabla==tipo){
+      
+      actualizarComponente(id)
+    }else{
+      console.log("inserto antes")
+      //borrarComponente(id)
+      //insertarNuevoComponente()
+    }
+  }
   function comprobar_datos() {
-
+    if(modelo!=""&&marca!=""&&precio!=""&&url!=""&&url!=null&&extra[0]!=""&&extra[1]!=""&&extra[0]!=null&&extra[1]!=null){
+      if((tipo=="procesador"||tipo=="ram"||tipo=="refrigeracion_liquida"||tipo=="tarjeta_grafica"||tipo=="torre")){
+        if(extra[2]=!""&&extra[2]!=null&&extra[2]){
+          comprobar_accion()
+        }else{
+          console.log("no inserto con tres")
+        }
+      }else{
+        comprobar_accion()
+        console.log("inserto con dos"+url)
+      }
+    }else{
+      console.log("no inserto")
+    }
 
   }
   let componente = JSON.parse(sessionStorage.editarComponente)
@@ -134,11 +178,11 @@ export function FormularioComponente(props) {
 
     case "disco_duro":
       var atributo1 = "capacidad_" + sessionStorage.editarTabla;
-      var atributo2 = "tipo" + sessionStorage.editarTabla;
+      var atributo2 = "tipo_" + sessionStorage.editarTabla;
       if (extra.length == 0) {
 
         extra[0] = componente[atributo1];
-        handle_extra_info(null, 1, componente[atributo2])
+        extra[1] = componente[atributo2];
       }
 
       extraFormulario.push(
@@ -189,13 +233,13 @@ export function FormularioComponente(props) {
 
 
     case "placa_base":
-      var atributo1 = "id_tipo_estructura_" + sessionStorage.editarTabla;
+      var atributo1 = "id_tipo_estructura" ;
       var atributo2 = "socket_" + sessionStorage.editarTabla;
       console.log(componente[atributo2])
       console.log(componente)
       if (extra.length == 0) {
         extra[0]=componente[atributo1];
-        handle_extra_info(null, 1, componente[atributo2])
+        extra[1]=componente[atributo2]
       }
 
 
@@ -204,7 +248,7 @@ export function FormularioComponente(props) {
         <div class="informacion_extra" key={tipo}>
           <FormGroup>
             <Label for="tipo_estructura_placa_base">Tipo estructura:</Label>
-            <Input id="tipo_estructura_placa_base" type="select" onFocus={() => props.seguridad()} onChange={(event) => { handle_extra_info(event, 0); }} defaultValue={componente[atributo1]}>
+            <Input id="tipo_estructura_placa_base" type="select" onFocus={() => props.seguridad()} onChange={(event) => { handle_extra_info(event, 0); }} defaultValue={extra[0]}>
               {tipos_estructuras}
             </Input>
             <FormFeedback>Campo obligatorio</FormFeedback>
@@ -226,8 +270,9 @@ export function FormularioComponente(props) {
       console.log(componente)
       if (extra.length == 0) {
         extra[0]=componente[atributo1];
-        handle_extra_info(null, 1, componente[atributo2])
+        extra[1]=componente[atributo2];
          extra[2]=componente[atributo3];
+         console.log(extra)
       }
 
       extraFormulario.push(
@@ -258,10 +303,10 @@ export function FormularioComponente(props) {
       var atributo2 = "tipo_" + sessionStorage.editarTabla;
       if (extra.length == 0) {
         extra[0]=componente[atributo1];
-        handle_extra_info(null, 1, componente[atributo2])
+        extra[1]=componente[atributo2];
          extra[2]=componente[atributo3];
       }
-
+console.log(componente[atributo3])
       extraFormulario.push(
         <div class="informacion_extra" key={tipo}>
           <FormGroup>
@@ -272,10 +317,11 @@ export function FormularioComponente(props) {
           <FormGroup>
             <Label for="tipo_memoria_ram">Tipo de RAM:</Label>
             <Input id="tipo_memoria_ram" type="select" onChange={(event) => { handle_extra_info(event, 1); }} defaultValue={extra[1]}>
-              <option value="DDR4" >DDR4</option>
+              
               <option value="DDR3">DDR3</option>
               <option value="DDR2">DDR2</option>
               <option value="DDR1">DDR1</option>
+              <option value="DDR4" >DDR4</option>
             </Input>
 
           </FormGroup>
@@ -295,7 +341,7 @@ export function FormularioComponente(props) {
 
       if (extra.length == 0) {
         extra[0]=componente[atributo1];
-        handle_extra_info(null, 1, componente[atributo2])
+        extra[1]=componente[atributo2];
          extra[2]=componente[atributo3];
       }
 
@@ -335,7 +381,7 @@ export function FormularioComponente(props) {
       console.log(componente)
       if (extra.length == 0) {
          extra[0]=componente[atributo1];
-        handle_extra_info(null, 1, componente[atributo2])
+         extra[1]=componente[atributo2];
          extra[2]=componente[atributo3];
       }
 
@@ -363,14 +409,14 @@ export function FormularioComponente(props) {
 
 
     case "torre":
-      var atributo1 = "id_tipo_estructura_" + sessionStorage.editarTabla;
+      var atributo1 = "id_tipo_estructura";
       var atributo2 = "anchura_" + sessionStorage.editarTabla;
       var atributo3 = "profundidad_" + sessionStorage.editarTabla;
       console.log(componente[atributo2])
       console.log(componente)
       if (extra.length == 0) {
          extra[0]=componente[atributo1];
-        handle_extra_info(null, 1, componente[atributo2])
+         extra[1]=componente[atributo2];
          extra[2]=componente[atributo3];
       }
 
@@ -402,16 +448,25 @@ export function FormularioComponente(props) {
 
       break;
     case "ventilador":
+      var atributo1 = "altura_ventilador";
+      var atributo2 = "maxima_cantidad_vn";
+      console.log(componente[atributo2])
+      console.log(componente)
+      if (extra.length == 0) {
+         extra[0]=componente[atributo1];
+         extra[1]=componente[atributo2];
+      }
+
       extraFormulario.push(
         <div class="informacion_extra" key={tipo}>
           <FormGroup>
             <Label for="alturaVentilador">Altura:</Label>
-            {((extra[0] == "")) ? <Input invalid onFocus={() => props.seguridad()} id="alturaVentilador" type="number" onChange={(event) => { handle_extra_info(event, 0); }} /> : <Input onFocus={() => props.seguridad()} type="number" id="alturaVentilador" defaultValue={modelo} onChange={(event) => { handle_extra_info(event, 0); }} />}
+            {((extra[0] == "")) ? <Input invalid onFocus={() => props.seguridad()} id="alturaVentilador" type="number" onChange={(event) => { handle_extra_info(event, 0); }} /> : <Input onFocus={() => props.seguridad()} type="number" id="alturaVentilador" defaultValue={extra[0]} onChange={(event) => { handle_extra_info(event, 0); }} />}
             <FormFeedback>Campo obligatorio</FormFeedback>
           </FormGroup>
           <FormGroup>
             <Label for="alturaVentilador">Capacidad ventilacion (expresada en):</Label>
-            {((extra[0] == "")) ? <Input invalid onFocus={() => props.seguridad()} id="alturaVentilador" type="number" onChange={(event) => { handle_extra_info(event, 1); }} /> : <Input onFocus={() => props.seguridad()} type="number" id="alturaVentilador" defaultValue={modelo} onChange={(event) => { handle_extra_info(event, 1); }} />}
+            {((extra[0] == "")) ? <Input invalid onFocus={() => props.seguridad()} id="alturaVentilador" type="number" onChange={(event) => { handle_extra_info(event, 1); }} /> : <Input onFocus={() => props.seguridad()} type="number" id="alturaVentilador" defaultValue={extra[1]} onChange={(event) => { handle_extra_info(event, 1); }} />}
             <FormFeedback>Campo obligatorio</FormFeedback>
           </FormGroup>
 
@@ -432,7 +487,7 @@ export function FormularioComponente(props) {
       (<div id="labels-formulario">
         <div class="informacion-compartida">
           <FormGroup>
-            <Label for="marca">Marca:</Label>{marca}
+            <Label for="marca">Marca:</Label>
             {((marca == "")) ? <Input invalid id="marca" onFocus={() => props.seguridad()} defaultValue={marca} onChange={(event) => { handle_change_input(event, setMarca); }} /> :
               <Input onFocus={() => props.seguridad()} id="marca" defaultValue={marca} onChange={(event) => handle_change_input(event, setMarca)} />}
             <FormFeedback>Campo obligatorio</FormFeedback>
@@ -498,7 +553,7 @@ export function FormularioComponente(props) {
 
         <DevicesFromComponent data={JSON.parse(sessionStorage.editarComponente)} modelo={modelo} marca={marca} precio={precio} url={url} vistaPrevia={previewImage} editarTabla={sessionStorage.editareditarTabla}></DevicesFromComponent>
 
-        <Button onClick={comprobar_datos()}>Editar</Button>
+        <Button onClick={()=>comprobar_datos()}>Editar</Button>
 
       </div>)
     }

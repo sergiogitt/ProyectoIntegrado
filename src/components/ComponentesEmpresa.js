@@ -25,6 +25,7 @@ export function ComponentesEmpresa(props){
                 response.data.elements.forEach(element => {
                     if(!header){
                         componentes_aux.push(<h2>{nombres_categorias[componente]}</h2>)
+                        header=true;
                     }
                     componentes_aux.push(<ComponenteEmpresa seguridad={props.seguridad} data={element} tabla={componente}></ComponenteEmpresa>)
                 });

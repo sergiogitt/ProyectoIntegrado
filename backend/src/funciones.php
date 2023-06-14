@@ -841,6 +841,63 @@ function insertar_producto($datos)
     return $respuesta;
 }
 
+function actualizarComponente($datos,$componente)
+{
+    try {
+        $conexion = new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try {
+            $consulta="";
+            switch($componente){
+                case "procesador":
+                $consulta="UPDATE procesador SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, vatios_procesador=?,benchmark_procesador=? , socket_procesador=? WHERE id_".$componente."=?";
+                break;
+                case "placa_base":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, id_tipo_estructura =?,socket_placa_base=?  WHERE id_".$componente."=?";
+                    break;
+                case "cooler_procesador":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, altura_cooler_procesador =?,cantidad_refrigeracion_cooler_procesador=?  WHERE id_".$componente."=?";
+                    break;
+                case "disco_duro":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, capacidad_disco_duro =?,tipo_disco_duro=?  WHERE id_".$componente."=?";
+                    break;
+                case "fuente_alimentacion":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, vatios_fuente_alimentacion =?,calor_producido_fuente_alimentacion=?  WHERE id_".$componente."=?";
+                    break;
+                case "ram":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, velocidad_ram =?,tipo_ram=?,gb_ram=?  WHERE id_".$componente."=?";
+                    break;
+                case "refrigeracion_liquida":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, anchura_refrigeracion_liquida =?,maximo_calor_refrigerado_refrigeracion_liquida=?,vatios_refrigeracion_liquida=?  WHERE id_".$componente."=?";
+                    break;
+                case "sistema_operativo":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=? WHERE id_".$componente."=?";
+                    break;
+                case "tarjeta_grafica":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, vatios_tarjeta_grafica =?,benchmark_tarjeta_grafica=?,altura_tarjeta_grafica=?  WHERE id_".$componente."=?";
+                    break;
+                case "torre":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, id_tipo_estructura  =?,anchura_torre=?,profundidad_torre=?  WHERE id_".$componente."=?";
+                    break;
+                case "ventilador":
+                    $consulta="UPDATE ".$componente." SET marca_".$componente."=?, modelo_".$componente."=?, precio_".$componente."=?,url_".$componente."=?, altura_ventilador  =?,maxima_cantidad_vn=?  WHERE id_".$componente."=?";
+                    break;
+            }
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute($datos);
+            $respuesta["equipo"] = "Componente actualizado correctamente";
+        } catch (PDOException $e) {
+            $respuesta["mensaje_error"] = "Imposible realizar la consulta. Error: ".$e->getMessage();
+        }
+        $sentencia = null;
+        $conexion = null;
+    } catch (PDOException $e) {
+        $respuesta["mensaje_error"] = "Imposible conectar. Error: ".$e->getMessage();
+    }
+    
+
+    
+    return $respuesta;
+}
 function editarEquipo($datos)
 {
     try {
