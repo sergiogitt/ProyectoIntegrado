@@ -18,7 +18,6 @@ export function ComponentesEmpresa(props){
             tipo_componente:componente
         })
             .then(response => {
-                console.log(response);
                 numero_componentes++;
                 let componentes_aux=componentes;
                 let header=false;
