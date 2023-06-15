@@ -28,5 +28,5 @@ jobs:
           password: 'Josefa-1'
           local_path: './build'
           remote_path: './public_html'
-          delete_remote_files: true
+          delete_remote_files: false
           sftp_only: false
