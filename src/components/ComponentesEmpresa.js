@@ -73,7 +73,7 @@ export function ComponentesEmpresa(props){
       <h1>Mis componentes</h1>
 {(cargando)?(<div class="spinner"><Spinner animation="border" role="status">
                <span className="visually-hidden">Loading...</span>
-             </Spinner></div>):<div id="componentes_empresa_wrapper">{(mensaje!="")?(<div class="mensaje"><a style="text-decoration:none;" href={DIR_PUBLIC+"#"+mensajeid}>{mensaje}</a></div>):""} {componentes}<div onClick={() => navigate("/nuevo_componente")} class="posicionamiento">
+             </Spinner></div>):<div id="componentes_empresa_wrapper">{(mensaje!="")?(<div class="mensaje">{mensaje}</div>):""} {componentes}<div onClick={() => navigate("/nuevo_componente")} class="posicionamiento">
               <div class="linea abajo"></div>
               <div class="linea rotar"></div>
             </div></div>}

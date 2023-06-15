@@ -30,6 +30,8 @@ export function Configurador(props) {
   const [vatiosFuente, setvatiosFuente] = useState([]);
   const [benchmarkProcesador, setBenchmarkProcesador] = useState(0);
   const [benchmarkTarjeta, setBenchmarkTarjeta] = useState(0);
+  const [mensaje, setMensaje] = useState("");
+
   let endpoint = "";
   useEffect(() => {
     // get the data from sessionStorage when the component mounts
@@ -183,6 +185,7 @@ export function Configurador(props) {
     })
       .then(response => {
         setEditando(false)
+        setMensaje("La configuracion se ha guardado");
         sessionStorage.setItem("editar_componente", response.data.componente_insertado)
       })
       .catch(error => {
@@ -210,6 +213,8 @@ export function Configurador(props) {
     })
       .then(response => {
         props.setEquipos([])
+        setMensaje("La configuracion se ha actualizado");
+
         sessionStorage.setItem("equipo_editar", response.data.componente_insertado)
       })
       .catch(error => {
@@ -262,8 +267,9 @@ export function Configurador(props) {
 
   return (<div>
     {(!cargando) ? <div id="configurador"><div id="componentes">{visualzacion}</div><div id="errores"><div id="precio_total"><h4>Precio total</h4><span>{precioTotal}€</span></div>
-      {(sessionStorage.usuario && !sessionStorage.equipo_editar) ? <div id="wrapper_save"><Button id="guardarConfiguracion" onClick={() => guardarConfiguracion()}>Guardar</Button></div> : ""}
-      {(sessionStorage.usuario && sessionStorage.equipo_editar) ? <div id="wrapper_save"><Button id="editarConfiguracion" onClick={() => editarConfiguracion()}>Editaar</Button></div> : ""}
+      {(sessionStorage.usuario && !sessionStorage.equipo_editar&&mensaje=="") ? <div id="wrapper_save"><Button id="guardarConfiguracion" onClick={() => guardarConfiguracion()}>Guardar</Button></div> : ""}
+      {((sessionStorage.usuario && sessionStorage.equipo_editar)||(sessionStorage.usuario && mensaje!="")) ? <div id="wrapper_save"><Button id="editarConfiguracion" onClick={() => editarConfiguracion()}>Editar</Button></div> : ""}
+      {(mensaje) ? <div id="wrapper_message">{mensaje}</div> : ""}
       {errores}</div></div> :
       <div class="spinner"><Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>

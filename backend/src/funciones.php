@@ -884,7 +884,8 @@ function actualizarComponente($datos,$componente)
             }
             $sentencia = $conexion->prepare($consulta);
             $sentencia->execute($datos);
-            $respuesta["equipo"] = "Componente actualizado correctamente";
+            $respuesta["equipo"] = $componente."_".end($datos);
+          
         } catch (PDOException $e) {
             $respuesta["mensaje_error"] = "Imposible realizar la consulta. Error: ".$e->getMessage();
         }
@@ -946,7 +947,7 @@ function insertarComponente($datos,$componente)
             $datos[] = $_SESSION['id']; // Assuming id is stored in $_SESSION['id']
             echo $consulta;
             $sentencia->execute($datos);
-            $respuesta["equipo"] = "Componente insertado correctamente";
+            $respuesta["equipo"] =$componente."_".$conexion->lastInsertId();
         } catch (PDOException $e) {
             $respuesta["mensaje_error"] = "Imposible realizar la consulta. Error: ".$e->getMessage();
         }

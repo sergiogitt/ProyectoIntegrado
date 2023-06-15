@@ -35,7 +35,7 @@ h2,.black{
     text-align: center;
     margin: 3rem;
 }
-@media (min-width: 800px) {
+@media (min-width: 900px) {
     .configuracion{
         flex: 0 28%;
        

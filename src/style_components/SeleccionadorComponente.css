@@ -10,6 +10,10 @@
     width: 80%;
 
 }
+.buscador_componente{
+    width: 90%;
+    margin: 1rem auto;
+}
 .cargar_mas{
 display: flex;
 flex-direction: row;

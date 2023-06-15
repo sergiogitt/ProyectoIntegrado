@@ -83,7 +83,7 @@ export function SeleccionadorComponente(props) {
     <>
       <div className="seleccionador_componente">
         <div>
-          <Input
+          <Input className="buscador_componente"
             placeholder="Introduce un criterio de búsqueda" id={"buscador_"+props.tabla}
             onChange={(event) => {  handleInput(event); props.setListaComponentes([]); getMoreComponents(event) }}
           ></Input>

@@ -22,8 +22,9 @@ body {
 
 .videojuego{
   border: 1px solid black;
-  flex: 0 0 23%;
+  flex: 0 0 21%;
  padding: 1rem;
+ margin-top: 1rem;
 
 }
 .videojuego label{
@@ -52,7 +53,7 @@ width: 100%;
 #catalogo_videojuegos{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
 .spinner{

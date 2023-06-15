@@ -1,6 +1,24 @@
 .selected_game{
-    color: red;
+    background-color: #EA5455;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
 }
 .not_selected_game{
-    color: blue;
+    background-color: #5D5D5D;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+}
+#boton_videojuegos{
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    margin-right: 4rem;
+    justify-content: flex-end;
+}
+.comentario{
+    text-align: center;
+    margin: 1rem;
+    font-size: 2rem;
 }

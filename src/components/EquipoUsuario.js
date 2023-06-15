@@ -55,7 +55,7 @@ export function EquipoUsuario(props) {
                 </div>
             </div>
             
-                <Button className="editar_equipo" onClick={()=>editarEquipo(props.data.id_equipo)}>Editar{props.data.id_equipo}</Button>
+                <Button className="editar_equipo" onClick={()=>editarEquipo(props.data.id_equipo)}>Editar</Button>
             
 
         </div>)

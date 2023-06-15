@@ -5,3 +5,10 @@
 h1{
     text-align: center;
 }
+.mensaje a{
+    color: white;
+    text-decoration: none;
+}
+.mensaje{
+    cursor: pointer;
+}

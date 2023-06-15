@@ -105,7 +105,7 @@ export function EleccionVideojuegos(props) {
     return <p>{error}</p>; <Button disabled={mostrar_boton ? true : false}>Continuar</Button>
 
   }
-  return render.length > 0 ? <div>{mostrar_boton}<div id="catalogo_videojuegos">{
+  return render.length > 0 ? <div><p className="comentario">Seleccione ,al menos, un videojuego.</p><div id="boton_videojuegos">{mostrar_boton}</div><div id="catalogo_videojuegos">{
     render.map((element, index) => {
       return <div key={element.id_videojuego} className={"videojuego " + selected_games_colors[index]} onClick={() => select_game(index, element.requerimiento_grafico_procesador, element.requerimiento_grafico_tarjeta_grafica)}>
         <label htmlFor={element.id_videojuego}>
