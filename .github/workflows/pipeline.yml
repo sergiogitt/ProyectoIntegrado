@@ -1,0 +1,32 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload_files:
+    runs-on: ubuntu-22.04
+    name: Upload a builded file.
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install and Build 🔧
+        run: |
+          npm install --legacy-peer-deps
+          npm run build
+
+      - name: Deploy 🚀
+        id: upload
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: 'files.000webhost.com'
+          port: 21
+          username: 'masterbuilder'
+          password: 'Josefa-1'
+          local_path: './build'
+          remote_path: './public_html'
+          delete_remote_files: true
+          sftp_only: false

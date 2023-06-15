@@ -7,8 +7,8 @@ export function Footer(props){
     return(<footer>
       <span>Siguenos en nuestras redes sociales</span>
       <div class="redes">
-        <img src={DIR_PUBLIC+"/public/assets/instagram.svg"}/>
-        <img src={DIR_PUBLIC+"/public/assets/twitter.svg"}/>
+        <img src={DIR_PUBLIC+"/assets/instagram.svg"}/>
+        <img src={DIR_PUBLIC+"/assets/twitter.svg"}/>
       </div>
       <span>© MASTERBUILDER, todos los derechos reservados.</span>
     </footer>)

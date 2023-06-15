@@ -109,7 +109,7 @@ export function EleccionVideojuegos(props) {
     render.map((element, index) => {
       return <div key={element.id_videojuego} className={"videojuego " + selected_games_colors[index]} onClick={() => select_game(index, element.requerimiento_grafico_procesador, element.requerimiento_grafico_tarjeta_grafica)}>
         <label htmlFor={element.id_videojuego}>
-          <div className="img_container"><img src={DIR_PUBLIC + "/public/assets/" + element.caratula_videojuego} alt={element.nombre_videojuego} /></div>
+          <div className="img_container"><img src={DIR_PUBLIC + "/assets/" + element.caratula_videojuego} alt={element.nombre_videojuego} /></div>
           <h3>{element.nombre_videojuego}</h3>
         </label>
       </div>

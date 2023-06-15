@@ -19,8 +19,8 @@ export function ComponenteEmpresa(props){
         sessionStorage.setItem("editarTabla",props.tabla);
         navigate("/editar_componente");
     }
-    return(<div class="componente_empresa">
-        <div class="device_image"><img src={(!props.data[imagen]) ? (DIR_PUBLIC + "/public/assets/" + "no-disponible.png") : (DIR_PUBLIC + "/public/assets/" + props.data[imagen])} alt="" title="" /></div>
+    return(<div class="componente_empresa" id={props.tabla+"_"+props.data[id]}>
+        <div class="device_image"><img src={(!props.data[imagen]) ? (DIR_PUBLIC + "/assets/" + "no-disponible.png") : (DIR_PUBLIC + "/assets/" + props.data[imagen])} alt="" title="" /></div>
         <div class="device_info">
             <div class="modelo_marca">
                 <span class="negrita">{props.data[marca]}</span>

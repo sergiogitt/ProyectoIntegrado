@@ -1,9 +1,9 @@
 <?php
 	//CTES 
 	define("SERVIDOR_BD","localhost");
-	define("USUARIO_BD","jose");
-	define("CLAVE_BD","josefa");
-	define("NOMBRE_BD","bd_configurador_pc");
+	define("USUARIO_BD","id20917149_jose");
+	define("CLAVE_BD","Josefa-1");
+	define("NOMBRE_BD","id20917149_bd_configurador_pc");
 
 	
 

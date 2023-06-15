@@ -17,8 +17,8 @@ export function DevicesFromComponent(props) {
           !props.cargarBD
             ? !props.data[imagen]
               ? props.vistaPrevia
-              : DIR_PUBLIC + "/public/assets/" + props.data[imagen]
-            : DIR_PUBLIC + "/public/assets/" + props.data[imagen]
+              : DIR_PUBLIC + "/assets/" + props.data[imagen]
+            : DIR_PUBLIC + "/assets/" + props.data[imagen]
         }
         alt=""
         title=""
@@ -27,8 +27,8 @@ export function DevicesFromComponent(props) {
       <img class="imagen"
         src={
           !props.data[imagen] ?
-            (DIR_PUBLIC + "/public/assets/no-disponible.png")
-            : (DIR_PUBLIC + "/public/assets/" + props.data[imagen])
+            (DIR_PUBLIC + "/assets/no-disponible.png")
+            : (DIR_PUBLIC + "/assets/" + props.data[imagen])
         }
         alt=""
         title=""

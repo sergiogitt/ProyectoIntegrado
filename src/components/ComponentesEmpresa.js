@@ -10,6 +10,7 @@ export function ComponentesEmpresa(props){
     const [componentes, setComponentes] = useState([]);
     const [cargando, setCargando] = useState(false);
     const [mensaje, setMensaje] = useState("");
+    const [mensajeid, setMensajeid] = useState("");
     let numero_componentes=0;
     let nombres_categorias = { "cooler_procesador": "Coolers para procesador", "disco_duro": "Discos duros", "fuente_alimentacion": "Fuentes de alimentacion", "placa_base": "Placas base", "procesador": "Procesadores",  "torre": "Torres",
     "ram": "Memorias ram", "refrigeracion_liquida": "Refrigeraciones liquida", "sistema_operativo": "Sistemas operativos",  "tarjeta_grafica": "Tarjetas graficas",  "ventilador": "Ventiladores", };
@@ -63,14 +64,16 @@ export function ComponentesEmpresa(props){
       }, []);
       if(sessionStorage.mensaje){
         setMensaje(sessionStorage.mensaje);
-        console.log("hay algo")
+        setMensajeid(sessionStorage.mensaje_id);
         sessionStorage.removeItem("mensaje")
+        sessionStorage.removeItem("mensaje_id")
       }
+      console.log(sessionStorage)
     return(<div id="componentes_empresa">
       <h1>Mis componentes</h1>
 {(cargando)?(<div class="spinner"><Spinner animation="border" role="status">
                <span className="visually-hidden">Loading...</span>
-             </Spinner></div>):<div id="componentes_empresa_wrapper">{(mensaje!="")?(<div class="mensaje">{mensaje}</div>):""} {componentes}<div onClick={() => navigate("/nuevo_componente")} class="posicionamiento">
+             </Spinner></div>):<div id="componentes_empresa_wrapper">{(mensaje!="")?(<div class="mensaje"><a style="text-decoration:none;" href={DIR_PUBLIC+"#"+mensajeid}>{mensaje}</a></div>):""} {componentes}<div onClick={() => navigate("/nuevo_componente")} class="posicionamiento">
               <div class="linea abajo"></div>
               <div class="linea rotar"></div>
             </div></div>}

@@ -7,7 +7,7 @@ import '../style_components/Login.css';
 import { DIR_SERV } from "../variables";
 
 export function Login(props) {
-    const [clave, setClave] = useState("");
+    const [clave, setClave] = useState(null);
     const [usuario, setUsuario] = useState(null);
     const [mensaje, setMensaje] = useState(null);
     const navigate = useNavigate();

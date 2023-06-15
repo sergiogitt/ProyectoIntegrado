@@ -45,7 +45,7 @@ export function Cabecera(props){
       </ul>);
     }
     return(<header>
-      <div id="logo" onClick={()=>props.seguridad(volver_a_inicio)}><img id="icono" src={DIR_PUBLIC+"/public/assets/drawing.svg"}/><img id="nombre_logo" src={DIR_PUBLIC+"/public/assets/letra-logo.svg"}/></div>
+      <div id="logo" onClick={()=>props.seguridad(volver_a_inicio)}><img id="icono" src={DIR_PUBLIC+"/assets/drawing.svg"}/><img id="nombre_logo" src={DIR_PUBLIC+"/assets/letra-logo.svg"}/></div>
       <nav>
         {render}
       </nav>

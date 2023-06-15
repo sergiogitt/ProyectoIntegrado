@@ -131,8 +131,11 @@ sessionStorage.setItem("editarComponente", JSON.stringify(editarComponente));
       tipo_componente:sessionStorage.editarTabla
   })
       .then(response => {
+       let columna="id_"+sessionStorage.editarTabla;
+      let id=componente[columna]
         sessionStorage.setItem("mensaje","Se ha actualizado el componente "+modelo)
-        navigate("/mis_componentes")
+        sessionStorage.setItem("mensaje_id",sessionStorage.editarTabla+"_"+componente[id])
+        navigate("/mis_componentes") 
       })
       .catch(error => {
           console.log(error);
@@ -179,7 +182,10 @@ sessionStorage.setItem("editarComponente", JSON.stringify(editarComponente));
       datos:datos
     })
       .then(response => {
-        sessionStorage.setItem("mensaje","Se ha insertado un nuevo componente "+modelo)
+        let columna="id_"+sessionStorage.editarTabla;
+      let id=componente[columna]
+        sessionStorage.setItem("mensaje","Se ha actualizado el componente "+modelo)
+        sessionStorage.setItem("mensaje_id",sessionStorage.editarTabla+"_"+componente[id])
        navigate("/mis_componentes")
       })
       .catch(error => {
