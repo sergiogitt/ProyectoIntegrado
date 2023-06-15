@@ -31,6 +31,7 @@ justify-content: center;
     position: relative;
     height: 10rem;
     margin: auto;
+    cursor: pointer;
 }
 .linea{
     width: 5rem;
@@ -43,7 +44,8 @@ justify-content: center;
 }
 .abajo{
     position: relative;
-    top:3.5rem
+    top:3.5rem;
+    
 }
 .rotar{
     position: absolute;

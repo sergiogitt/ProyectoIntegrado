@@ -18,6 +18,7 @@ import md5 from 'md5';
 import { ComponentesEmpresa } from './components/ComponentesEmpresa';
 import FormularioComponente from './components/FormularioComponente';
 import { Footer } from './components/Footer';
+import { DIR_SERV } from './variables';
 function App() {
   
   const [accion,setAccion]=useState(null);
@@ -28,7 +29,6 @@ function App() {
   const [api_session,setApi_session]=useState(null);
   const [mensaje_error,setMensaje_error]=useState(null);
   const navigate = useNavigate();
-  const DIR_SERV="http://localhost/ProyectoIntegrado/backend/index.php";
   const TIEMPO_SESION_MINUTOS=20;
   useEffect(() => {
     // get the data from sessionStorage when the component mounts
@@ -83,6 +83,7 @@ function App() {
       else
       {
         sessionStorage.clear();
+        sessionStorage.removeItem("tipo")
         navigate("/login");
         setMensaje_error("Su tiempo de sesión ha expirado");
         
@@ -104,6 +105,7 @@ function App() {
           <Route path='/' exact element={<EleccionConfiguracion seguridad={seguridad}  />}/>
           <Route path='/mis_componentes' exact element={<ComponentesEmpresa seguridad={seguridad}  />}/>
           <Route path='/editar_componente' exact element={<FormularioComponente seguridad={seguridad}  />}/>
+          <Route path='/nuevo_componente' exact element={<FormularioComponente seguridad={seguridad}  componenteNuevo={true}/>}/>
           <Route path='/login' exact element={<Login  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
           <Route path='/registro' exact element={<FormularioRegistro  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>
           <Route path='/registrarempresa' exact element={<FormularioRegistroEmpresa  log_user={setLogued} mensaje_error={mensaje_error} setError={setMensaje_error}/>}/>

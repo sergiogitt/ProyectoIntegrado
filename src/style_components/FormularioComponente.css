@@ -1,0 +1,40 @@
+#formulario{
+    width: 90%;
+    margin:0 auto
+}
+#labels-formulario{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+#visualizacion{
+    flex: 0 100%;
+}
+.informacion-compartida,.informacion_extra{
+    flex: 0 40%;
+}
+#boton_accion{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    background-color: #EA5455;
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+}
+.mensaje{
+    padding:1rem 4rem;
+    background-color: #EA5455;
+    color: white;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+}
+@media (max-width: 800px) {
+    .informacion-compartida,.informacion_extra{
+        flex: 0 100%;
+    }
+    #fomulario{
+        padding: 0;
+    }
+  }

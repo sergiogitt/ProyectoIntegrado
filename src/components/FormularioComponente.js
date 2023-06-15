@@ -1,6 +1,6 @@
 import { Button, Form, Input, Label, FormFeedback, FormGroup, Spinner } from "reactstrap";
 import { useState } from 'react';
-import '../style_components/SeleccionPresupuesto.css';
+import '../style_components/FormularioComponente.css';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DevicesFromComponent from "./DevicesFromComponent";
@@ -20,13 +20,33 @@ export function FormularioComponente(props) {
   const [extra, setExtra] = useState([]);
   const [tipos_estructuras, setTiposEstructuras] = useState([]);
   const navigate = useNavigate();
-  if (sessionStorage.tipo != "empresa" || !sessionStorage.editarComponente) {
+  if (sessionStorage.tipo != "empresa" ) {
     navigate("/");
+  }
+  if (props.componenteNuevo){
+    console.log("creando nuevo")
+      const editarComponente = {
+  id_disco_duro: "",
+  url_disco_duro: "",
+  precio_disco_duro: "",
+  marca_disco_duro: "",
+  modelo_disco_duro: "",
+  capacidad_disco_duro: "",
+  tipo_disco_duro: "",
+  id_anunciante_disco_duro: sessionStorage.id,
+  imagen_disco_duro: null
+};
+sessionStorage.setItem("editarTabla","procesador");
+sessionStorage.setItem("editarComponente", JSON.stringify(editarComponente));
+
   }
   let extraFormulario = [];
   useEffect(() => {
     setCargando(true);
+    
+    console.log(sessionStorage.editarComponente)
     let componente = JSON.parse(sessionStorage.editarComponente)
+    
     let marcaAux = "marca_" + sessionStorage.editarTabla;
     let modeloAux = "modelo_" + sessionStorage.editarTabla;
     let precioAux = "precio_" + sessionStorage.editarTabla;
@@ -111,13 +131,13 @@ export function FormularioComponente(props) {
       tipo_componente:sessionStorage.editarTabla
   })
       .then(response => {
-          
+        sessionStorage.setItem("mensaje","Se ha actualizado el componente "+modelo)
+        navigate("/mis_componentes")
       })
       .catch(error => {
           console.log(error);
       });
   }
-  console.log(extra)
   function comprobar_accion(){
     let columna="id_"+sessionStorage.editarTabla;
       let id=componente[columna]
@@ -126,11 +146,47 @@ export function FormularioComponente(props) {
       actualizarComponente(id)
     }else{
       console.log("inserto antes")
-      //borrarComponente(id)
-      //insertarNuevoComponente()
+      borrarComponente(id)
+      insertarNuevoComponente()
     }
   }
-  function comprobar_datos() {
+  function borrarComponente(id){
+    let columna="id_"+sessionStorage.editarTabla;
+      let id_borrar=componente[columna];
+      let tabla=sessionStorage.editarTabla;
+    axios.post(DIR_SERV+"/borrar_componente", {
+      api_session: sessionStorage.api_session,
+      tabla:tabla,
+      datos:id_borrar
+    })
+      .then(response => {
+       
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+  function insertarNuevoComponente(){
+    let datos=[ marca,modelo,precio,url,extra[0],extra[1]];
+    if((tipo=="procesador"||tipo=="ram"||tipo=="refrigeracion_liquida"||tipo=="tarjeta_grafica"||tipo=="torre")){
+      datos.push(extra[2])
+    }
+   
+    
+    axios.post(DIR_SERV+"/nuevo_componente", {
+      api_session: sessionStorage.api_session,
+      tabla:tipo,
+      datos:datos
+    })
+      .then(response => {
+        sessionStorage.setItem("mensaje","Se ha insertado un nuevo componente "+modelo)
+       navigate("/mis_componentes")
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+  function comprobar_datos_editar() {
     if(modelo!=""&&marca!=""&&precio!=""&&url!=""&&url!=null&&extra[0]!=""&&extra[1]!=""&&extra[0]!=null&&extra[1]!=null){
       if((tipo=="procesador"||tipo=="ram"||tipo=="refrigeracion_liquida"||tipo=="tarjeta_grafica"||tipo=="torre")){
         if(extra[2]=!""&&extra[2]!=null&&extra[2]){
@@ -147,6 +203,25 @@ export function FormularioComponente(props) {
     }
 
   }
+  function comprobar_datos_nuevo() {
+    if(modelo!=""&&marca!=""&&precio!=""&&url!=""&&url!=null&&extra[0]!=""&&extra[1]!=""&&extra[0]!=null&&extra[1]!=null){
+      if((tipo=="procesador"||tipo=="ram"||tipo=="refrigeracion_liquida"||tipo=="tarjeta_grafica"||tipo=="torre")){
+        if(extra[2]=!""&&extra[2]!=null&&extra[2]){
+          insertarNuevoComponente()
+
+        }else{
+          console.log("no inserto con tres")
+        }
+      }else{
+        insertarNuevoComponente()
+        console.log("inserto con dos"+url)
+      }
+    }else{
+      console.log("no inserto")
+    }
+
+  }
+  
   let componente = JSON.parse(sessionStorage.editarComponente)
   switch (tipo) {
     case "cooler_procesador":
@@ -476,14 +551,14 @@ console.log(componente[atributo3])
       break;
 
   }
-
+extraFormulario.push()
 
   return (<div id="formulario">
-    <h1>Formulario</h1>
+    <h1>{(props.componenteNuevo)?"Nuevo componente":"Editar componente"}</h1>
     {(cargando) ?
-      (<Spinner animation="border" role="status">
+      (<div class="spinner"><Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
-      </Spinner>) :
+      </Spinner></div>) :
       (<div id="labels-formulario">
         <div class="informacion-compartida">
           <FormGroup>
@@ -529,7 +604,6 @@ console.log(componente[atributo3])
           <FormGroup>
             <Label for="imagen">Tipo de componente:</Label>
             <Input type="select" id="tipo" onFocus={() => props.seguridad()} onChange={(event) => { handle_change_input(event, setTipo); setExtra([]) }} defaultValue={sessionStorage.editarTabla} >
-              <option value="">Seleccione un tipo</option>
               <option value="cooler_procesador">
                 Cooler Procesador
               </option>
@@ -540,7 +614,6 @@ console.log(componente[atributo3])
               <option value="procesador"  >Procesador</option>
               <option value="ram"  >Ram</option>
               <option value="refrigeracion_liquida"  >Refrigeracion Liquida</option>
-              <option value="sistema_operativo"  >Sistema Operativo</option>
               <option value="tarjeta_grafica"  >Tarjeta Grafica</option>
               <option value="cooler_procesador"  >Cooler procesador</option>
               <option value="torre" >Torre</option>
@@ -548,16 +621,18 @@ console.log(componente[atributo3])
               <option value="cooler_procesador"  >Cooler procesador</option>
             </Input>
           </FormGroup>
-          {extraFormulario}
+         
         </div>
-
-        <DevicesFromComponent data={JSON.parse(sessionStorage.editarComponente)} modelo={modelo} marca={marca} precio={precio} url={url} vistaPrevia={previewImage} editarTabla={sessionStorage.editareditarTabla}></DevicesFromComponent>
-
-        <Button onClick={()=>comprobar_datos()}>Editar</Button>
-
+        {extraFormulario}
+        <DevicesFromComponent id="visualizacion" data={JSON.parse(sessionStorage.editarComponente)} modelo={modelo} marca={marca} precio={precio} url={url} vistaPrevia={previewImage} editarTabla={sessionStorage.editareditarTabla}></DevicesFromComponent>
+              
+       
       </div>)
     }
+{(props.componenteNuevo)? <Button id="boton_accion" onClick={()=>comprobar_datos_nuevo()}>Subir</Button>
 
+: <Button  id="boton_accion" onClick={()=>comprobar_datos_editar()}>Editar</Button>
+}
   </div>)
 }
 export default FormularioComponente;

@@ -2,15 +2,18 @@ import axios from "axios";
 import md5 from "md5";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Input } from "reactstrap";
+import { Button, FormFeedback, Input } from "reactstrap";
+import '../style_components/Login.css';
+import { DIR_SERV } from "../variables";
+
 export function Login(props) {
     const [clave, setClave] = useState("");
-    const [usuario, setUsuario] = useState("");
-    const [mensaje, setMensaje] = useState("");
+    const [usuario, setUsuario] = useState(null);
+    const [mensaje, setMensaje] = useState(null);
     const navigate = useNavigate();
     function log_user() {
         if (clave != "" && usuario != "") {
-            axios.post('http://localhost/ProyectoIntegrado/backend/index.php/login', {
+            axios.post(DIR_SERV+'/login', {
                 usuario: usuario,
                 clave: md5(clave)
             })
@@ -43,23 +46,39 @@ export function Login(props) {
         }
 
     }
+    function comprobarDatos(){
+        if(usuario==null||usuario==""){
+            setUsuario("")
+        }
+        if(clave==null||clave==""){
+            setClave("")
+        }
+        if(clave!=""&&usuario!=""){
+            log_user()
+        }
+    }
     function handle_change_input(event, setter) {
         setter(event.target.value);
 
     }
-    return (<div>
+    return (<>
+    <h2>Login</h2>
+    <div id="wrapper_login">
         <div>
             <label>Nombre de usuario:</label>
-            <Input onChange={(event) => handle_change_input(event, setUsuario)}></Input>
+            <Input onChange={(event) => handle_change_input(event, setUsuario)} invalid={(usuario=="")?true:false}></Input>
+            <FormFeedback>Campo obligatorio</FormFeedback>   
         </div>
         <div>
             <label>Contraseña:</label>
-            <Input onChange={(event) => handle_change_input(event, setClave)}></Input>
+            <Input type="password" onChange={(event) => handle_change_input(event, setClave)} invalid={(clave=="")?true:false}></Input>
+            <FormFeedback>Campo obligatorio</FormFeedback>   
+
         </div>
 
         <div>
-            <Button onClick={() => log_user()}>Iniciar sesion</Button>
+            <Button onClick={() => comprobarDatos()}>Iniciar sesion</Button>
         </div>{props.mensaje_error}
 
-    </div>)
+    </div></>)
 }

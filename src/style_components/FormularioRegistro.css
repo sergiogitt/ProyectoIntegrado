@@ -1,0 +1,23 @@
+.mb-3{
+   
+    padding:0 4rem;
+}
+#formulario_registro{
+    max-width: 50rem;
+    margin: 0 auto;
+}
+#boton_registro{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+#boton_registro>button{
+    background-color: #EA5455;
+    border: none;
+    color: white;
+    border-radius: 2rem;
+    padding: 1rem 3rem;
+
+}
+

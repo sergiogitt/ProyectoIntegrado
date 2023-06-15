@@ -1,0 +1,32 @@
+#wrapper_login{
+    border: 5px solid black;
+    padding: 2rem;
+    width: 35%;
+    margin: 2rem auto;
+    height: 35rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+#wrapper_login>*:last-child{
+    align-self: center;
+    
+    
+}
+#wrapper_login>div>*{
+margin-bottom:1rem
+}
+#wrapper_login input{
+    max-width: 100%;
+}
+#wrapper_login button{
+    padding: 0.7rem 3rem;
+    border-radius: 3rem;
+    background-color: #343434;
+}
+@media (max-width: 900px) {
+    #wrapper_login{
+        width: 80%;
+    }
+  }

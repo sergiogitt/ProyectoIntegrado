@@ -898,6 +898,91 @@ function actualizarComponente($datos,$componente)
     
     return $respuesta;
 }
+function insertarComponente($datos,$componente)
+{
+    
+    try {
+        $conexion = new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try {
+            $consulta = "";
+            switch ($componente) {
+                case "procesador":
+                    $consulta = "INSERT INTO procesador (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", vatios_procesador, benchmark_procesador, socket_procesador, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "placa_base":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", id_tipo_estructura, socket_placa_base, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "cooler_procesador":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", altura_cooler_procesador, cantidad_refrigeracion_cooler_procesador, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "disco_duro":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", capacidad_disco_duro, tipo_disco_duro, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "fuente_alimentacion":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", vatios_fuente_alimentacion, calor_producido_fuente_alimentacion, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "ram":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", velocidad_ram, tipo_ram, gb_ram, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "refrigeracion_liquida":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", anchura_refrigeracion_liquida, maximo_calor_refrigerado_refrigeracion_liquida, vatios_refrigeracion_liquida, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "sistema_operativo":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?)";
+                    break;
+                case "tarjeta_grafica":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", vatios_tarjeta_grafica, benchmark_tarjeta_grafica, altura_tarjeta_grafica, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "torre":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", id_tipo_estructura, anchura_torre, profundidad_torre, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    break;
+                case "ventilador":
+                    $consulta = "INSERT INTO ".$componente." (marca_".$componente.", modelo_".$componente.", precio_".$componente.", url_".$componente.", altura_ventilador, maxima_cantidad_vn, id_anunciante_".$componente.") VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    break;
+            }
+            $sentencia = $conexion->prepare($consulta);
+            
+            // Add the value for id_anunciante_$componente in $datos array
+            $datos[] = $_SESSION['id']; // Assuming id is stored in $_SESSION['id']
+            echo $consulta;
+            $sentencia->execute($datos);
+            $respuesta["equipo"] = "Componente insertado correctamente";
+        } catch (PDOException $e) {
+            $respuesta["mensaje_error"] = "Imposible realizar la consulta. Error: ".$e->getMessage();
+        }
+        $sentencia = null;
+        $conexion = null;
+    } catch (PDOException $e) {
+        $respuesta["mensaje_error"] = "Imposible conectar. Error: ".$e->getMessage();
+    }
+    
+
+    
+    return $respuesta;
+}
+function borrarComponente($datos,$componente)
+{
+    try {
+        $conexion = new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try {
+            $consulta = "delete from ".$componente." where id_".$componente."=?";
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute([$datos]);
+            $respuesta["equipo"] = "Equipo borrado correctamente";
+            echo $consulta;
+        } catch (PDOException $e) {
+            $respuesta["mensaje_error"] = "Imposible realizar la consulta. Error: ".$e->getMessage();
+        }
+        $sentencia = null;
+        $conexion = null;
+    } catch (PDOException $e) {
+        $respuesta["mensaje_error"] = "Imposible conectar. Error: ".$e->getMessage();
+    }
+    
+
+    
+    return $respuesta;
+}
 function editarEquipo($datos)
 {
     try {

@@ -9,6 +9,7 @@ export function ComponentesEmpresa(props){
     const navigate = useNavigate();
     const [componentes, setComponentes] = useState([]);
     const [cargando, setCargando] = useState(false);
+    const [mensaje, setMensaje] = useState("");
     let numero_componentes=0;
     let nombres_categorias = { "cooler_procesador": "Coolers para procesador", "disco_duro": "Discos duros", "fuente_alimentacion": "Fuentes de alimentacion", "placa_base": "Placas base", "procesador": "Procesadores",  "torre": "Torres",
     "ram": "Memorias ram", "refrigeracion_liquida": "Refrigeraciones liquida", "sistema_operativo": "Sistemas operativos",  "tarjeta_grafica": "Tarjetas graficas",  "ventilador": "Ventiladores", };
@@ -31,7 +32,7 @@ export function ComponentesEmpresa(props){
                 });
                 setComponentes(componentes_aux)
                
-                if(numero_componentes==10){
+                if(numero_componentes==11){
                     setCargando(false)
                     
                 }
@@ -60,11 +61,19 @@ export function ComponentesEmpresa(props){
         getComponent("tarjeta_grafica")
         getComponent("ventilador")
       }, []);
+      if(sessionStorage.mensaje){
+        setMensaje(sessionStorage.mensaje);
+        console.log("hay algo")
+        sessionStorage.removeItem("mensaje")
+      }
     return(<div id="componentes_empresa">
       <h1>Mis componentes</h1>
 {(cargando)?(<div class="spinner"><Spinner animation="border" role="status">
                <span className="visually-hidden">Loading...</span>
-             </Spinner></div>):(componentes)}
+             </Spinner></div>):<div id="componentes_empresa_wrapper">{(mensaje!="")?(<div class="mensaje">{mensaje}</div>):""} {componentes}<div onClick={() => navigate("/nuevo_componente")} class="posicionamiento">
+              <div class="linea abajo"></div>
+              <div class="linea rotar"></div>
+            </div></div>}
      
     </div>)
     }

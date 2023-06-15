@@ -25,6 +25,7 @@ export function EleccionConfiguracion(props) {
     funcion(valor)
 
   }
+ 
   useEffect(() => {
     console.log(sessionStorage)
 

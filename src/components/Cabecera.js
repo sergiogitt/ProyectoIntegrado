@@ -26,16 +26,14 @@ export function Cabecera(props){
   
     if(sessionStorage.tipo=="empresa"){
       render.push(<ul id="menu">
-        <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
-        <li onClick={()=>props.seguridad(navigate,"/nuevo_componente")}><a >Subir nuevo componente</a></li>
+        
         <li onClick={()=>props.salir()}><a >Salir</a></li>
         
         
       </ul>);
     }else if(sessionStorage.tipo=="normal"){
       render.push(<ul id="menu">
-        <li onClick={()=>props.seguridad(navigate,"/perfil")}><a >Perfil</a></li>
-        <li onClick={()=>props.seguridad(navigate,"/configuraciones_guardadas")}><a >Mis configuraciones</a></li>
+       
         <li onClick={()=>props.salir()}><a >Salir</a></li>
       </ul>);
     }else{

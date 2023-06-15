@@ -95,6 +95,28 @@ $app->post('/actualizar_componente',function($request){
    
   
 });
+$app->post('/nuevo_componente',function($request){
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="empresa"){
+        echo json_encode(insertarComponente($request->getParam('datos'),$request->getParam('tabla')));
+    }else{
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+   
+  
+});
+$app->post('/borrar_componente',function($request){
+    session_id($request->getParam('api_session'));
+    session_start();
+    if(isset($_SESSION["tipo"])&&$_SESSION["tipo"]=="empresa"){
+        echo json_encode(borrarComponente($request->getParam('datos'),$request->getParam('tabla')));
+    }else{
+        echo json_encode(array("no_login"=>"Usted no tienes permisos usar este servicio"));
+    }
+   
+  
+});
 $app->post('/editar_equipo',function($request){
     session_id($request->getParam('api_session'));
     session_start();

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Button, Input, Label, FormGroup, FormFeedback, FormText, Form } from "reactstrap";
 import { DIR_SERV } from "../variables";
 import md5 from "md5";
+import '../style_components/FormularioRegistro.css';
+
 import { useNavigate } from "react-router-dom";
 export function FormularioRegistro(props) {
     const navigate = useNavigate();
@@ -117,32 +119,32 @@ export function FormularioRegistro(props) {
         }
 
     }
-    return (<Form>
+    return (<><h2>Registro de usuario</h2><Form id="formulario_registro">
         <FormGroup>
-            <Label for="examplePassword">Nombre de usuario</Label>
-            {(campos_vacios[0]) ? <Input invalid onChange={(event) => {handle_change_input(event, setUsuario);comprobar_usuario_repetido()}} /> : <Input onChange={(event) => handle_change_input(event, setUsuario)} />}
+            <Label for="nombre">Nombre de usuario</Label>
+            {(campos_vacios[0]) ? <Input id="nombre" invalid onChange={(event) => {handle_change_input(event, setUsuario);comprobar_usuario_repetido()}} className="esp" /> : <Input className="esp" id="nombre" onChange={(event) => handle_change_input(event, setUsuario)} />}
             <FormFeedback>{error}</FormFeedback>        
             </FormGroup>
         <FormGroup>
-            <Label for="examplePassword">Email:</Label>
-            {(campos_vacios[1]) ? <Input  invalid onChange={(event) => handle_change_input(event, setNombre)} /> : <Input type="email" onChange={(event) => handle_change_input(event, setNombre)} />}
+            <Label for="mail">Email:</Label>
+            {(campos_vacios[1]) ? <Input  id="mail"  invalid onChange={(event) => handle_change_input(event, setNombre)} className="esp"/> : <Input  id="mail" type="email" className="esp" onChange={(event) => handle_change_input(event, setNombre)} />}
             {(nombre == "") ? <FormFeedback>Campo obligatorio</FormFeedback> : <FormFeedback>Tiene que introducir una direccion de email válida</FormFeedback>}
         </FormGroup>
         <FormGroup>
-            <Label for="examplePassword">Contraseña</Label>
-            {(campos_vacios[2]) ? <Input invalid onChange={(event) => handle_change_input(event, setClave1)} /> : <Input onChange={(event) => handle_change_input(event, setClave1)} />}
+            <Label for="clave">Contraseña</Label>
+            {(campos_vacios[2]) ? <Input id="clave" type="password"  invalid onChange={(event) => handle_change_input(event, setClave1)} className="esp"/> : <Input id="clave" type="password" className="esp" onChange={(event) => handle_change_input(event, setClave1)} />}
             {(clave1 == "") ? <FormFeedback>Campo obligatorio</FormFeedback> : <FormFeedback>Las contraseñas no coinciden</FormFeedback>}
         </FormGroup>
         <FormGroup>
-            <Label for="examplePassword">Repita la contraseña</Label>
-            {(campos_vacios[3]) ? <Input invalid onChange={(event) => handle_change_input(event, setClave2)} /> : <Input onChange={(event) => handle_change_input(event, setClave2)} />}
+            <Label for="clave2">Repita la contraseña</Label>
+            {(campos_vacios[3]) ? <Input type="password"id="clave2" invalid onChange={(event) => handle_change_input(event, setClave2)} className="esp"/> : <Input  id="clave2" type="password" className="esp" onChange={(event) => handle_change_input(event, setClave2)} />}
             <FormFeedback>Campo obligatorio</FormFeedback>
         </FormGroup>
 
 
-        <div>
+        <div id="boton_registro">
             <Button onClick={() => comprobar_datos()}>Registrarse</Button>
         </div>
 
-    </Form>)
+    </Form></>)
 }

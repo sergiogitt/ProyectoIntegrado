@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Button, Input, Label, FormGroup, FormFeedback, FormText, Form } from "reactstrap";
 import { DIR_SERV } from "../variables";
 import md5 from "md5";
+import '../style_components/FormularioRegistro.css';
+
 import { useNavigate } from "react-router-dom";
 export function FormularioRegistroEmpresa(props) {
     const navigate = useNavigate();
@@ -123,7 +125,7 @@ export function FormularioRegistroEmpresa(props) {
         }
 
     }
-    return (<Form>
+    return (<><h2>Registro de usuario</h2><Form  id="formulario_registro">
         <FormGroup>
             <Label for="examplePassword">Nombre usuario</Label>
             {(campos_vacios[0]) ? <Input invalid onChange={(event) => {handle_change_input(event, setUsuario);comprobar_usuario_repetido()}} /> : <Input onChange={(event) => handle_change_input(event, setUsuario)} />}
@@ -157,9 +159,9 @@ export function FormularioRegistroEmpresa(props) {
         </FormGroup>
 
 
-        <div>
+        <div id="boton_registro">
             <Button onClick={() => comprobar_datos()}>Registrarse</Button>
         </div>
 
-    </Form>)
+    </Form></>)
 }
